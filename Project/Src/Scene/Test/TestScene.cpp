@@ -7,12 +7,15 @@
 #include "../../Object/Common/DebugObject/CapsuleDebugObject.h"
 #include "../../Object/Common/DebugObject/FeatureDebugMesh.h"
 
+#include "../../Object/Character/Player/Player.h"
+
 #include "../../Manager/Input/KeyManager.h"
 #include "../SceneManager/SceneManager.h"
 
 TestScene::TestScene(void) :
 	WorldSceneBase(),
 	operatorObject(nullptr),
+	operatorObjectModel(nullptr),
 	testRail()
 {
 }
@@ -20,8 +23,12 @@ TestScene::TestScene(void) :
 void TestScene::SubPostLoad(void)
 {
 	// ‘€ì‘ÎÛ
-	operatorObject = new SphereDebugObject(75, Vector3(0, 180, 0), true, true, true, 100, true);
-	ObjAdd(operatorObject);
+	//operatorObject = new SphereDebugObject(75, Vector3(0, 180, 0), true, true, true, 100, true);
+	//ObjAdd(operatorObject);
+
+	// ‘€ì‘ÎÛiƒ‚ƒfƒ‹‚ ‚èj
+	operatorObjectModel = new Player(Vector3(0, 180, 0), true, true, true, 100, true);
+	ObjAdd(operatorObjectModel);
 
 	// ’ÊíBox°
 	ObjAdd(new BoxDebugObject(Vector3(1800, 100, 1000), Vector3(0, -50, 0), false));
@@ -49,9 +56,25 @@ void TestScene::SubPostInit(void)
 
 	GetGameSpace().ChangeModeSide2D(plane);
 
-	if (operatorObject != nullptr) {
+	//if (operatorObject != nullptr) {
 
-		operatorObject->SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault);
+	//	operatorObject->SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault);
+
+	//	GameSpaceCameraParameter parameter;
+	//	parameter.sideDistance = 900.0f;
+	//	parameter.sideHeight = 260.0f;
+	//	parameter.planeDistance = 850.0f;
+	//	parameter.planeHeight = 380.0f;
+	//	parameter.freeDistance = 650.0f;
+	//	parameter.freeHeight = 180.0f;
+	//	parameter.smooth = 0.12f;
+
+	//	ChangeCameraModeGameSpaceFollow(operatorObject->GetTrans(), parameter);
+	//}
+
+	if (operatorObjectModel != nullptr) {
+
+		operatorObjectModel->SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault);
 
 		GameSpaceCameraParameter parameter;
 		parameter.sideDistance = 900.0f;
@@ -62,8 +85,10 @@ void TestScene::SubPostInit(void)
 		parameter.freeHeight = 180.0f;
 		parameter.smooth = 0.12f;
 
-		ChangeCameraModeGameSpaceFollow(operatorObject->GetTrans(), parameter);
+		ChangeCameraModeGameSpaceFollow(operatorObjectModel->GetTrans(), parameter);
 	}
+
+
 }
 
 void TestScene::SubWorldPreUpdate(void)
@@ -163,7 +188,7 @@ const char* TestScene::GetModeName(void)const
 
 const char* TestScene::GetConstraintName(void)const
 {
-	switch (operatorObject->GetSpaceConstraint())
+	switch (operatorObjectModel->GetSpaceConstraint())
 	{
 	case SPACE_CONSTRAINT::StageDefault:
 		return "‹óŠÔ§ŒÀ‚É]‚¤";

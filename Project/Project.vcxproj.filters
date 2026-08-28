@@ -43,6 +43,7 @@
     <ClCompile Include="Src\Object\Common\Collider\MeshCollider.cpp" />
     <ClCompile Include="Src\Scene\Test\TestScene.cpp" />
     <ClCompile Include="Src\Object\Common\DebugObject\FeatureDebugMesh.cpp" />
+    <ClCompile Include="Src\Object\Character\Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\Application.h" />
@@ -106,5 +107,6 @@
     <ClInclude Include="Src\Object\Common\Collider\MeshCollider.h" />
     <ClInclude Include="Src\Scene\Test\TestScene.h" />
     <ClInclude Include="Src\Object\Common\DebugObject\FeatureDebugMesh.h" />
+    <ClInclude Include="Src\Object\Character\Player\Player.h" />
   </ItemGroup>
 </Project>

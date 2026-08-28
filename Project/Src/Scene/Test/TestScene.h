@@ -3,6 +3,7 @@
 #include "../Common/GameSpace/WorldSceneBase.h"
 
 class DebugObjectBase;
+class ActorBase;
 
 class TestScene : public WorldSceneBase
 {
@@ -36,6 +37,9 @@ private:
 
 	// 操作対象
 	DebugObjectBase* operatorObject;
+
+	//操作対象（モデルあり）
+	ActorBase* operatorObjectModel;
 
 	// Railモード確認用
 	MovementRail testRail;
