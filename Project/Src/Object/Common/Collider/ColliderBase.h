@@ -1,11 +1,12 @@
 #pragma once
 
-#include <DxLib.h>
+#include "../../../pch.h"
 
 #include <algorithm>
 #include <functional>
+#include <vector>
 
-#include "../Transform.h"
+#include "../Transform/Transform.h"
 
 #include "ColliderTagDefine.h"
 #include "../../../Scene/Common/GameSpace/SpaceDefine.h"
@@ -25,23 +26,12 @@ struct CollisionResult
 	CollisionResult(void);
 };
 
+
 class GameSpaceController;
 
 class ColliderBase
 {
 public:
-
-	// 形状列挙型定義
-	enum class SHAPE
-	{
-		None = -1,
-		Line,
-		Sphere,
-		Capsule,
-		Box,
-		Mesh,
-		XzCircle,
-	};
 
 	// 最小/最大 座標 構造体
 	struct AABB
@@ -85,10 +75,7 @@ public:
 	// 押し出し時の重さの参照先をセット
 	void SetPushWeightPtr(const unsigned char* ptr);
 
-	// ゲーム空間管理クラスの参照先をセット
 	void SetGameSpaceControllerPtr(const GameSpaceController* ptr);
-
-	// 空間制約情報の参照先をセット
 	void SetSpaceConstraintPtr(const SPACE_CONSTRAINT* ptr);
 
 	// 当たり判定通知用関数セット
@@ -117,10 +104,7 @@ public:
 	// モデル制御情報を直接取得
 	const Transform& GetTransform(void)const;
 
-	// ゲーム空間管理クラスを取得する
 	const GameSpaceController* GetGameSpaceController(void)const;
-
-	// 空間制約情報を取得する
 	SPACE_CONSTRAINT GetSpaceConstraint(void)const;
 
 	// 動的オブジェクトか否か
@@ -139,7 +123,7 @@ public:
 	COLLIDER_TAG GetTag(void)const;
 
 	// 当たり判定の形状
-	SHAPE GetShape(void)const;
+	COLLIDER_SHAPE GetShape(void)const;
 
 	// 判定通知の呼び出し
 	void CallOnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result);
@@ -169,10 +153,7 @@ private:
 	const bool* pushFlg;
 	const unsigned char* pushWeight;
 
-	// WorldSceneBaseが所有するゲーム空間管理クラスへの参照
 	const GameSpaceController* gameSpace;
-
-	// オブジェクト側が持つ空間制約情報への参照
 	const SPACE_CONSTRAINT* spaceConstraint;
 
 	// 相対座標 / 相対角度
@@ -186,7 +167,7 @@ private:
 	COLLIDER_TAG tag;
 
 	// 当たり判定形状
-	SHAPE shape;
+	COLLIDER_SHAPE shape;
 
 	// 当たったときに呼び出す関数
 	std::function<void(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)> OnCollision;
@@ -195,7 +176,25 @@ private:
 	std::function<void(void)> OnGrounded;
 
 protected:
-	void SetShape(SHAPE s);
+	void SetShape(COLLIDER_SHAPE s);
 };
 
-using SHAPE = ColliderBase::SHAPE;
+/// <summary>
+/// 特定のコライダーを探す
+/// </summary>
+/// <typeparam name="T">探したいクラス</typeparam>
+/// <param name="tag">タグ種類</param>
+/// <returns></returns>
+template<typename T = ColliderBase>
+std::vector<T*> ColliderSerch(std::vector<ColliderBase*> collider, COLLIDER_TAG tag = COLLIDER_TAG::None) {
+	std::vector<T*> out;
+	out.reserve(collider.size());
+
+	for (auto c : collider) {
+		if (!c) continue;
+		if (auto* ptr = dynamic_cast<T*>(c)) {
+			if (c->GetTag() == tag || tag == COLLIDER_TAG::None) { out.push_back(ptr); }
+		}
+	}
+	return out;
+}

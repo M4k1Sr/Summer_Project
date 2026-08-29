@@ -1,40 +1,49 @@
 #pragma once
 
 #include "../SceneBase.h"
-#include "../../Common/Vector2.h"
+#include "../../Common/Vector2I.h"
 
 class TitleScene : public SceneBase
 {
 public:
-	TitleScene(void);
-	~TitleScene(void)override = default;
+	TitleScene();
+	~TitleScene()override = default;
 
 private:
-	void SubPreInit(void)override;
+
 	void SubPreLoad(void)override;
+	void SubPreInit(void)override;
 	void SubPreUpdate(void)override;
 	void SubPostUpdate(void)override;
-	void SubPostUiDraw(void)override;
+	void SubUiDraw(void)override;
 
-private:
-
-	//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã®çŠ¶æ…‹é·ç§»
 	enum class TitleState
 	{
-		Title = 5,		//ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢
-		Movie = 10,		//ãƒ­ã‚´ã®å¾Œã‚ã§ã‚²ãƒ¼ãƒ ãƒ ãƒ¼ãƒ“ãƒ¼ã‚’æµã™
-		MoveToDemo,	//ãƒ‡ãƒ¢ã‚·ãƒ¼ãƒ³ã¸é·ç§»
+		Title = 5,	// ƒ^ƒCƒgƒ‹‰æ–Ê
+		Movie = 10,	// ƒƒS‚ÌŒã‚ë‚ÅƒQ[ƒ€ƒ€[ƒr[‚ğ—¬‚·
+		MoveToDemo,	// ƒfƒ‚ƒV[ƒ“‚Ö‘JˆÚ
 	};
 
-	static constexpr int TITLE_LOGO_WIDTH = 552;	//ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã®æ¨ªå¹…
-	static constexpr int TITLE_LOGO_HEIGHT = 106;	//ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã®ç¸¦å¹…
-	static constexpr int TITLE_LOGO_WIDTH_HALF = 276;	//ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã®æ¨ªå¹…ã®åŠåˆ†
-	static constexpr int TITLE_LOGO_HEIGHT_HALF = 53;	//ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã®ç¸¦å¹…ã®åŠåˆ†
+	// ƒ^ƒCƒgƒ‹ƒƒS‚Ì‰¡•
+	static constexpr int TITLE_LOGO_WIDTH = 552;
+	// ƒ^ƒCƒgƒ‹ƒƒS‚Ìc•
+	static constexpr int TITLE_LOGO_HEIGHT = 106;
+	// ƒ^ƒCƒgƒ‹ƒƒS‚Ì‰¡•‚Ì”¼•ª
+	static constexpr int TITLE_LOGO_WIDTH_HALF = 276;
+	// ƒ^ƒCƒgƒ‹ƒƒS‚Ìc•‚Ì”¼•ª
+	static constexpr int TITLE_LOGO_HEIGHT_HALF = 53;
 
-	//ãƒ¡ãƒ³ãƒå¤‰æ•°
-	int titleLogoHandle_;		//ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã®ãƒãƒ³ãƒ‰ãƒ«
-	TitleState state_;		//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã®çŠ¶æ…‹
-	Vector2 pos_;		//ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã®åº§æ¨™
-	float animTime_;	//ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æ™‚é–“
+#pragma region ƒƒ“ƒo•Ï”
+	// ƒ^ƒCƒgƒ‹ƒƒS‚Ìƒnƒ“ƒhƒ‹
+	int titleLogoHandle_;
 
+	// ƒ^ƒCƒgƒ‹ƒV[ƒ“‚Ìó‘Ô
+	TitleState state_;
+
+	// ƒ^ƒCƒgƒ‹ƒƒS‚ÌÀ•W
+	Vector2I pos_;
+
+	// ƒ^ƒCƒgƒ‹ƒƒS‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ŠÔ
+	float animTime_;
+#pragma endregion
 };

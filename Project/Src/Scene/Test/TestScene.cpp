@@ -1,21 +1,22 @@
 #include "TestScene.h"
 
-#include <DxLib.h>
+#include "../../pch.h"
+
+#include "../../Manager/Input/InputManager.h"
+#include "../SceneManager.h"
+
+#include "../../Manager/Camera/GameSpaceFollow/GameSpaceFollowCamera.h"
 
 #include "../../Object/Common/DebugObject/SphereDebugObject.h"
 #include "../../Object/Common/DebugObject/BoxDebugObject.h"
 #include "../../Object/Common/DebugObject/CapsuleDebugObject.h"
 #include "../../Object/Common/DebugObject/FeatureDebugMesh.h"
 
-#include "../../Object/Character/Player/Player.h"
-
-#include "../../Manager/Input/KeyManager.h"
-#include "../SceneManager/SceneManager.h"
+#include "../../Object/Player/Player.h"
 
 TestScene::TestScene(void) :
 	WorldSceneBase(),
 	operatorObject(nullptr),
-	operatorObjectModel(nullptr),
 	testRail()
 {
 }
@@ -27,8 +28,8 @@ void TestScene::SubPostLoad(void)
 	//ObjAdd(operatorObject);
 
 	// 操作対象（モデルあり）
-	operatorObjectModel = new Player(Vector3(0, 180, 0), true, true, true, 100, true);
-	ObjAdd(operatorObjectModel);
+	operatorObject = new Player(Vector3(0, 180, 0), true, true, true, 100, true);
+	ObjAdd(operatorObject);
 
 	// 通常Box床
 	ObjAdd(new BoxDebugObject(Vector3(1800, 100, 1000), Vector3(0, -50, 0), false));
@@ -55,40 +56,6 @@ void TestScene::SubPostInit(void)
 	plane.up = Vector3::Yonly(1.0f);
 
 	GetGameSpace().ChangeModeSide2D(plane);
-
-	//if (operatorObject != nullptr) {
-
-	//	operatorObject->SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault);
-
-	//	GameSpaceCameraParameter parameter;
-	//	parameter.sideDistance = 900.0f;
-	//	parameter.sideHeight = 260.0f;
-	//	parameter.planeDistance = 850.0f;
-	//	parameter.planeHeight = 380.0f;
-	//	parameter.freeDistance = 650.0f;
-	//	parameter.freeHeight = 180.0f;
-	//	parameter.smooth = 0.12f;
-
-	//	ChangeCameraModeGameSpaceFollow(operatorObject->GetTrans(), parameter);
-	//}
-
-	if (operatorObjectModel != nullptr) {
-
-		operatorObjectModel->SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault);
-
-		GameSpaceCameraParameter parameter;
-		parameter.sideDistance = 900.0f;
-		parameter.sideHeight = 260.0f;
-		parameter.planeDistance = 850.0f;
-		parameter.planeHeight = 380.0f;
-		parameter.freeDistance = 650.0f;
-		parameter.freeHeight = 180.0f;
-		parameter.smooth = 0.12f;
-
-		ChangeCameraModeGameSpaceFollow(operatorObjectModel->GetTrans(), parameter);
-	}
-
-
 }
 
 void TestScene::SubWorldPreUpdate(void)
@@ -103,10 +70,10 @@ void TestScene::SubWorldPreUpdate(void)
 	if (CheckHitKey(KEY_INPUT_4) != 0) { GetGameSpace().ChangeModeFree3D(); }
 
 	// タイトルへ戻る
-	if (Key::GetIns().GetInfo(KEY_TYPE::PAUSE).down) { SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title); }
+	if (Input::GetIns().GetInfo(KEY_TYPE::Pause).down) { SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title); }
 }
 
-void TestScene::SubPostUiDraw(void)
+void TestScene::SubUiDraw(void)
 {
 	DrawFormatString(20, 20, 0xffffff, "テストシーン");
 
@@ -188,7 +155,7 @@ const char* TestScene::GetModeName(void)const
 
 const char* TestScene::GetConstraintName(void)const
 {
-	switch (operatorObjectModel->GetSpaceConstraint())
+	switch (operatorObject->GetSpaceConstraint())
 	{
 	case SPACE_CONSTRAINT::StageDefault:
 		return "空間制限に従う";
@@ -204,5 +171,25 @@ const char* TestScene::GetConstraintName(void)const
 
 	default:
 		return "未設定（バグ）";
+	}
+}
+
+void TestScene::CreateCamera(void)
+{
+	if (operatorObject != nullptr) {
+
+		operatorObject->SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault);
+
+		GameSpaceCameraParameter parameter;
+		parameter.sideDistance = 900.0f;
+		parameter.sideHeight = 260.0f;
+		parameter.planeDistance = 850.0f;
+		parameter.planeHeight = 380.0f;
+		parameter.freeDistance = 650.0f;
+		parameter.freeHeight = 180.0f;
+		parameter.smooth = 0.12f;
+
+		// カメラ生成
+		camera = new GameSpaceFollowCamera(operatorObject->GetTrans(), GetGameSpace(), parameter);
 	}
 }

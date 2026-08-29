@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../../ActorBase.h"
+#include "../ActorBase/ActorBase.h"
+#include "../../../Common/Vector2.h"
 
-#include "../../../Manager/Input/KeyManager.h"
+#include "../../../Manager/Input/InputManager.h"
 #include "../../../Manager/Camera/CurrentCamera.h"
 #include "../../../Scene/Common/GameSpace/GameSpaceController.h"
 
@@ -20,6 +21,7 @@ public:
 		bool isOperator
 	) :
 		ActorBase(),
+		INIT_POS(pos),
 		isOperator(isOperator)
 	{
 		trans.pos = pos;
@@ -44,7 +46,7 @@ public:
 		INIT_POS(pos),
 		isOperator(isOperator)
 	{
-		trans.pos = INIT_POS;
+		trans.pos = pos;
 		SetDynamicFlg(dynamicFlg);
 		SetGravityFlg(isGravity);
 		SetPushFlg(pushFlg);
@@ -53,26 +55,37 @@ public:
 	~DebugObjectBase()override = default;
 
 private:
-
 	// 操作可能かどうか
 	bool isOperator;
 
 	// 初期座標
 	const Vector3 INIT_POS;
 
+	void SubInit(void)override {
+
+		trans.pos = INIT_POS;
+
+		// 移動加速力
+		ACCEL_RATE = 3.0f;
+		// 移動減速力
+		DECEL_RATE = 3.0f;
+		// 最大移動速度
+		ACCEL_MAX = 15.0f;
+	}
+
 	Vector3 GetMoveDirection(void)const {
 		const GameSpaceController& gameSpace = GetGameSpaceController();
 
 		if (gameSpace.IsStopInput()) { return Vector3(); }
 
-		Vector2 input = Key::GetIns().GetLeftStickVec();
+		Vector2 input = Input::GetIns().GetLeftStickVec();
 
 		// コントローラー入力がない場合はキーボードを使う
 		if (input == 0.0f) {
-			if (Key::GetIns().GetInfo(KEY_TYPE::PLAYER_MOVE_RIGHT).now) { input.x += 1.0f; }
-			if (Key::GetIns().GetInfo(KEY_TYPE::PLAYER_MOVE_LEFT).now) { input.x -= 1.0f; }
-			if (Key::GetIns().GetInfo(KEY_TYPE::PLAYER_MOVE_UP).now) { input.y += 1.0f; }
-			if (Key::GetIns().GetInfo(KEY_TYPE::PLAYER_MOVE_DOWN).now) { input.y -= 1.0f; }
+			if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveRight).now) { input.x += 1.0f; }
+			if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveLeft).now) { input.x -= 1.0f; }
+			if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveFront).now) { input.y += 1.0f; }
+			if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveBack).now) { input.y -= 1.0f; }
 
 			if (input.LengthSq() > 1.0f) { input.Normalize(); }
 		}
@@ -81,7 +94,6 @@ private:
 	}
 
 	void ResetPos(void) { trans.pos = INIT_POS; }
-
 
 	void SubUpdate(void)override {
 		if (!isOperator) { return; }
@@ -94,12 +106,10 @@ private:
 
 		if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
 
-		const Vector3 moveDirection = GetMoveDirection();
-
-		if (moveDirection != 0.0f) { AddMove(moveDirection * 8.0f); trans.angle.y = atan2f(moveDirection.x, moveDirection.z); }
+		MoveAccel(GetMoveDirection());
 
 		// ジャンプと重力・接地判定を確認する
-		if (Key::GetIns().GetInfo(KEY_TYPE::PLAYER_JUMP).down && isGround) { accelSum.y = 14.0f; }
+		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerJump).down && isGround) { velocity.y = 14.0f; }
 
 		if (CheckHitKey(KEY_INPUT_R) != 0) { ResetPos(); }
 	}

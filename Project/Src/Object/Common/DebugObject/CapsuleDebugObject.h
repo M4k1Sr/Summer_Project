@@ -4,6 +4,8 @@
 
 #include "../Collider/CapsuleCollider.h"
 
+#include "../../../Utility/Utility.h"
+
 class CapsuleDebugObject : public DebugObjectBase
 {
 public:
@@ -36,7 +38,7 @@ public:
 	~CapsuleDebugObject()override = default;
 
 	void Load(void)override {
-		ColliderCreate(new CapsuleCollider(COLLIDER_TAG::DEBUG_OBJECT, startPos, endPos, radius));
+		ColliderCreate(new CapsuleCollider(COLLIDER_TAG::DebugObject, startPos, endPos, radius));
 	}
 
 private:
@@ -44,13 +46,13 @@ private:
 	float radius;
 
 	void SubDraw(void)override {
-
+		MATRIX angleMat = MatrixAllMultXZY({ trans.angle });
 		DrawCapsule3D(
-			(trans.pos + VTransform(startPos, trans.AngleMat())).ToVECTOR(),
-			(trans.pos + VTransform(endPos, trans.AngleMat())).ToVECTOR(),
+			(trans.pos + startPos.TransMat(angleMat)).ToVECTOR(),
+			(trans.pos + endPos.TransMat(angleMat)).ToVECTOR(),
 			radius,
 			16,
-			0x55ff88,
+			0xffffff,
 			0xffffff,
 			true
 		);

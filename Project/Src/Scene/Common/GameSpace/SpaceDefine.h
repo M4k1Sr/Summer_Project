@@ -105,7 +105,7 @@ struct SpaceTransitionParameter
 
 	SpaceTransitionParameter(void) :
 		time(30),
-		isMoveTarget(false),
+		isMoveTarget(true),
 		targetPos(),
 		isStopInput(true)
 	{

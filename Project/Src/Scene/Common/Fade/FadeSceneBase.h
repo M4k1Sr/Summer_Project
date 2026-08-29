@@ -30,7 +30,7 @@ protected:
 
 private:
 	void SubPostUpdate(void)override;
-	void SubPostUiDraw(void)override;
+	void SubUiDraw(void)override;
 
 	unsigned short fadeTime;
 	unsigned short fadeCounter;

@@ -7,7 +7,7 @@
 #include <vector>
 
 class CollisionManager;
-class Camera;
+class CameraBase;
 class ActorBase;
 struct Vector2I;
 
@@ -52,7 +52,7 @@ public:
 	bool IsInitialized(void)const { return state == STATE::Initialized; }
 
 	// カメラを取得する。カメラを使用しない場合はnullptrを返す。
-	Camera* GetCamera(void)const { return camera; }
+	CameraBase* GetCamera(void)const { return camera; }
 
 #pragma region シーンスタック設定
 
@@ -85,18 +85,18 @@ public:
 	// 画面揺れの種類
 	enum ShakeKinds
 	{
-		Wid,   // 横揺れ
-		Hid,   // 縦揺れ
-		Diag,  // 斜め揺れ
-		Round, // 円を描くように揺れる
+		WID,   // 横揺れ
+		HIG,   // 縦揺れ
+		DIAG,  // 斜め揺れ
+		ROUND, // 円を描くように揺れる
 	};
 
 	// 画面揺れの大きさ
 	enum ShakeSize
 	{
-		Small = 3,
-		Memium = 5,
-		Big = 8,
+		SMALL = 3,
+		MEDIUM = 5,
+		BIG = 8,
 	};
 
 	/// <summary>
@@ -105,23 +105,14 @@ public:
 	/// <param name="kinds">揺れ方</param>
 	/// <param name="size">揺れの大きさ</param>
 	/// <param name="time">揺れるフレーム数</param>
-	static void Shake(ShakeKinds kinds = ShakeKinds::Diag, ShakeSize size = ShakeSize::Memium, int time = 20);
+	static void Shake(ShakeKinds kinds = ShakeKinds::DIAG, ShakeSize size = ShakeSize::MEDIUM, int time = 20);
 
 #pragma endregion
 
 protected:
 
-
-	// オブジェクトを追加する
+	// 既に生成済みのActorを追加する場合に使用する。所有権はSceneBaseへ移る
 	void ObjAdd(ActorBase* newObj);
-
-	// オブジェクトを追加した直後に呼ばれる。派生先でoverrideして使用する。
-	virtual void SubPostObjectAdd(ActorBase& actor) {}
-
-	// シーンが所有する全てのオブジェクトに対して、引数指定の関数を実行する
-	void ForEachObject(std::function<void(ActorBase&)> func) {
-		for (auto& obj : objects) { func(*obj); }
-	}
 
 #pragma region 派生先の主要関数
 
@@ -135,23 +126,22 @@ protected:
 	// 初期化（メイン処理の後）
 	virtual void SubPostInit(void) {}
 
-	// 更新（メイン処理の前）
+	// 更新（Actor / Collision / Camera更新の前）
 	virtual void SubPreUpdate(void) {}
-	// 更新（メイン処理の後）
+	// 更新（Actor更新・当たり判定の後、Camera更新の前）
 	virtual void SubPostUpdate(void) {}
+
+	// ActorがSceneへ追加された直後に呼ばれる
+	virtual void SubPostObjectAdd(ActorBase& object) {}
 
 	// 描画（メイン処理の前）
 	virtual void SubPreDraw(void) {}
 	// 描画（メイン処理の後）
 	virtual void SubPostDraw(void) {}
-	// 半透明描画（メイン処理の前）
-	virtual void SubPreAlphaDraw(void) {}
-	// 半透明描画（メイン処理の後）
-	virtual void SubPostAlphaDraw(void) {}
-	// UI描画（メイン処理の前）
-	virtual void SubPreUiDraw(void) {}
-	// UI描画（メイン処理の後）
-	virtual void SubPostUiDraw(void) {}
+	// 半透明描画
+	virtual void SubAlphaDraw(void) {}
+	// UI描画
+	virtual void SubUiDraw(void) {}
 
 	// 解放（メイン処理の前）
 	virtual void SubPreRelease(void) {}
@@ -159,9 +149,6 @@ protected:
 	virtual void SubPostRelease(void) {}
 
 #pragma endregion
-
-	// カメラを使用するかどうか
-	virtual bool UseCamera(void)const { return true; }
 
 	// 当たり判定管理クラスを使用するかどうか
 	virtual bool UseCollisionManager(void)const { return true; }
@@ -198,7 +185,10 @@ private:
 protected:
 
 	// カメラ
-	Camera* camera;
+	CameraBase* camera;
+
+	// カメラ生成
+	virtual void CreateCamera(void) { camera = nullptr; }
 
 	// Actor格納用配列
 	std::vector<ActorBase*> objects;

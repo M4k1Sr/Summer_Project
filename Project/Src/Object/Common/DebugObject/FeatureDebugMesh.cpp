@@ -1,6 +1,6 @@
 #include "FeatureDebugMesh.h"
 
-#include <DxLib.h>
+#include "../../../pch.h"
 
 #include "../Collider/MeshCollider.h"
 
@@ -44,7 +44,7 @@ void FeatureDebugMesh::Load(void)
 		5, 6, 7,
 	};
 
-	meshCollider = new MeshCollider(COLLIDER_TAG::DEBUG_OBJECT);
+	meshCollider = new MeshCollider(COLLIDER_TAG::DebugObject);
 
 	meshCollider->Setup(vertices, indices);
 

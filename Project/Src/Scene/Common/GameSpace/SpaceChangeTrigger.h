@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../Object/ActorBase.h"
+#include "../../../Object/Common/ActorBase/ActorBase.h"
 #include "GameSpaceController.h"
 
 /// <summary>

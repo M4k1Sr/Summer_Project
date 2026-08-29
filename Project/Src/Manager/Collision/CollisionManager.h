@@ -73,27 +73,19 @@ private:
 	const std::map<COLLIDER_TAG, COLLIDER_GROUP>TAG_TO_GROUP_LIST = {
 
 		// プレイヤー系
-		{ COLLIDER_TAG::PLAYER,			COLLIDER_GROUP::Player },
-		{ COLLIDER_TAG::PLAYER_ATTACK,	COLLIDER_GROUP::Player },
-		{ COLLIDER_TAG::PLAYER_COMMON,	COLLIDER_GROUP::Player },
+		{ COLLIDER_TAG::Player,	COLLIDER_GROUP::Player },
 
 		// エネミー系
-		{ COLLIDER_TAG::BOSS,	COLLIDER_GROUP::Enemy },
-		{ COLLIDER_TAG::ENEMY,	COLLIDER_GROUP::Enemy },
+		{ COLLIDER_TAG::Enemy,	COLLIDER_GROUP::Enemy },
 
 		// ステージ系
-		{ COLLIDER_TAG::STAGE,	COLLIDER_GROUP::Stage },
+		{ COLLIDER_TAG::Stage,	COLLIDER_GROUP::Stage },
 
 		// プレイヤー系にだけ当たるコライダー
-		{ COLLIDER_TAG::BOSS_DISTANCE,	COLLIDER_GROUP::PlayerOnly },
-		{ COLLIDER_TAG::BOSS_ATTACK,			COLLIDER_GROUP::PlayerOnly },
-		{ COLLIDER_TAG::PLAYER_HEAL,			COLLIDER_GROUP::PlayerOnly },
 
 		// エネミー系にだけ当たるコライダー
 
-
 		// ステージ系にだけ当たるコライダー
-		{ COLLIDER_TAG::BOSS_ATTACK_AREA,	COLLIDER_GROUP::StageOnly },
 	};
 
 
@@ -307,27 +299,24 @@ private:
 	}
 
 	/// <summary>
-	/// 2つのコライダーを重みと空間制約に合わせて押し出す
+	/// 2つのコライダーを重みに合わせて押し出す
 	/// </summary>
 	void ApplyPush(ColliderBase* a, ColliderBase* b, const Vector3& normal, float overlap)const;
 
 	/// <summary>
-	/// 2つのコライダーを押し出しベクトルと空間制約に合わせて押し出す
+	/// 2つのコライダーを押し出しベクトルに合わせて押し出す
 	/// </summary>
 	void ApplyPush(ColliderBase* a, ColliderBase* b, const Vector3& overlapVec)const;
 
 	/// <summary>
-	/// 指定した片方のコライダーだけを空間制約に合わせて押し出す
+	/// 指定した片方のコライダーだけを押し出す
 	/// </summary>
 	void ApplyPushOneSide(ColliderBase* dynamicColl, ColliderBase* staticColl, const Vector3& overlapVec)const;
 
-	// コライダーが直接参照している空間制約に合わせて押し出しベクトルを補正する
 	Vector3 RestrictPushVector(const ColliderBase* collider, const Vector3& pushVector)const;
-
-	// コライダーが直接参照している空間制約に合わせて衝突点を補正する
 	Vector3 RestrictCollisionPoint(const ColliderBase* collider, const Vector3& collisionPoint)const;
 
-	// 補正済みの押し出しベクトルをコライダーへ適用し、接地判定も行う
+	// 押し出しベクトルをコライダーへ適用し、接地判定も行う
 	void MoveCollider(ColliderBase* collider, const Vector3& pushVector)const;
 #pragma endregion
 

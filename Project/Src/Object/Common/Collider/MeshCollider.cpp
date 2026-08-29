@@ -71,7 +71,7 @@ MeshCollider::MeshCollider(COLLIDER_TAG type, const Vector3& pos, const Vector3&
 	bvhNodes(),
 	localAABB()
 {
-	SetShape(SHAPE::Mesh);
+	SetShape(COLLIDER_SHAPE::Mesh);
 }
 
 MeshCollider::MeshCollider(COLLIDER_TAG type, int modelHandle, int frameIndex, const Vector3& pos, const Vector3& angle) :
@@ -91,7 +91,7 @@ bool MeshCollider::SetupFromModel(int modelHandle, int frameIndex)
 		三角形を毎フレームワールド変換せず、
 		判定時にBVHから得た候補だけをワールド座標へ変換する。
 	*/
-	const MV1_REF_POLYGONLIST referenceMesh = MV1GetReferenceMesh(modelHandle, frameIndex, false, true);
+	const MV1_REF_POLYGONLIST referenceMesh = MV1GetReferenceMesh(modelHandle, frameIndex, true, true);
 
 	if (referenceMesh.PolygonNum <= 0 || referenceMesh.Polygons == nullptr) { return false; }
 

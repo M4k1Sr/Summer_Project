@@ -5,10 +5,23 @@
 class GameScene : public WorldSceneBase
 {
 public:
-	GameScene(void);
-	~GameScene(void)override = default;
+	GameScene();
+	~GameScene()override = default;
 
 private:
+
+#pragma region 主要関数再定義
+
+	// 読み込み
+	void SubPostLoad(void)override;
+
+	// 更新
 	void SubWorldPostUpdate(void)override;
-	void SubPostUiDraw(void)override;
+
+	// UI描画
+	void SubUiDraw(void)override;
+
+#pragma endregion
+
+	void CreateCamera(void)override;
 };

@@ -2,7 +2,6 @@
 
 #include "../../SceneBase.h"
 #include "GameSpaceController.h"
-#include "../../../Manager/Camera/Camera.h"
 
 /// <summary>
 /// 3Dモデルを使用するゲームシーン向けの基底クラス。
@@ -19,12 +18,6 @@ protected:
 	GameSpaceController& GetGameSpace(void) { return gameSpace; }
 	const GameSpaceController& GetGameSpace(void)const { return gameSpace; }
 
-	/// <summary>
-	/// SceneBaseが所有するカメラを、ゲーム空間対応追従へ変更する。
-	/// Player等の追従対象を生成・初期化した後に呼ぶ。
-	/// </summary>
-	void ChangeCameraModeGameSpaceFollow(const Transform& followAt, const GameSpaceCameraParameter& parameter = GameSpaceCameraParameter());
-
 	// WorldScene派生先の事前更新
 	virtual void SubWorldPreUpdate(void) {}
 
@@ -34,12 +27,16 @@ protected:
 	// ゲーム空間のデバッグ描画後に追加したい描画
 	virtual void SubWorldDebugDraw(void) {}
 
+	virtual void SubWorldPostObjectAdd(ActorBase& object) {}
+
+	virtual void SubWorldAlphaDraw(void) {}
+
 private:
 	// SceneBaseから呼ばれる共通フック
 	void SubPreUpdate(void)final;
 	void SubPostUpdate(void)final;
 	void SubPostObjectAdd(ActorBase& object)final;
-	void SubPostAlphaDraw(void)final;
+	void SubAlphaDraw(void)final;
 
 	// 空間ルール管理
 	GameSpaceController gameSpace;

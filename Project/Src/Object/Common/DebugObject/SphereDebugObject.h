@@ -32,13 +32,11 @@ public:
 	~SphereDebugObject()override = default;
 
 	void Load(void)override {
-		ColliderCreate(new SphereCollider(COLLIDER_TAG::DEBUG_OBJECT, radius));
+		ColliderCreate(new SphereCollider(COLLIDER_TAG::DebugObject, radius));
 	}
 
 private:
 	float radius;
 
-	void SubDraw(void)override {
-		DrawSphere3D(trans.pos.ToVECTOR(), radius, 16, 0x55ff88, 0xffffff, true);
-	}
+	void SubDraw(void)override { DrawSphere3D(trans.pos.ToVECTOR(), radius, 16, 0xffffff, 0xffffff, true); }
 };

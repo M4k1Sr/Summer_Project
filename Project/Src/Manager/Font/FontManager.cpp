@@ -1,6 +1,6 @@
 #include"FontManager.h"
 
-#include <DxLib.h>
+#include "../../pch.h"
 
 FontManager* FontManager::ins = nullptr;
 
@@ -15,7 +15,7 @@ void FontManager::Init(void)
 	for (const char*& name : FONT_PATH_TABLE) { AddFontResourceExA(name, FR_PRIVATE, NULL); }
 
 	// ƒtƒHƒ“ƒg‚ğì¬
-	for (int i = 0; i < (int)FONT_KINDS_SIZE::MAX; i++) {
+	for (int i = 0; i < (int)FONT_KINDS_SIZE::Max; i++) {
 		font[i] = CreateFontToHandle(FONT_NAME_TABLE[i], (int)FONT_SIZE_TABLE[i], (int)FONT_THICK_TABLE[i], FONT_TYPE_TABLE[i]);
 	}
 }
