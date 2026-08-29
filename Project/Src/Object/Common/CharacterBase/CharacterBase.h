@@ -19,8 +19,6 @@ public:
 
 	// ステートのゲット関数
 	int GetState(void)const { return state; }
-	const bool& GetIsDeath(void)const { return isDeath; }
-	void SetIsDeath(bool flg) { isDeath = flg; }
 
 private:
 
@@ -35,26 +33,23 @@ private:
 	// 解放
 	void SubRelease(void)override;
 
-	// モデルデフォルトカラー保存用配列
-	std::vector<COLOR_F> DEFAULT_COLOR;
-
 	// アニメーションコントローラーのインスタンス
 	AnimationController* anime;
-
-	// 無敵カウンター
-	unsigned char inviCounter;
 	
-	// 無敵カウンターの更新
-	void Invi(void);
-
-	// 無敵カウンターによるダメージ演出を行うかどうか（true = 「する」、false = 「しない」）← デフォルトは「する」
-	bool isInviEffect;
-
 	// ステート管理用マップ（キー：ステート番号、値：状態クラスのポインタ）
 	std::map<int, CharacterStateBase*> stateMap;
 
-	// 死んだかどうか
-	bool isDeath;
+	// ステートの追加
+	void AddState(int stateNum, CharacterStateBase* stateIns);
+
+	/// 状態番号を指定して自動遷移判定を登録する
+	void RegisterStateTransition(int beforeState, int afterState);
+
+	// 指定のステートへ遷移
+	void  ChangeState(int nextState);
+
+	// 指定のステートインスタンスをゲットする関数
+	CharacterStateBase& GetStateIns(int state);
 
 protected:
 
@@ -62,13 +57,24 @@ protected:
 	int state;
 
 	// ステートの追加
-	void AddState(int stateNum, CharacterStateBase* stateIns);
+	template<typename StateEnum>
+	void AddState(StateEnum stateNum, CharacterStateBase* stateIns) {
+		AddState(static_cast<int>(stateNum), stateIns);
+	}
 
-	// 指定のステートインスタンスをゲットする関数
-	CharacterStateBase& GetStateIns(int state);
+	/// 状態間の自動遷移判定を登録する
+	template<typename StateEnum>
+	void RegisterStateTransition(StateEnum beforeState, StateEnum afterState) {
+		RegisterStateTransition(static_cast<int>(beforeState), static_cast<int>(afterState));
+	}
 
 	// 指定のステートへ遷移
-	virtual void  ChangeState(int nextState);
+	template<typename StateEnum>
+	void  ChangeState(StateEnum nextState) { ChangeState(static_cast<int>(nextState)); }
+
+	// 指定のステートインスタンスをゲットする関数
+	template<typename StateEnum>
+	CharacterStateBase& GetStateIns(StateEnum state) { return GetStateIns(static_cast<int>(state)); }
 
 	// キャラクター固有の処理をここに追加
 	virtual void CharacterInit(void) {}
@@ -118,37 +124,5 @@ protected:
 	float GetAnimeStep(void)const;
 	void SetAnimeStep(float step);
 	
-#pragma endregion オーバーライド不可(使用のみ)
-
-	// 無敵カウンターのゲット関数
-	unsigned char GetInviCounter(void)const { return inviCounter; }
-	// 無敵カウンターのセット関数
-	void SetInviCounter(unsigned char counter = 1);
-
-	// 無敵演出フラグのセット関数（true = 「する」、false = 「しない」）← デフォルトは「する」
-	void SetInviEffectFlg(bool flg = true) {
-		if (isInviEffect == flg) { return; }
-
-		isInviEffect = flg;
-
-		// 無敵演出フラグが変わったとき色をデフォルトに戻す
-
-		// 無敵演出フラグが「する」に変わったときはモデルデフォルトカラーを保存しておく
-		int mnum = MV1GetMaterialNum(trans.model);
-		for (int i = 0; i < mnum; ++i) {
-			COLOR_F emi = MV1GetMaterialEmiColor(trans.model, i);
-
-			emi.r = (std::min)(emi.r + 0.4f, 1.0f);
-			emi.g = (std::min)(emi.g + 0.4f, 1.0f);
-			emi.b = (std::min)(emi.b + 0.4f, 1.0f);
-
-			// モデルデフォルトカラーの保存
-			if (isInviEffect) { DEFAULT_COLOR.emplace_back(emi); }
-
-			MV1SetMaterialEmiColor(trans.model, i, emi);
-		}
-
-		// 「しない」に変わったときは必要ないので情報を破棄する
-		if (!isInviEffect) { DEFAULT_COLOR.clear(); }
-	}
+#pragma endregion アニメーションコントローラー
 };

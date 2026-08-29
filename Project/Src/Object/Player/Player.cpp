@@ -9,9 +9,16 @@
 
 #include "../Common/Collider/CapsuleCollider.h"
 
+#include "State/PlayerMoveState.h"
+
 void Player::Load(void)
 {
+	// モデルをロード
 	trans.LoadModel("Player/Player");
+
+#pragma region 当たり判定情報設定
+
+	// メインのカプセルコライダーを設定
 	ColliderCreate(
 		new CapsuleCollider(
 			COLLIDER_TAG::Player,
@@ -20,20 +27,43 @@ void Player::Load(void)
 			GetParameter("Collider", "Radius")
 		)
 	);
+
+#pragma endregion
+
+#pragma region 状態初期設定
+
+	// 移動状態を追加
+	AddState(
+		STATE::Move,
+		new PlayerMoveState(
+			GetGameSpaceController(),
+			GetSpaceConstraint(),
+			trans.pos,
+			std::bind(&Player::MoveAccel, this, std::placeholders::_1),
+			isGround,
+			velocity.y
+		)
+	);
+
+#pragma endregion
 }
 
 void Player::CharacterInit(void)
 {
+	// モデルの角度のズレを設定
 	trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 
+	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = 3.0f;
+	// 加速最大値を設定
 	ACCEL_MAX = 15.0f;
+
+	// 初期状態を設定
+	ChangeState(STATE::Move);
 }
 
 void Player::CharacterUpdate(void)
 {
-	if (!isOperator) { return; }
-
 	if (CheckHitKey(KEY_INPUT_Z) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault); }
 
 	if (CheckHitKey(KEY_INPUT_X) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane); }
@@ -41,13 +71,6 @@ void Player::CharacterUpdate(void)
 	if (CheckHitKey(KEY_INPUT_C) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::Rail); }
 
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
-
-	MoveAccel(GetMoveDirection());
-
-	// ジャンプと重力・接地判定を確認する
-	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerJump).down && isGround) {
-		velocity.y = 14.0f;
-	}
 }
 
 void Player::CharacterDraw(void)
@@ -64,25 +87,4 @@ void Player::CharacterUiDraw(void)
 
 void Player::CharacterRelease(void)
 {
-}
-
-Vector3 Player::GetMoveDirection(void) const
-{
-	const GameSpaceController& gameSpace = GetGameSpaceController();
-
-	if (gameSpace.IsStopInput()) { return Vector3(); }
-
-	Vector2 input = Input::GetIns().GetLeftStickVec();
-
-	// コントローラー入力がない場合はキーボードを使う
-	if (input == 0.0f) {
-		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveRight).now) { input.x += 1.0f; }
-		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveLeft).now) { input.x -= 1.0f; }
-		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveFront).now) { input.y += 1.0f; }
-		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveBack).now) { input.y -= 1.0f; }
-
-		if (input != 0.0f) { input.Normalize(); }
-	}
-
-	return gameSpace.ConvertMoveInput(input, trans.pos, CurrentCamera::Get().GetPos(), GetSpaceConstraint());
 }

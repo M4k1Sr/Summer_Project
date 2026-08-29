@@ -7,19 +7,15 @@ class Player :
 public:
 
 	Player(
-
 		const Vector3& pos,
 
 		bool dynamicFlg,
 		bool isGravity,
 		bool pushFlg,
-		unsigned char pushWeight,
-
-		bool isOperator
+		unsigned char pushWeight
 	) :
 		CharacterBase("Data/Parameter/Player/"),
-		INIT_POS(pos),
-		isOperator(isOperator)
+		INIT_POS(pos)
 	{
 		trans.pos = INIT_POS;
 		SetDynamicFlg(dynamicFlg);
@@ -32,10 +28,17 @@ public:
 
 	void Load(void) override;
 
-private:
+	// プレイヤーの状態
+	enum class STATE {
+		None = -1,
 
-	// 操作可能かどうか
-	bool isOperator;
+		// 移動状態
+		Move,
+
+		Max
+	};
+
+private:
 
 	// 初期座標
 	const Vector3 INIT_POS;

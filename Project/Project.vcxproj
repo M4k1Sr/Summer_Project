@@ -171,6 +171,7 @@
     <ClCompile Include="Src\Object\Common\DebugObject\FeatureDebugMesh.cpp" />
     <ClCompile Include="Src\Object\Common\Transform\Transform.cpp" />
     <ClCompile Include="Src\Object\Player\Player.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Scene\Common\GameSpace\GameSpaceController.cpp" />
     <ClCompile Include="Src\Scene\Common\GameSpace\MovementRail.cpp" />
     <ClCompile Include="Src\Scene\Common\GameSpace\SpaceChangeTrigger.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Src\Object\Common\DebugObject\BoxDebugObject.h" />
     <ClInclude Include="Src\Object\Common\Transform\Transform.h" />
     <ClInclude Include="Src\Object\Player\Player.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerMoveState.h" />
     <ClInclude Include="Src\pch.h" />
     <ClInclude Include="Src\Scene\Common\GameSpace\GameSpaceController.h" />
     <ClInclude Include="Src\Scene\Common\GameSpace\MovementRail.h" />

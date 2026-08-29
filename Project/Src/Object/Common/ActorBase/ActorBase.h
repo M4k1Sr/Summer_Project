@@ -59,7 +59,7 @@ public:
 	void SetSpaceConstraint(SPACE_CONSTRAINT constraint) { spaceConstraint = constraint; }
 
 	/// このオブジェクトに適用されている空間制約を取得する
-	SPACE_CONSTRAINT GetSpaceConstraint(void)const { return spaceConstraint; }
+	const SPACE_CONSTRAINT& GetSpaceConstraint(void)const { return spaceConstraint; }
 
 	/// 指定した方向ベクトルを現在の空間制約に合わせて制限する
 	Vector3 RestrictSpaceDirection(const Vector3& direction)const;

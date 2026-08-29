@@ -131,6 +131,7 @@ protected:
 	// 更新（Actor更新・当たり判定の後、Camera更新の前）
 	virtual void SubPostUpdate(void) {}
 
+	virtual void SubPreObjectAdd(ActorBase& object) {}
 	// ActorがSceneへ追加された直後に呼ばれる
 	virtual void SubPostObjectAdd(ActorBase& object) {}
 

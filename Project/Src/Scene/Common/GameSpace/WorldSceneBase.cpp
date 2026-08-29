@@ -26,12 +26,12 @@ void WorldSceneBase::SubPostUpdate(void)
 	SubWorldPostUpdate();
 }
 
-void WorldSceneBase::SubPostObjectAdd(ActorBase& object)
+void WorldSceneBase::SubPreObjectAdd(ActorBase& object)
 {
 	// WorldSceneBaseが所有する全オブジェクトへ空間管理クラスを自動登録する
 	object.SetGameSpaceController(&gameSpace);
 
-	SubWorldPostObjectAdd(object);
+	SubWorldPreObjectAdd(object);
 }
 
 void WorldSceneBase::SubAlphaDraw(void)

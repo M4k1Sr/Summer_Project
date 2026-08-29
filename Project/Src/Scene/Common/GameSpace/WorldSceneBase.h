@@ -27,7 +27,7 @@ protected:
 	// ゲーム空間のデバッグ描画後に追加したい描画
 	virtual void SubWorldDebugDraw(void) {}
 
-	virtual void SubWorldPostObjectAdd(ActorBase& object) {}
+	virtual void SubWorldPreObjectAdd(ActorBase& object) {}
 
 	virtual void SubWorldAlphaDraw(void) {}
 
@@ -35,7 +35,7 @@ private:
 	// SceneBaseから呼ばれる共通フック
 	void SubPreUpdate(void)final;
 	void SubPostUpdate(void)final;
-	void SubPostObjectAdd(ActorBase& object)final;
+	void SubPreObjectAdd(ActorBase& object)final;
 	void SubAlphaDraw(void)final;
 
 	// 空間ルール管理

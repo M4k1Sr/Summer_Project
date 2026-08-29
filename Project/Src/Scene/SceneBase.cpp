@@ -216,6 +216,9 @@ void SceneBase::ObjAdd(ActorBase* newObj)
 	// ˆÀ‘Sˆ—
 	if (newObj == nullptr) { return; }
 
+	// ”h¶SceneŒÅ—L‚Ì’Ç‰Á‘Oˆ—
+	SubPreObjectAdd(*newObj);
+
 	// Actor‹¤’Ê“Ç‚Ýž‚Ý
 	newObj->Load();
 

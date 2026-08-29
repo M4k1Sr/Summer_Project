@@ -28,7 +28,7 @@ void TestScene::SubPostLoad(void)
 	//ObjAdd(operatorObject);
 
 	// ‘€ì‘ÎÛiƒ‚ƒfƒ‹‚ ‚èj
-	operatorObject = new Player(Vector3(0, 180, 0), true, true, true, 100, true);
+	operatorObject = new Player(Vector3(0, 180, 0), true, true, true, 100);
 	ObjAdd(operatorObject);
 
 	// ’ÊíBox°
