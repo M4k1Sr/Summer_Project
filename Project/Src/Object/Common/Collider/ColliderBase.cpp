@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#include "../../../Utility/Utility.h"
+
 CollisionResult::CollisionResult(void) :
 	point(),
 	normal(),
@@ -20,7 +22,7 @@ ColliderBase::ColliderBase(COLLIDER_TAG type, const Vector3& pos, const Vector3&
 	angle(angle),
 	judgeFlg(true),
 	tag(type),
-	shape(SHAPE::None),
+	shape(COLLIDER_SHAPE::None),
 	OnCollision(nullptr),
 	OnGrounded(nullptr)
 {
@@ -94,7 +96,7 @@ unsigned char ColliderBase::GetPushWeight(void)const { return (pushWeight != nul
 
 COLLIDER_TAG ColliderBase::GetTag(void)const { return tag; }
 
-ColliderBase::SHAPE ColliderBase::GetShape(void)const { return shape; }
+COLLIDER_SHAPE ColliderBase::GetShape(void)const { return shape; }
 
 void ColliderBase::CallOnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
@@ -122,4 +124,4 @@ void ColliderBase::SetTransformPosAdd(const Vector3& vec)
 
 void ColliderBase::SetJudgeFlg(bool flg) { judgeFlg = flg; }
 
-void ColliderBase::SetShape(SHAPE s) { shape = s; }
+void ColliderBase::SetShape(COLLIDER_SHAPE s) { shape = s; }

@@ -1,17 +1,18 @@
 #include "SceneBase.h"
 
-#include <DxLib.h>
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
 
+#include "../pch.h"
+
 #include "../Application/Application.h"
 
-#include "../Common/Vector2.h"
+#include "../Common/Vector2I.h"
 
-#include "../Manager/Camera/Camera.h"
+#include "../Manager/Camera/CameraBase.h"
 #include "../Manager/Collision/CollisionManager.h"
-#include "../Object/ActorBase.h"
+#include "../Object/Common/ActorBase/ActorBase.h"
 
 int SceneBase::hitStop = 0;
 
@@ -20,8 +21,8 @@ int SceneBase::slowInter = 1;
 int SceneBase::slowCounter = 0;
 
 int SceneBase::shake = 0;
-SceneBase::ShakeKinds SceneBase::shakeKinds = ShakeKinds::Diag;
-SceneBase::ShakeSize SceneBase::shakeSize = ShakeSize::Memium;
+SceneBase::ShakeKinds SceneBase::shakeKinds = ShakeKinds::DIAG;
+SceneBase::ShakeSize SceneBase::shakeSize = ShakeSize::MEDIUM;
 
 SceneBase::SceneBase(void) :
 
@@ -48,16 +49,17 @@ void SceneBase::Load(void)
 	mainScreen = MakeScreen(App::SCREEN_SIZE_X, App::SCREEN_SIZE_Y, true);
 	if (mainScreen < 0) { throw std::runtime_error("SceneBaseのメインスクリーン生成に失敗しました"); }
 
-	// シーンごとに独立したカメラを生成する
-	if (UseCamera()) { camera = new Camera(); camera->Init(); }
-
 	// シーンごとに独立した当たり判定管理クラスを生成する
 	if (UseCollisionManager()) { collision = new CollisionManager(); }
 
 	// 派生先の読み込み（後）
+	// Actorの生成はCollisionManager生成後に行う必要があるため、基本的にはここで行う
 	SubPostLoad();
 
-	// 全オブジェクトが追加された後、巨大な静的オブジェクト等のチャンクを一度構築する
+	// シーンごとに独立したカメラを生成する
+	CreateCamera();
+
+	// 全Actorが追加された後、巨大な静的オブジェクト等のチャンクを一度構築する
 	if (collision != nullptr) { collision->InitBuildChunks(); }
 
 	state = STATE::Loaded;
@@ -71,9 +73,9 @@ void SceneBase::Init(void)
 	SubPreInit();
 
 	// カメラ初期化
-	if (camera != nullptr) { camera->ChangeModeFree(Deg2Rad(5.0f), 10.0f); }
+	if (camera != nullptr) { camera->Init(); }
 
-	// シーンが所有するオブジェクトをすべて初期化する
+	// シーンが所有するActorをすべて初期化する
 	for (ActorBase* obj : objects) { obj->Init(); }
 
 	// 派生先の初期化（後）
@@ -87,22 +89,21 @@ void SceneBase::Update(void)
 	// ロード中や解放済みのシーンは更新しない
 	if (state != STATE::Initialized) { return; }
 
+	// 入力判定やシーン固有の事前処理
+	SubPreUpdate();
+
 	// ヒットストップ・スローによりゲーム本体を更新しないフレーム
 	if (!IsUpdateFrame()) { return; }
 
-	// 派生先の更新（前）
-	SubPreUpdate();
-
 	// カメラ情報をDxLibへ反映
 	if (camera != nullptr) { camera->Apply(); }
-
 	// オブジェクト全ての更新処理
 	for (ActorBase* obj : objects) { obj->Update(); }
 
 	// 当たり判定更新
 	if (collision != nullptr) { collision->Check(); }
 
-	// 派生先の更新（後）
+	// 当たり判定による押し出し後に行う共通処理
 	SubPostUpdate();
 
 	// カメラ更新
@@ -134,18 +135,13 @@ void SceneBase::Draw(void)
 
 	// 半透明描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-
-	SubPreAlphaDraw();
 	for (ActorBase* obj : objects) { obj->AlphaDraw(); }
-	SubPostAlphaDraw();
+	SubAlphaDraw();
 
 	// デバッグ用チャンク描画
 	if (collision != nullptr && camera != nullptr) { collision->DrawChunkGrid(camera->GetPos()); }
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	// Effekseer描画
-	DrawEffekseer3D();
 
 #pragma endregion
 
@@ -165,9 +161,8 @@ void SceneBase::Draw(void)
 #pragma region UI描画
 
 	// UIは画面揺れの影響を受けないよう、mainScreen転送後に描画する
-	SubPreUiDraw();
 	for (ActorBase* obj : objects) { obj->UiDraw(); }
-	SubPostUiDraw();
+	SubUiDraw();
 
 	if (camera != nullptr) { camera->DrawDebug(); }
 
@@ -221,17 +216,27 @@ void SceneBase::ObjAdd(ActorBase* newObj)
 	// 安全処理
 	if (newObj == nullptr) { return; }
 
-	// オブジェクト共通読み込み
+	// 派生Scene固有の追加前処理
+	SubPreObjectAdd(*newObj);
+
+	// Actor共通読み込み
 	newObj->Load();
 
-	// オブジェクトが持つコライダーをCollisionManagerへ登録
+	// Actorが持つコライダーをCollisionManagerへ登録
 	if (collision != nullptr) { collision->Add(newObj->GetCollider()); }
 
-	// 派生先のオブジェクト追加処理
+	// Actorをシーンの所有リストへ追加する
+	objects.emplace_back(newObj);
+
+	// 派生Scene固有の追加後処理
 	SubPostObjectAdd(*newObj);
 
-	// オブジェクトをシーンの所有リストへ追加する
-	objects.emplace_back(newObj);
+	// ゲーム開始後の追加なら、その場で初期化
+	if (state == STATE::Initialized) {
+		newObj->Init();
+
+		if (collision != nullptr) { collision->InitBuildChunks(); }
+	}
 }
 
 void SceneBase::HitStop(int time)
@@ -260,7 +265,7 @@ void SceneBase::Shake(ShakeKinds kinds, ShakeSize size, int time)
 
 bool SceneBase::IsUpdateFrame(void)
 {
-	// ヒットストップ中はオブジェクト / Collision / Cameraの更新を止める
+	// ヒットストップ中はActor / Collision / Cameraの更新を止める
 	if (hitStop > 0)
 	{
 		hitStop--;
@@ -290,20 +295,20 @@ Vector2I SceneBase::GetShakePoint(void)
 
 	switch (shakeKinds)
 	{
-	case ShakeKinds::Wid:
+	case ShakeKinds::WID:
 		ret.x = direction * power;
 		break;
 
-	case ShakeKinds::Hid:
+	case ShakeKinds::HIG:
 		ret.y = direction * power;
 		break;
 
-	case ShakeKinds::Diag:
+	case ShakeKinds::DIAG:
 		ret.x = direction * power;
 		ret.y = direction * power;
 		break;
 
-	case ShakeKinds::Round:
+	case ShakeKinds::ROUND:
 	{
 		// DxLibの三角関数はラジアンを使用する
 		const float angle = static_cast<float>((shake % 12) * 30) * DX_PI_F / 180.0f;

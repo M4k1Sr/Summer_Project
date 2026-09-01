@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../ActorBase.h"
+#include "../ActorBase/ActorBase.h"
 
 class MeshCollider;
 

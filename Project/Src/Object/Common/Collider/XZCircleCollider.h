@@ -10,7 +10,7 @@ public:
         radius(radius),
         yLength(yLength)
     {
-        SetShape(SHAPE::XzCircle);
+        SetShape(COLLIDER_SHAPE::XzCircle);
     }
 	~XZCircleCollider()override = default;
 

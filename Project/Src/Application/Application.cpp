@@ -1,14 +1,12 @@
 #include "Application.h"
 
-#include <DxLib.h>
+#include "../pch.h"
 
 #include "../Manager/FPS/FPS.h"
-#include "../Manager/Input/KeyManager.h"
+#include "../Manager/Input/InputManager.h"
 #include "../Manager/Sound/SoundManager.h"
 #include "../Manager/Font/FontManager.h"
-#include "../Manager/Effect/EffectManager.h"
-#include "../Scene/SceneManager/SceneManager.h"
-
+#include "../Scene/SceneManager.h"
 
 Application* Application::ins = nullptr;
 
@@ -26,13 +24,16 @@ Application::Application(void) :
 }
 
 // デストラクタ
-Application::~Application(void) = default;
+Application::~Application(void)
+{
+}
 
 // 初期化
 void Application::Init(void)
 {
 	// アプリケーションの初期設定
 	SetWindowText("");
+	SetWindowIconID(123);
 
 	// ウィンドウ関連
 	SetGraphMode(SCREEN_SIZE_X, SCREEN_SIZE_Y, 32);	// サイズ変更
@@ -40,6 +41,11 @@ void Application::Init(void)
 #ifdef _DEBUG
 	ChangeWindowMode(true);
 #endif // _DEBUG
+
+	// 開発中の複数起動を許可
+	SetDoubleStartValidFlag(true);
+
+	SetAlwaysRunFlag(true);
 
 	// DxLibの初期化
 	isInitFail = false;
@@ -61,16 +67,13 @@ void Application::Init(void)
 	fps->Init();
 
 	// 入力管理クラスの生成 / 初期化処理
-	Key::CreateIns();
+	Input::CreateIns();
 
 	// サウンド管理クラスの生成 / 初期化処理
 	Snd::CreateIns();
 
 	// フォントデータ生成 / 初期化処理
 	Font::CreateIns();
-
-	// エフェクト管理クラス生成 / 初期化処理
-	EffectManager::CreateIns();
 
 	// シーン管理初期化 / 初期化処理
 	SceneManager::CreateIns();
@@ -86,7 +89,7 @@ void Application::Run(void)
 		if (!fps->UpdateFrameRate()) { continue; }
 
 		// 入力管理クラスの更新
-		KeyManager::GetIns().Update();
+		Input::GetIns().Update();
 
 		// シーン管理更新
 		SceneManager::GetIns().Update();
@@ -95,7 +98,7 @@ void Application::Run(void)
 		Snd::GetIns().Update();
 
 		// デバッグ表示切替
-		if (Key::GetIns().GetInfo(KEY_TYPE::DEBUG_DRAW_SWITCH).down) { DrawDebugSwitch(); }
+		if (Input::GetIns().GetInfo(KEY_TYPE::DebugDrawSwitch).down) { DrawDebugSwitch(); }
 
 		// フレームレート計算
 		fps->CalcFrameRate();
@@ -122,9 +125,6 @@ void Application::Release(void)
 	// シーン管理解放・削除	
 	SceneManager::DeleteIns();
 
-	// エフェクト管理クラス解放・削除
-	EffectManager::DeleteIns();
-
 	// フォントデータの削除
 	Font::DeleteIns();
 
@@ -132,7 +132,7 @@ void Application::Release(void)
 	Snd::DeleteIns();
 
 	// 入力制御削除
-	Key::DeleteIns();
+	Input::DeleteIns();
 
 	// フレームレート解放
 	delete fps;

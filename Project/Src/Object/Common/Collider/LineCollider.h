@@ -16,7 +16,7 @@ public:
 		startPos(localStartPos),
 		endPos(localEndPos)
 	{
-		SetShape(SHAPE::Line);
+		SetShape(COLLIDER_SHAPE::Line);
 	}
 	~LineCollider()override {}
 

@@ -13,7 +13,7 @@ public:
 		ColliderBase(type, pos, angle),
 		size(size)
 	{
-		SetShape(SHAPE::Box);
+		SetShape(COLLIDER_SHAPE::Box);
 	}
 	~BoxCollider()override {}
 

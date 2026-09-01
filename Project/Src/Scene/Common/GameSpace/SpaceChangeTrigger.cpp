@@ -56,7 +56,7 @@ void SpaceChangeTrigger::Load(void)
 	SetIsDraw(false);
 	SetSpaceConstraint(SPACE_CONSTRAINT::None);
 
-	ColliderCreate(new BoxCollider(COLLIDER_TAG::DEBUG_OBJECT, triggerSize));
+	ColliderCreate(new BoxCollider(COLLIDER_TAG::DebugObject, triggerSize));
 }
 
 void SpaceChangeTrigger::SubInit(void)

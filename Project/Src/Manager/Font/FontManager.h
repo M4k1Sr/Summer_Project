@@ -28,52 +28,54 @@ public:
 
 	enum class FONT_KINDS_SIZE
 	{
-		DEFAULT_20,
-		DEFAULT_45,
-		DEFAULT_64,
+		Default20,
+		Default45,
+		Default64,
 
-		GOKUSYOU_32,
-		GOKUSYOU_60,
-		GOKUSYOU_64,
-		GOKUSYOU_80,
-		GOKUSYOU_110,
+		Gokusyou32,
+		Gokusyou60,
+		Gokusyou64,
+		Gokusyou80,
+		Gokusyou110,
 
-		MARUMINYA_50,
-		MARUMINYA_80,
+		Marumiya40,
+		Marumiya50,
+		Marumiya80,
 
-		HIT_UI_32,
-		HIT_UI_64,
+		HitUi32,
+		HitUi64,
 
-		DELASUKO_GOTHIC_45,
-		DELASUKO_GOTHIC_64,
+		DelasukoGothic45,
+		DelasukoGothic64,
 
-		MAX
+		Max
 	};
 
 	// フォント取得
 	const int& GetFont(FONT_KINDS_SIZE kinds)const { return font[(int)kinds]; }
 
 	// サイズテーブル
-	const unsigned char FONT_SIZE_TABLE[(int)FONT_KINDS_SIZE::MAX] =
+	const unsigned char FONT_SIZE_TABLE[(int)FONT_KINDS_SIZE::Max] =
 	{
-		20,		// DEFAULT_20
-		45,		// DEFAULT_45
-		64,		// DEFAULT_64
+		20,		// Default20
+		45,		// Default45
+		64,		// Default64
 
-		32,		// GOKUSYOU_32
-		60,		// GOKUSYOU_60
-		64,		// GOKUSYOU_64
-		80,		// GOKUSYOU_80
-		110,	// GOKUSYOU_110
+		32,		// Gokusyou32
+		60,		// Gokusyou60
+		64,		// Gokusyou64
+		80,		// Gokusyou80
+		110,	// Gokusyou110
 
-		50,		// MARUMINYA_50
-		80,		// MARUMINYA_80
+		40,		// Marumiya40
+		50,		// Marumiya50
+		80,		// Marumiya80
 
-		32,		// HIT_UI_32
-		64,		// HIT_UI_64
+		32,		// HitUi32
+		64,		// HitUi64
 
-		45,		// DELASUKO_GOTHIC_45
-		64,		// DELASUKO_GOTHIC_64
+		45,		// DelasukoGothic45
+		64,		// DelasukoGothic64
 	};
 
 private:
@@ -83,52 +85,54 @@ private:
 	void Release(void);
 
 	// フォント
-	int font[(int)FONT_KINDS_SIZE::MAX];
+	int font[(int)FONT_KINDS_SIZE::Max];
 
 	// フォント名テーブル
-	const char* FONT_NAME_TABLE[(int)FONT_KINDS_SIZE::MAX] =
+	const char* FONT_NAME_TABLE[(int)FONT_KINDS_SIZE::Max] =
 	{
-		nullptr,				// DEFAULT_20
-		nullptr,				// DEFAULT_45
-		nullptr,				// DEFAULT_64
+		nullptr,				// Default20
+		nullptr,				// Default45
+		nullptr,				// Default64
 
-		"x10y12pxDonguriDuel",	// GOKUSYOU_32
-		"x10y12pxDonguriDuel",	// GOKUSYOU_60
-		"x10y12pxDonguriDuel",	// GOKUSYOU_64
-		"x10y12pxDonguriDuel",	// GOKUSYOU_80
-		"x10y12pxDonguriDuel",	// GOKUSYOU_110
+		"x10y12pxDonguriDuel",	// Gokusyou32
+		"x10y12pxDonguriDuel",	// Gokusyou60
+		"x10y12pxDonguriDuel",	// Gokusyou64
+		"x10y12pxDonguriDuel",	// Gokusyou80
+		"x10y12pxDonguriDuel",	// Gokusyou110
 
-		"x12y12pxMaruMinya",	// MARUMINYA_50
-		"x12y12pxMaruMinya",	// MARUMINYA_80
+		"x12y12pxMaruMinya",	// Marumiya40
+		"x12y12pxMaruMinya",	// Marumiya50
+		"x12y12pxMaruMinya",	// Marumiya80
 
-		"KKM-アナログテレビフォントv2",	// HIT_UI_32
-		"KKM-アナログテレビフォントv2",	// HIT_UI_64
+		"KKM-アナログテレビフォントv2",	// HitUi32
+		"KKM-アナログテレビフォントv2",	// HitUi64
 
-		"DelaSukoGothicOne",	// DELASUKO_GOTHIC_45
-		"DelaSukoGothicOne",	// DELASUKO_GOTHIC_64
+		"DelaSukoGothicOne",	// DelasukoGothic45
+		"DelaSukoGothicOne",	// DelasukoGothic64
 	};
 
 	// フォントの太さテーブル
-	const int FONT_THICK_TABLE[(int)FONT_KINDS_SIZE::MAX] =
+	const int FONT_THICK_TABLE[(int)FONT_KINDS_SIZE::Max] =
 	{
-		-1,	// DEFAULT_20
-		-1,	// DEFAULT_45
-		-1,	// DEFAULT_64
+		-1,	// Default20
+		-1,	// Default45
+		-1,	// Default64
 
-		-1,	// GOKUSYOU_32
-		-1,	// GOKUSYOU_60
-		-1,	// GOKUSYOU_64
-		-1,	// GOKUSYOU_80
-		-1,	// GOKUSYOU_110
+		-1,	// Gokusyou32
+		-1,	// Gokusyou60
+		-1,	// Gokusyou64
+		-1,	// Gokusyou80
+		-1,	// Gokusyou110
 
-		-1,	// MARUMINYA_50
-		20,	// MARUMINYA_80
+		-1,	// Marumiya40
+		-1,	// Marumiya50
+		20,	// Marumiya80
 
-		-1, // HIT_UI_32
-		-1,	// HIT_UI_64
+		-1, // HitUi32
+		-1,	// HitUi64
 
-		-1,	// DELASUKO_GOTHIC_45
-		-1,	// DELASUKO_GOTHIC_64
+		-1,	// DelasukoGothic45
+		-1,	// DelasukoGothic64
 	};
 
 #pragma region フォントのタイプ一覧
@@ -145,26 +149,27 @@ private:
 #pragma endregion
 
 	// フォントタイプテーブル
-	const int FONT_TYPE_TABLE[(int)FONT_KINDS_SIZE::MAX] =
+	const int FONT_TYPE_TABLE[(int)FONT_KINDS_SIZE::Max] =
 	{
-		0x01,	// DEFAULT_20
-		0x01,	// DEFAULT_45
-		0x01,	// DEFAULT_64
+		0x01,	// Default20
+		0x01,	// Default45
+		0x01,	// Default64
 
-		0x01,	// GOKUSYOU_32
-		0x01,	// GOKUSYOU_60
-		0x01,	// GOKUSYOU_64
-		0x01,	// GOKUSYOU_80
-		0x01,	// GOKUSYOU_110
+		0x01,	// Gokusyou32
+		0x01,	// Gokusyou60
+		0x01,	// Gokusyou64
+		0x01,	// Gokusyou80
+		0x01,	// Gokusyou110
 
-		0x01,	// MARUMINYA_50
-		0x01,	// MARUMINYA_80
+		0x01,	// Marumiya40
+		0x01,	// Marumiya50
+		0x01,	// Marumiya80
 
-		0x01,	// HIT_UI_32
-		0x01,	// HIT_UI_64
+		0x01,	// HitUi32
+		0x01,	// HitUi64
 
-		0x02,	// DELASUKO_GOTHIC_45
-		0x02,	// DELASUKO_GOTHIC_64
+		0x02,	// DelasukoGothic45
+		0x02,	// DelasukoGothic64
 	};
 
 

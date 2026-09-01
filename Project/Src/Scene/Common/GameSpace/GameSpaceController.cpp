@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "../../../Common/Vector2.h"
-#include "../../../Object/ActorBase.h"
+#include "../../../Object/Common/ActorBase/ActorBase.h"
 
 GameSpaceController::GameSpaceController(void) :
 	mode(GAME_SPACE_MODE::Side2D),
@@ -253,7 +253,7 @@ void GameSpaceController::ApplyConstraint(ActorBase& object)const
 	object.SetPos(restrictedPos);
 
 	// 衝突押し出しや加速度で奥行き方向の速度が残らないように、加速度も同じ空間へ制限する
-	object.RestrictAccel(*this);
+	object.RestrictVelocity();
 }
 
 void GameSpaceController::NormalizePlane(void)

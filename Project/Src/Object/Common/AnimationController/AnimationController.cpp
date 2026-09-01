@@ -1,6 +1,6 @@
 #include "AnimationController.h"
 
-#include <DxLib.h>
+#include "../../../pch.h"
 
 AnimationController::AnimationController(int modelId) : 
 	modelId(modelId),
@@ -8,7 +8,10 @@ AnimationController::AnimationController(int modelId) :
 
 	playAnim(),
 
-	loopflg(false)
+	loopflg(false),
+
+	blendRate(),
+	isDetach()
 {
 }
 
@@ -161,7 +164,7 @@ bool AnimationController::IsEnd(void) const
 	return ret;
 }
 
-void AnimationController::SetStep(float step)
+void AnimationController::SetAnimeStep(float step)
 {
 	playAnim.step = step;
 	if (loopflg) {

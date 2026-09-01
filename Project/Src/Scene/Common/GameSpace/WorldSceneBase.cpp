@@ -1,7 +1,6 @@
 #include "WorldSceneBase.h"
 
-#include "../../../Object/ActorBase.h"
-#include "../../../Manager/Camera/Camera.h"
+#include "../../../Object/Common/ActorBase/ActorBase.h"
 
 WorldSceneBase::WorldSceneBase(void) :
 	SceneBase(),
@@ -20,27 +19,26 @@ void WorldSceneBase::SubPreUpdate(void)
 void WorldSceneBase::SubPostUpdate(void)
 {
 	// 当たり判定の押し出し後に補正することで、2D中にZ方向へずれる問題を防ぐ
-	ForEachObject([this](ActorBase& object) { gameSpace.ApplyConstraint(object); });
+	for (ActorBase* object : objects) {
+		if (object != nullptr) { gameSpace.ApplyConstraint(*object); }
+	}
 
 	SubWorldPostUpdate();
 }
 
-void WorldSceneBase::SubPostObjectAdd(ActorBase& object)
+void WorldSceneBase::SubPreObjectAdd(ActorBase& object)
 {
 	// WorldSceneBaseが所有する全オブジェクトへ空間管理クラスを自動登録する
 	object.SetGameSpaceController(&gameSpace);
+
+	SubWorldPreObjectAdd(object);
 }
 
-void WorldSceneBase::SubPostAlphaDraw(void)
+void WorldSceneBase::SubAlphaDraw(void)
 {
 	gameSpace.DrawDebug();
 	SubWorldDebugDraw();
+
+	SubWorldAlphaDraw();
 }
 
-void WorldSceneBase::ChangeCameraModeGameSpaceFollow(const Transform& followAt, const GameSpaceCameraParameter& parameter)
-{
-	Camera* camera = GetCamera();
-	if (camera == nullptr) { return; }
-
-	camera->ChangeModeGameSpaceFollow(followAt, gameSpace, parameter);
-}

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../Object/ActorBase.h"
+#include "../Object/Common/ActorBase/ActorBase.h"
 
 // 配列の中から特定のオブジェクトを探す（単体）
 template<typename T = ActorBase>

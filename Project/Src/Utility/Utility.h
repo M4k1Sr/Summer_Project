@@ -1,5 +1,5 @@
 #pragma once
-#include <DxLib.h>
+#include "../pch.h"
 
 #include <string>
 #include <vector>
@@ -7,7 +7,9 @@
 #include <fstream>
 #include <sstream>
 
+
 #include "../Common/Vector2.h"
+#include "../Common/Vector2I.h"
 #include "../Common/Vector3.h"
 
 // ラジアン(rad)・度(deg)変換用
@@ -31,7 +33,6 @@ static std::vector <std::string> Split(std::string& line, char delimiter) {
 
 	return result;
 }
-
 
 // ラジアン(rad)から度(deg)
 static double Rad2Deg(double rad) { return rad * (180.0 / DX_PI); }

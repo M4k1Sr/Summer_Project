@@ -53,7 +53,7 @@ void FadeSceneBase::SubPostUpdate(void)
 	}
 }
 
-void FadeSceneBase::SubPostUiDraw(void)
+void FadeSceneBase::SubUiDraw(void)
 {
 	SubFadeDraw(GetFadeRatio());
 }

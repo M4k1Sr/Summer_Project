@@ -7,7 +7,8 @@
 
 #include "../../Application/Application.h"
 
-#include "../Camera/Camera.h"
+#include "../../Common/Vector2.h"
+#include "../../Common/Vector2I.h"
 
 #include"../../Object/Common/Collider/LineCollider.h"
 #include"../../Object/Common/Collider/SphereCollider.h"
@@ -577,7 +578,7 @@ void CollisionManager::CheckPairOnce(ColliderBase* a, ColliderBase* b)
 
 		// 判定関数側でめり込み量を明示できなかった場合の補完
 		// Line系は体積を持たないため0のままとする
-		if (result.penetration <= 0.0f && a->GetShape() != SHAPE::Line && b->GetShape() != SHAPE::Line) {
+		if (result.penetration <= 0.0f && a->GetShape() != COLLIDER_SHAPE::Line && b->GetShape() != COLLIDER_SHAPE::Line) {
 			const ColliderBase::AABB aAABB = a->GetAABB();
 
 			const ColliderBase::AABB bAABB = b->GetAABB();
@@ -591,21 +592,13 @@ void CollisionManager::CheckPairOnce(ColliderBase* a, ColliderBase* b)
 			result.penetration = (std::max)(0.0f, (std::min)({ overlapX,overlapY,overlapZ }));
 		}
 
-		// オブジェクトごとの空間制約に合わせて通知情報を個別に補正する
 		CollisionResult aResult = result;
-		CollisionResult bResult = result;
-
 		aResult.point = RestrictCollisionPoint(a, result.point);
-
+		CollisionResult bResult = result;
 		bResult.point = RestrictCollisionPoint(b, result.point);
 
-		aResult.normal = RestrictPushVector(a, result.normal);
-
-		bResult.normal = RestrictPushVector(b, -result.normal);
-
-		if (aResult.normal.LengthSq() > 0.000001f) { aResult.normal.Normalize(); }
-
-		if (bResult.normal.LengthSq() > 0.000001f) { bResult.normal.Normalize(); }
+		// BからAへ向かう法線をAへ通知し、Bへは反転した法線を通知する
+		bResult.normal = -result.normal;
 
 		// AにはBからAへ、BにはAからBへ向く法線を通知する
 		a->CallOnCollision(a->GetTag(), *b, aResult);
@@ -620,10 +613,10 @@ bool CollisionManager::IsHit(ColliderBase* a, ColliderBase* b, CollisionResult& 
 	// 当たり判定フラグを確認
 	if (!a->GetJudge() || !b->GetJudge()) { return false; }
 
-	const SHAPE aShape = a->GetShape();
-	const SHAPE bShape = b->GetShape();
+	const COLLIDER_SHAPE aShape = a->GetShape();
+	const COLLIDER_SHAPE bShape = b->GetShape();
 
-	if (aShape == SHAPE::None || bShape == SHAPE::None) { return false; }
+	if (aShape == COLLIDER_SHAPE::None || bShape == COLLIDER_SHAPE::None) { return false; }
 
 	// 同一グループに属する同一タグ同士は判定しない
 	if (a->GetTag() == b->GetTag()) {
@@ -658,152 +651,152 @@ bool CollisionManager::IsHit(ColliderBase* a, ColliderBase* b, CollisionResult& 
 #pragma region 形状を判別して適切な関数にて判定を行う
 
 	// 線分×線分
-	if (aShape == SHAPE::Line && bShape == SHAPE::Line) {
+	if (aShape == COLLIDER_SHAPE::Line && bShape == COLLIDER_SHAPE::Line) {
 		return LineToLine(dynamic_cast<LineCollider*>(a), dynamic_cast<LineCollider*>(b), result);
 	}
 
 	// 球体×球体
-	if (aShape == SHAPE::Sphere && bShape == SHAPE::Sphere) {
+	if (aShape == COLLIDER_SHAPE::Sphere && bShape == COLLIDER_SHAPE::Sphere) {
 		return SphereToSphere(dynamic_cast<SphereCollider*>(a), dynamic_cast<SphereCollider*>(b), result);
 	}
 
 	// カプセル×カプセル
-	if (aShape == SHAPE::Capsule && bShape == SHAPE::Capsule) {
+	if (aShape == COLLIDER_SHAPE::Capsule && bShape == COLLIDER_SHAPE::Capsule) {
 		return CapsuleToCapsule(dynamic_cast<CapsuleCollider*>(a), dynamic_cast<CapsuleCollider*>(b), result);
 	}
 
 	// ボックス×ボックス
-	if (aShape == SHAPE::Box && bShape == SHAPE::Box) {
+	if (aShape == COLLIDER_SHAPE::Box && bShape == COLLIDER_SHAPE::Box) {
 		return BoxToBox(dynamic_cast<BoxCollider*>(a), dynamic_cast<BoxCollider*>(b), result);
 	}
 
 	// メッシュ×メッシュ
-	if (aShape == SHAPE::Mesh && bShape == SHAPE::Mesh) {
+	if (aShape == COLLIDER_SHAPE::Mesh && bShape == COLLIDER_SHAPE::Mesh) {
 		return MeshToMesh(dynamic_cast<MeshCollider*>(a), dynamic_cast<MeshCollider*>(b), result);
 	}
 
 	// XZ円×XZ円
-	if (aShape == SHAPE::XzCircle && bShape == SHAPE::XzCircle) {
+	if (aShape == COLLIDER_SHAPE::XzCircle && bShape == COLLIDER_SHAPE::XzCircle) {
 		return XZCircleToXZCircle(dynamic_cast<XZCircleCollider*>(a), dynamic_cast<XZCircleCollider*>(b), result);
 	}
 
 	// 線分×球体
-	if (aShape == SHAPE::Line && bShape == SHAPE::Sphere) {
+	if (aShape == COLLIDER_SHAPE::Line && bShape == COLLIDER_SHAPE::Sphere) {
 		return LineToSphere(dynamic_cast<LineCollider*>(a), dynamic_cast<SphereCollider*>(b), result);
 	}
 
 	// 球体×線分
-	if (aShape == SHAPE::Sphere && bShape == SHAPE::Line) {
+	if (aShape == COLLIDER_SHAPE::Sphere && bShape == COLLIDER_SHAPE::Line) {
 		return ReverseNormal(LineToSphere(dynamic_cast<LineCollider*>(b), dynamic_cast<SphereCollider*>(a), result));
 	}
 
 	// 線分×カプセル
-	if (aShape == SHAPE::Line && bShape == SHAPE::Capsule) {
+	if (aShape == COLLIDER_SHAPE::Line && bShape == COLLIDER_SHAPE::Capsule) {
 		return LineToCapsule(dynamic_cast<LineCollider*>(a), dynamic_cast<CapsuleCollider*>(b), result);
 	}
 
 	// カプセル×線分
-	if (aShape == SHAPE::Capsule && bShape == SHAPE::Line) {
+	if (aShape == COLLIDER_SHAPE::Capsule && bShape == COLLIDER_SHAPE::Line) {
 		return ReverseNormal(LineToCapsule(dynamic_cast<LineCollider*>(b), dynamic_cast<CapsuleCollider*>(a), result));
 	}
 
 	// 線分×ボックス
-	if (aShape == SHAPE::Line && bShape == SHAPE::Box) {
+	if (aShape == COLLIDER_SHAPE::Line && bShape == COLLIDER_SHAPE::Box) {
 		return LineToBox(dynamic_cast<LineCollider*>(a), dynamic_cast<BoxCollider*>(b), result);
 	}
 
 	// ボックス×線分
-	if (aShape == SHAPE::Box && bShape == SHAPE::Line) {
+	if (aShape == COLLIDER_SHAPE::Box && bShape == COLLIDER_SHAPE::Line) {
 		return ReverseNormal(LineToBox(dynamic_cast<LineCollider*>(b), dynamic_cast<BoxCollider*>(a), result));
 	}
 
 	// 線分×メッシュ
-	if (aShape == SHAPE::Line && bShape == SHAPE::Mesh) {
+	if (aShape == COLLIDER_SHAPE::Line && bShape == COLLIDER_SHAPE::Mesh) {
 		return LineToMesh(dynamic_cast<LineCollider*>(a), dynamic_cast<MeshCollider*>(b), result);
 	}
 
 	// メッシュ×線分
-	if (aShape == SHAPE::Mesh && bShape == SHAPE::Line) {
+	if (aShape == COLLIDER_SHAPE::Mesh && bShape == COLLIDER_SHAPE::Line) {
 		return ReverseNormal(LineToMesh(dynamic_cast<LineCollider*>(b), dynamic_cast<MeshCollider*>(a), result));
 	}
 
 	// 球体×カプセル
-	if (aShape == SHAPE::Sphere && bShape == SHAPE::Capsule) {
+	if (aShape == COLLIDER_SHAPE::Sphere && bShape == COLLIDER_SHAPE::Capsule) {
 		return SphereToCapsule(dynamic_cast<SphereCollider*>(a), dynamic_cast<CapsuleCollider*>(b), result);
 	}
 
 	// カプセル×球体
-	if (aShape == SHAPE::Capsule && bShape == SHAPE::Sphere) {
+	if (aShape == COLLIDER_SHAPE::Capsule && bShape == COLLIDER_SHAPE::Sphere) {
 		return ReverseNormal(SphereToCapsule(dynamic_cast<SphereCollider*>(b), dynamic_cast<CapsuleCollider*>(a), result));
 	}
 
 	// 球体×ボックス
-	if (aShape == SHAPE::Sphere && bShape == SHAPE::Box) {
+	if (aShape == COLLIDER_SHAPE::Sphere && bShape == COLLIDER_SHAPE::Box) {
 		return SphereToBox(dynamic_cast<SphereCollider*>(a), dynamic_cast<BoxCollider*>(b), result);
 	}
 
 	// ボックス×球体
-	if (aShape == SHAPE::Box && bShape == SHAPE::Sphere) {
+	if (aShape == COLLIDER_SHAPE::Box && bShape == COLLIDER_SHAPE::Sphere) {
 		return ReverseNormal(SphereToBox(dynamic_cast<SphereCollider*>(b), dynamic_cast<BoxCollider*>(a), result));
 	}
 
 	// 球体×メッシュ
-	if (aShape == SHAPE::Sphere && bShape == SHAPE::Mesh) {
+	if (aShape == COLLIDER_SHAPE::Sphere && bShape == COLLIDER_SHAPE::Mesh) {
 		return SphereToMesh(dynamic_cast<SphereCollider*>(a), dynamic_cast<MeshCollider*>(b), result);
 	}
 
 	// メッシュ×球体
-	if (aShape == SHAPE::Mesh && bShape == SHAPE::Sphere) {
+	if (aShape == COLLIDER_SHAPE::Mesh && bShape == COLLIDER_SHAPE::Sphere) {
 		return ReverseNormal(SphereToMesh(dynamic_cast<SphereCollider*>(b), dynamic_cast<MeshCollider*>(a), result));
 	}
 
 	// 球体×XZ円
-	if (aShape == SHAPE::Sphere && bShape == SHAPE::XzCircle) {
+	if (aShape == COLLIDER_SHAPE::Sphere && bShape == COLLIDER_SHAPE::XzCircle) {
 		return SphereToXZCircle(dynamic_cast<SphereCollider*>(a), dynamic_cast<XZCircleCollider*>(b), result);
 	}
 
 	// XZ円×球体
-	if (aShape == SHAPE::XzCircle && bShape == SHAPE::Sphere) {
+	if (aShape == COLLIDER_SHAPE::XzCircle && bShape == COLLIDER_SHAPE::Sphere) {
 		return ReverseNormal(SphereToXZCircle(dynamic_cast<SphereCollider*>(b), dynamic_cast<XZCircleCollider*>(a), result));
 	}
 
 	// カプセル×ボックス
-	if (aShape == SHAPE::Capsule && bShape == SHAPE::Box) {
+	if (aShape == COLLIDER_SHAPE::Capsule && bShape == COLLIDER_SHAPE::Box) {
 		return CapsuleToBox(dynamic_cast<CapsuleCollider*>(a), dynamic_cast<BoxCollider*>(b), result);
 	}
 
 	// ボックス×カプセル
-	if (aShape == SHAPE::Box && bShape == SHAPE::Capsule) {
+	if (aShape == COLLIDER_SHAPE::Box && bShape == COLLIDER_SHAPE::Capsule) {
 		return ReverseNormal(CapsuleToBox(dynamic_cast<CapsuleCollider*>(b), dynamic_cast<BoxCollider*>(a), result));
 	}
 
 	// カプセル×メッシュ
-	if (aShape == SHAPE::Capsule && bShape == SHAPE::Mesh) {
+	if (aShape == COLLIDER_SHAPE::Capsule && bShape == COLLIDER_SHAPE::Mesh) {
 		return CapsuleToMesh(dynamic_cast<CapsuleCollider*>(a), dynamic_cast<MeshCollider*>(b), result);
 	}
 
 	// メッシュ×カプセル
-	if (aShape == SHAPE::Mesh && bShape == SHAPE::Capsule) {
+	if (aShape == COLLIDER_SHAPE::Mesh && bShape == COLLIDER_SHAPE::Capsule) {
 		return ReverseNormal(CapsuleToMesh(dynamic_cast<CapsuleCollider*>(b), dynamic_cast<MeshCollider*>(a), result));
 	}
 
 	// カプセル×XZ円
-	if (aShape == SHAPE::Capsule && bShape == SHAPE::XzCircle) {
+	if (aShape == COLLIDER_SHAPE::Capsule && bShape == COLLIDER_SHAPE::XzCircle) {
 		return CapsuleToXZCircle(dynamic_cast<CapsuleCollider*>(a), dynamic_cast<XZCircleCollider*>(b), result);
 	}
 
 	// XZ円×カプセル
-	if (aShape == SHAPE::XzCircle && bShape == SHAPE::Capsule) {
+	if (aShape == COLLIDER_SHAPE::XzCircle && bShape == COLLIDER_SHAPE::Capsule) {
 		return ReverseNormal(CapsuleToXZCircle(dynamic_cast<CapsuleCollider*>(b), dynamic_cast<XZCircleCollider*>(a), result));
 	}
 
 	// ボックス×メッシュ
-	if (aShape == SHAPE::Box && bShape == SHAPE::Mesh) {
+	if (aShape == COLLIDER_SHAPE::Box && bShape == COLLIDER_SHAPE::Mesh) {
 		return BoxToMesh(dynamic_cast<BoxCollider*>(a), dynamic_cast<MeshCollider*>(b), result);
 	}
 
 	// メッシュ×ボックス
-	if (aShape == SHAPE::Mesh && bShape == SHAPE::Box) {
+	if (aShape == COLLIDER_SHAPE::Mesh && bShape == COLLIDER_SHAPE::Box) {
 		return ReverseNormal(BoxToMesh(dynamic_cast<BoxCollider*>(b), dynamic_cast<MeshCollider*>(a), result));
 	}
 
@@ -916,42 +909,69 @@ bool CollisionManager::CapsuleToCapsule(CapsuleCollider* a, CapsuleCollider* b, 
 #pragma region 衝突判定（お互いの線分上における最近点を求めてその２点間の距離をはかって 未衝突なら終了）
 	// 線分同士の最近接点を求める ～～～～～～～～～～～
 
-	// ここに最近接点が入る
-	Vector3 pa = {}, pb = {};
+	const Vector3 u = aEndPos - aStartPos;
+	const Vector3 v = bEndPos - bStartPos;
+	const Vector3 w = aStartPos - bStartPos;
 
-	// Aの方向ベクトル
-	Vector3 u = aEndPos - aStartPos;
-	// Bの方向ベクトル
-	Vector3 v = bEndPos - bStartPos;
+	const float aLenSq = u.Dot(u);
+	const float bLenSq = v.Dot(v);
+	const float vw = v.Dot(w);
 
-	// Bの始点からAの始点までのベクトル
-	Vector3 w = aStartPos - bStartPos;
+	constexpr float EPSILON = 1e-6f;
 
-	float aLen = u.LengthSq();
-	float bLen = v.LengthSq();
-	float ab = u.Dot(v);
-	float aw = u.Dot(w);
-	float bw = v.Dot(w);
+	float s = 0.0f;
+	float t = 0.0f;
 
-	float denom = aLen * bLen - ab * ab;
-	float s, t;
-
-	if (denom < 1e-6f) {
-		// 線分がほぼ平行 → 片方に合わせて計算
+	// A、B両方とも点
+	if (aLenSq <= EPSILON && bLenSq <= EPSILON) { s = t = 0.0f; }
+	// Aだけ点
+	else if (aLenSq <= EPSILON) {
 		s = 0.0f;
-		t = bw / bLen;
+		t = std::clamp(vw / bLenSq, 0.0f, 1.0f);
 	}
 	else {
-		s = (ab * bw - bLen * aw) / denom;
-		t = (aLen * bw - ab * aw) / denom;
+		const float uw = u.Dot(w);
+
+		// Bだけ点
+		if (bLenSq <= EPSILON) {
+			t = 0.0f;
+			s = std::clamp(-uw / aLenSq, 0.0f, 1.0f);
+		}
+		else {
+			const float uv = u.Dot(v);
+			const float denom = aLenSq * bLenSq - uv * uv;
+
+			// 平行でない場合
+			if (denom > EPSILON) {
+				s = std::clamp((uv * vw - uw * bLenSq) / denom, 0.0f, 1.0f);
+			}
+			// ほぼ平行
+			else { s = 0.0f; }
+
+			// 求めたsに対するB側の最近点を求める
+			t = (uv * s + vw) / bLenSq;
+
+			// Bの始点より外
+			if (t < 0.0f) {
+				t = 0.0f;
+
+				// tが変わったのでsも再計算
+				s = std::clamp(-uw / aLenSq, 0.0f, 1.0f);
+			}
+			// Bの終点より外
+			else if (t > 1.0f) {
+				t = 1.0f;
+
+				// tが変わったのでsも再計算
+				s = std::clamp((uv - uw) / aLenSq, 0.0f, 1.0f);
+			}
+		}
 	}
 
-	// 線分内に clamp
-	s = std::clamp(s, 0.0f, 1.0f);
-	t = std::clamp(t, 0.0f, 1.0f);
-
-	pa = aStartPos + u * s;  // A線分上の最近点
-	pb = bStartPos + v * t;  // B線分上の最近点
+	// A線分上の最近点
+	const Vector3 pa = aStartPos + u * s;
+	// B線分上の最近点
+	const Vector3 pb = bStartPos + v * t;
 
 	// 距離計算
 	Vector3 normal = pa - pb;
@@ -1115,7 +1135,7 @@ bool CollisionManager::BoxToBox(BoxCollider* a, BoxCollider* b, CollisionResult&
 }
 
 // メッシュ×メッシュ
-bool CollisionManager::MeshToMesh(	MeshCollider* a,	MeshCollider* b,	CollisionResult& result)
+bool CollisionManager::MeshToMesh(MeshCollider* a, MeshCollider* b, CollisionResult& result)
 {
 	// 静的メッシュ同士はCollisionManagerの組み合わせ段階で通常判定されない。
 	// 動的メッシュ同士が必要な場合だけ候補三角形をBVHで絞り込む。
@@ -1171,6 +1191,7 @@ bool CollisionManager::MeshToMesh(	MeshCollider* a,	MeshCollider* b,	CollisionRe
 					if ((a->GetPos() - b->GetPos()).Dot(result.normal) < 0.0f) { result.normal = -result.normal; }
 
 					result.penetration = 0.0f;
+
 					return true;
 				}
 			}
@@ -2491,49 +2512,30 @@ bool CollisionManager::BoxToMesh(BoxCollider* box, MeshCollider* mesh, Collision
 
 #pragma endregion
 
-#pragma region 空間管理対応押し出し
+#pragma region 押し出し
 
 Vector3 CollisionManager::RestrictPushVector(const ColliderBase* collider, const Vector3& pushVector)const
 {
 	if (collider == nullptr) { return pushVector; }
-
 	const GameSpaceController* gameSpace = collider->GetGameSpaceController();
-
-	// WorldSceneBase管理外のコライダーは従来どおり3D方向を使用する
 	if (gameSpace == nullptr) { return pushVector; }
-
-	return gameSpace->RestrictDirection(
-		pushVector,
-		collider->GetTransform().pos,
-		collider->GetSpaceConstraint()
-	);
+	return gameSpace->RestrictDirection(pushVector, collider->GetTransform().pos, collider->GetSpaceConstraint());
 }
 
 Vector3 CollisionManager::RestrictCollisionPoint(const ColliderBase* collider, const Vector3& collisionPoint)const
 {
 	if (collider == nullptr) { return collisionPoint; }
-
 	const GameSpaceController* gameSpace = collider->GetGameSpaceController();
-
 	if (gameSpace == nullptr) { return collisionPoint; }
-
 	return gameSpace->RestrictPosition(collisionPoint, collider->GetSpaceConstraint());
 }
-
 
 void CollisionManager::MoveCollider(ColliderBase* collider, const Vector3& pushVector)const
 {
 	if (collider == nullptr) { return; }
-
-	// 押し出し方向そのものをオブジェクトの移動可能空間へ射影する
 	const Vector3 restrictedPush = RestrictPushVector(collider, pushVector);
-
-	// 制約後に移動量が無くなった場合は座標を変更しない
 	if (restrictedPush.LengthSq() <= 0.000001f) { return; }
-
 	collider->SetTransformPosAdd(restrictedPush);
-
-	// 接地判定も実際に適用した押し出し方向を基準にする
 	const Vector3 restrictedNormal = restrictedPush.Normalized();
 	if (restrictedNormal.y > 0.5f) { collider->CallOnGrounded(); }
 }
@@ -2550,7 +2552,7 @@ void CollisionManager::ApplyPush(ColliderBase* a, ColliderBase* b, const Vector3
 	const bool aDynamic = a->GetDynamicFlg();
 	const bool bDynamic = b->GetDynamicFlg();
 
-	// 両方動的な場合は重みに応じて分配し、それぞれ別々の空間制約を適用する
+	// 両方動的な場合は重みに応じて分配する
 	if (aDynamic && bDynamic) {
 		float aRatio = 0.0f, bRatio = 0.0f;
 		WeightRatioCalculation(a->GetPushWeight(), b->GetPushWeight(), aRatio, bRatio);

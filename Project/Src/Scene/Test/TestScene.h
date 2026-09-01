@@ -23,7 +23,7 @@ private:
 	void SubWorldPreUpdate(void)override;
 
 	// UI描画
-	void SubPostUiDraw(void)override;
+	void SubUiDraw(void)override;
 
 	// レール情報を生成する
 	void BuildRail(void);
@@ -35,8 +35,10 @@ private:
 	const char* GetConstraintName(void)const;
 
 	// 操作対象
-	DebugObjectBase* operatorObject;
+	ActorBase* operatorObject;
 
 	// Railモード確認用
 	MovementRail testRail;
+
+	void CreateCamera(void)override;
 };

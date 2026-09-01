@@ -32,21 +32,17 @@ public:
 	~BoxDebugObject()override = default;
 
 	void Load(void)override {
-		ColliderCreate(new BoxCollider(COLLIDER_TAG::DEBUG_OBJECT, size));
+		ColliderCreate(new BoxCollider(COLLIDER_TAG::DebugObject, size));
 	}
 
 private:
 	Vector3 size;
 
 	void SubDraw(void)override {
-		const Vector3 half = size * 0.5f;
-
 		DrawCube3D(
-			(trans.pos - half).ToVECTOR(),
-			(trans.pos + half).ToVECTOR(),
-			0x55ff88,
-			0xffffff,
-			true
+			(trans.pos - (size * 0.5f)).ToVECTOR(),
+			(trans.pos + (size * 0.5f)).ToVECTOR(),
+			0xffffff, 0xffffff, true
 		);
 	}
 };

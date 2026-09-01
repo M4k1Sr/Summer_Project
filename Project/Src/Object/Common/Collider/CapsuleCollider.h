@@ -11,7 +11,7 @@ public:
 		endPos(localEndPos),
 		radius(radius)
 	{
-		SetShape(SHAPE::Capsule);
+		SetShape(COLLIDER_SHAPE::Capsule);
 	}
 	~CapsuleCollider()override {}
 
