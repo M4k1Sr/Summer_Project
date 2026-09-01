@@ -10,11 +10,16 @@
 #include "../Common/Collider/CapsuleCollider.h"
 
 #include "State/PlayerMoveState.h"
+#include "State/PlayerPunchState.h"
 
 void Player::Load(void)
 {
 	// モデルをロード
 	trans.LoadModel("Player/Player");
+	//UI画像をロード
+	SelectCopyStock = LoadGraph("Data/Image/PlayerUI/SelectCopyStock.png");
+	CopyStock = LoadGraph("Data/Image/PlayerUI/CopyStock.png");
+	SelectImage = LoadGraph("Data/Image/PlayerUI/SelectImage.png");
 
 #pragma region 当たり判定情報設定
 
@@ -44,6 +49,16 @@ void Player::Load(void)
 			velocity.y
 		)
 	);
+	
+	// 攻撃状態を追加
+	AddState(
+		STATE::Punch,
+		new PlayerPunchState(
+			trans.pos
+		)
+	);
+
+	RegisterStateTransition(STATE::Move, STATE::Punch);
 
 #pragma endregion
 }

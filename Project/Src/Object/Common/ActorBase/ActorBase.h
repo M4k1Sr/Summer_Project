@@ -273,7 +273,7 @@ protected:
 		while (diffAngle < -DX_PI_F) { diffAngle += DX_TWO_PI_F; }
 
 		// Å’Z•ûŒü‚É•âŠÔ
-		trans.angle.y += diffAngle * 0.1f;
+		trans.angle.y += diffAngle * 0.4f;
 	}
 
 	// ”h¶æ’Ç‰Á‰Šú‰»

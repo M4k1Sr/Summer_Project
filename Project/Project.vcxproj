@@ -138,6 +138,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Player\State\PlayerPunchState.cpp" />
+    <ClCompile Include="Src\Object\Common\Collider\AttackCollider.cpp" />
+    <ClCompile Include="Src\Object\ColliderOperator\ColliderOperator.cpp" />
     <ClCompile Include="Src\Common\Vector2I.cpp" />
     <ClCompile Include="Src\Manager\Camera\CameraBase.cpp" />
     <ClCompile Include="Src\Manager\Camera\CameraEvent\LookAtCameraEvent\LookAtCameraEvent.cpp" />
@@ -187,6 +190,9 @@
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Player\State\PlayerPunchState.h" />
+    <ClInclude Include="Src\Object\Common\Collider\AttackCollider.h" />
+    <ClInclude Include="Src\Object\ColliderOperator\ColliderOperator.h" />
     <ClInclude Include="Src\Common\Vector2I.h" />
     <ClInclude Include="Src\Manager\Camera\CameraBase.h" />
     <ClInclude Include="Src\Manager\Camera\CameraEvent\CameraEventBase.h" />

@@ -35,7 +35,9 @@ PlayerMoveState::PlayerMoveState(
 
 void PlayerMoveState::OwnStateConditionUpdate(void)
 {
-
+	if (GetMoveDirection() != 0.0f) {
+		OwnChangeState();
+	}
 }
 
 void PlayerMoveState::Update(void)

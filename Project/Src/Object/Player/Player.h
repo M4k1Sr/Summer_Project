@@ -34,6 +34,9 @@ public:
 
 		// 移動状態
 		Move,
+		
+		//攻撃状態
+		Punch,	//パンチ攻撃
 
 		Max
 	};
@@ -42,6 +45,12 @@ private:
 
 	// 初期座標
 	const Vector3 INIT_POS;
+
+	//キャラクターUI画像
+	int SelectCopyStock;
+	int CopyStock;
+	int SelectImage;
+
 
 	void CharacterInit(void) override;
 	void CharacterUpdate(void) override;
