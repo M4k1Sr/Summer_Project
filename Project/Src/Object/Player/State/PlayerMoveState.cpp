@@ -35,7 +35,13 @@ PlayerMoveState::PlayerMoveState(
 
 void PlayerMoveState::OwnStateConditionUpdate(void)
 {
+	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveRight).now ||
+		Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveLeft).now ||
+		Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveFront).now ||
+		Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveBack).now) {
 
+		OwnChangeState();
+	}
 }
 
 void PlayerMoveState::Update(void)
@@ -60,6 +66,7 @@ Vector3 PlayerMoveState::GetMoveDirection(void) const
 		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveLeft).now) { input.x -= 1.0f; }
 		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveFront).now) { input.y += 1.0f; }
 		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveBack).now) { input.y -= 1.0f; }
+
 
 		if (input != 0.0f) { input.Normalize(); }
 	}

@@ -12,6 +12,7 @@
 #include "../../Object/Common/DebugObject/CapsuleDebugObject.h"
 #include "../../Object/Common/DebugObject/FeatureDebugMesh.h"
 
+#include "../../Object/Enemy/NormalSlime/NormalSlime.h"
 #include "../../Object/Player/Player.h"
 
 TestScene::TestScene(void) :
@@ -43,6 +44,9 @@ void TestScene::SubPostLoad(void)
 
 	// MeshCollider・BVH・坂の接地確認用
 	ObjAdd(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
+
+	//仮敵生成
+	ObjAdd(new NormalSlime(Vector3(0, 250, 0)));
 
 	BuildRail();
 }
