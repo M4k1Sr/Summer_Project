@@ -139,7 +139,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Object\Player\State\PlayerPunchState.cpp" />
-    <ClCompile Include="Src\Object\Common\Collider\AttackCollider.cpp" />
     <ClCompile Include="Src\Object\ColliderOperator\ColliderOperator.cpp" />
     <ClCompile Include="Src\Common\Vector2I.cpp" />
     <ClCompile Include="Src\Manager\Camera\CameraBase.cpp" />

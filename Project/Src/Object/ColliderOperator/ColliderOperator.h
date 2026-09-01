@@ -1,24 +1,20 @@
 #pragma once
+#include "../Common/ActorBase/ActorBase.h"
 
-
-
-
-
-class ColliderOperator
+class ColliderOperator :public ActorBase
 {
 public:
 
 	ColliderOperator();
-	~ColliderOperator() = default;
+	~ColliderOperator()override = default;
 
-	void Update(void);
-
-	// UŒ‚ƒf[ƒ^‚ğæ“¾‚·‚é
-	void GetAttackData();
-
+	void Load(void) override;
+	void Update(void)override;
 
 private:
 
 
+
 };
+
 

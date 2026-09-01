@@ -14,6 +14,11 @@ void PlayerPunchState::OwnStateConditionUpdate(void)
 	}
 }
 
+void PlayerPunchState::Enter(void)
+{
+
+}
+
 void PlayerPunchState::Update(void)
 {
 

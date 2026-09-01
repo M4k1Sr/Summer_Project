@@ -49,7 +49,6 @@
     <ClCompile Include="Src\Object\Player\Player.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Object\ColliderOperator\ColliderOperator.cpp" />
-    <ClCompile Include="Src\Object\Common\Collider\AttackCollider.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerPunchState.cpp" />
   </ItemGroup>
   <ItemGroup>

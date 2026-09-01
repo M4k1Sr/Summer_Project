@@ -18,6 +18,9 @@ public:
 	// ©•ª‚Ìó‘Ô‚É‘JˆÚ‚·‚éğŒŠÖ”
 	void OwnStateConditionUpdate(void)override;
 
+	//‰Šú‰»
+	void Enter(void)override;
+
 	// XVˆ—
 	void Update(void);
 

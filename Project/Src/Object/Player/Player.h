@@ -1,5 +1,7 @@
 #pragma once
 #include "../Common/CharacterBase/CharacterBase.h"
+#include "../ColliderOperator/ColliderOperator.h"
+
 
 class Player :
 	public CharacterBase
@@ -50,6 +52,9 @@ private:
 	int SelectCopyStock;
 	int CopyStock;
 	int SelectImage;
+
+	//攻撃コライダーのオペレーター
+	ColliderOperator attackOperator;
 
 
 	void CharacterInit(void) override;

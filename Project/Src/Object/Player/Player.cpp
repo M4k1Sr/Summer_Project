@@ -8,9 +8,13 @@
 #include "../../Scene/Common/GameSpace/GameSpaceController.h"
 
 #include "../Common/Collider/CapsuleCollider.h"
+#include "../Common/Collider/AttackCollider.h"
+
 
 #include "State/PlayerMoveState.h"
 #include "State/PlayerPunchState.h"
+
+
 
 void Player::Load(void)
 {
@@ -32,6 +36,10 @@ void Player::Load(void)
 			GetParameter("Collider", "Radius")
 		)
 	);
+
+	// UŒ‚”»’è‚ğİ’è
+
+
 
 #pragma endregion
 
