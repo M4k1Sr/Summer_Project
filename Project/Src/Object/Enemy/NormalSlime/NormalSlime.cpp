@@ -11,7 +11,7 @@ void NormalSlime::Load(void)
 
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
 	// モデルの角度のズレを設定
-	trans.localAngle.y = Deg2Rad(90.0f);
+	//trans.localAngle.y = Deg2Rad(90.0f);
 	//サイズ設定
 	trans.scale = 1.3f;
 
@@ -35,7 +35,7 @@ void NormalSlime::CharacterInit(void)
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = 3.0f;
 	// 加速最大値を設定
-	ACCEL_MAX = 8.0f;
+	ACCEL_MAX = 7.0f;
 }
 
 void NormalSlime::CharacterUpdate(void)

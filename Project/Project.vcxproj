@@ -138,6 +138,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusAttack.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusWait.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\Cactus.cpp" />
     <ClCompile Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeMoveState.cpp" />
     <ClCompile Include="Src\Object\Enemy\NormalSlime\NormalSlime.cpp" />
     <ClCompile Include="Src\Common\Vector2I.cpp" />
@@ -189,6 +192,9 @@
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusAttack.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusWait.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\Cactus.h" />
     <ClInclude Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeMoveState.h" />
     <ClInclude Include="Src\Object\Enemy\NormalSlime\NormalSlime.h" />
     <ClInclude Include="Src\Common\Vector2I.h" />

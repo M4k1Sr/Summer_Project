@@ -28,6 +28,9 @@ public:
 
 	void Load(void) override;
 
+	//player座標取得関数
+	Vector3 GetPos(void) const { return trans.pos; }
+
 	// プレイヤーの状態
 	enum class STATE {
 		None = -1,

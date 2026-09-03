@@ -50,6 +50,9 @@
     <ClCompile Include="Src\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Object\Enemy\NormalSlime\NormalSlime.cpp" />
     <ClCompile Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeMoveState.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\Cactus.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusWait.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\Application.h" />
@@ -122,5 +125,8 @@
     <ClInclude Include="Src\Object\Player\State\PlayerMoveState.h" />
     <ClInclude Include="Src\Object\Enemy\NormalSlime\NormalSlime.h" />
     <ClInclude Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeMoveState.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\Cactus.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusWait.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusAttack.h" />
   </ItemGroup>
 </Project>
