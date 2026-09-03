@@ -18,6 +18,8 @@
 #include "../../Object/Common/DebugObject/SphereDebugObject.h"
 #include "../../Object/Common/DebugObject/MeshDebugObject.h"
 
+#include "../../Object/Stage/MainStage/FirstStage.h"
+
 GameScene::GameScene() : WorldSceneBase()
 {
 }
@@ -26,22 +28,24 @@ void GameScene::SubPostLoad(void)
 {
 	Snd::GetIns().ChangeScene("Game");
 
-	ObjAdd(new BoxDebugObject(Vector3(2000, 1000, 2000), Vector3::Yonly(-500), false));
+	//ObjAdd(new BoxDebugObject(Vector3(2000, 1000, 2000), Vector3::Yonly(-500), false));
 
-	ObjAdd(new SphereDebugObject(50.0f, Vector3(), true, true, true, 50, true));
+	ObjAdd(new SphereDebugObject(50.0f, Vector3(0,50,0), true, true, true, 50, true));
+
+	ObjAdd(new FirstStage(Vector3(0,0,0)));
 }
 
 void GameScene::SubWorldPostUpdate(void)
 {
-	// ゲーム終了処理
-	if (Input::GetIns().GetInfo(KEY_TYPE::End).down) {
-		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title);
-	}
+	//// ゲーム終了処理
+	//if (Input::GetIns().GetInfo(KEY_TYPE::End).down) {
+	//	SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title);
+	//}
 
-	// 決定
-	if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
-		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
-	}
+	//// 決定
+	//if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
+	//	SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
+	//}
 }
 
 void GameScene::SubUiDraw(void)
