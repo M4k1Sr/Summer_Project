@@ -12,8 +12,27 @@ public:
 
 		//待機状態
 		Wait,
+		Attack,
 
 		Max
+	};
+
+	//サボテンアニメーション
+	enum class ANIM
+	{
+		//待機
+		Wait,
+		//攻撃
+		Attack,
+		//移動
+		Move,
+		//HIT
+		Hit,
+		//死亡
+		Die,
+
+		MAX
+
 	};
 
 	Cactus(
@@ -28,10 +47,16 @@ public:
 
 	void Load(void) override;
 
+	//座標渡し
+	void SetPlayerPos(const Vector3* pos) { playerPos_ = pos; }
+
 private:
 
 	// 初期座標
 	const Vector3 INIT_POS;
+
+	//アニメーションスピード
+	const float animationSpeedTabel_[(int)ANIM::MAX] = { 1.0f,0.5f,1.0f,1.0f,1.0f };
 
 	void CharacterInit(void) override;
 	void CharacterUpdate(void) override;
@@ -40,9 +65,10 @@ private:
 	void CharacterUiDraw(void) override;
 	void CharacterRelease(void) override;
 
-	Vector3 GetMoveDirection(void) const;
-
 	void ResetPos(void) { trans.pos = INIT_POS; }
+
+	//座標参照
+	const Vector3 * playerPos_;
 };
 
 
