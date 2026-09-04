@@ -1,7 +1,10 @@
 #pragma once
+
+#include <map>
+
 #include "../../Common/ActorBase/ActorBase.h"
 
-#include "../../Common/Collider/BoxCollider.h"
+class GrassStageBlock;
 
 class FirstStage
 	: public ActorBase
@@ -9,7 +12,7 @@ class FirstStage
 public:
 
 	// 1タイルのサイズ
-	static constexpr float TILE_SIZE = 50.0f;
+	static constexpr float TILE_SIZE = 80.0f;
 
 	// チップサイズ
 	static constexpr float CHIP_SIZE = 64.0f;
@@ -18,31 +21,17 @@ public:
 	static constexpr int MAP_SIZE_X = 30;
 	static constexpr int MAP_SIZE_Y = 17;
 
-	FirstStage(
-		const Vector3& tilePos = Vector3(),
+	FirstStage() {}
 
-		bool dynamicFlg = true,
-		bool isGravity = false,
-		bool pushFlg = true,
-		unsigned char pushWeight = 50,
-		bool isOperator = false
-	)
-	{
-		SetDynamicFlg(dynamicFlg);
-		SetGravityFlg(isGravity);
-		SetPushFlg(pushFlg);
-		SetPushWeight(pushWeight);
-	}
-		
 	~FirstStage()override = default;
 
 	void Load(void)override;
 
+	// コライダーすべてを取得
+	std::vector<ColliderBase*> GetCollider(void)const;
+
 private:
 
-	// タイルの座標
-	Vector3 tilePos;
-	
 	// マップデータ
 	using MapData = std::vector<std::vector<int>>;
 	MapData mapData;
@@ -54,6 +43,7 @@ private:
 	// 解放
 	void SubRelease(void)override;
 
-	
+	// ブロック配列
+	std::map<int, std::map<int, GrassStageBlock*>> stageBlocks;
 };
 

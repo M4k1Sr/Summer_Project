@@ -4,6 +4,8 @@
 
 #include "FirstStage.h"
 
+#include "../StageBlock/GrassStageBlock.h"
+
 void FirstStage::Load()
 {
 	// CSV読み取り
@@ -29,85 +31,91 @@ void FirstStage::Load()
 		mapData.push_back(row);	// 1行を追加
 	}
 
-	//// オブジェクト配置
-	//for (int y = 0; y < MAP_SIZE_Y; ++y) {
-	//	for (int x = 0; x < MAP_SIZE_X; ++x) {
+	// オブジェクト配置
+	for (int y = 0; y < MAP_SIZE_Y; ++y) {
+		for (int x = 0; x < MAP_SIZE_X; ++x) {
 
-	//		// オブジェクトの種類
-	//		int tileType = mapData[y][x];
+			// オブジェクトの種類
+			int tileType = mapData[y][x];
 
-	//		// 何もない場所(-1)
-	//		if (tileType == -1) continue;
+			// 何もない場所(-1)
+			if (tileType == -1) continue;
 
-	//		// マップ上の座標を計算
-	//		tilePos = Vector3(
-	//			static_cast<float>(x) * TILE_SIZE,
-	//			-static_cast<float>(y) * TILE_SIZE,
-	//			0.0f
-	//		);
+			// マップ上の座標を計算
+			Vector3 tilePos = Vector3(
+				static_cast<float>(x) * TILE_SIZE,
+				-static_cast<float>(y) * TILE_SIZE,
+				0.0f
+			);
 
-	//		// CSV数値に応じてオブジェクトセットアップ
-	//		switch (tileType) {
-	//			case 109:	// 通常の道ステージ(109)
-	//			{
-					// コライダーのサイズ指定
-					Vector3 colliderSize(TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			// CSV数値に応じてオブジェクトセットアップ
+			switch (tileType) {
+				case 109:	// 通常の道ステージ(109)
+				{
+					stageBlocks[y][x] = new GrassStageBlock(tilePos);
+					break;
+				}
+			}
+		}
+	}
 
-					// ★ 対策1: コライダーを中心に配置するために半サイズ分ずらす
-					Vector3 colliderPos = tilePos + Vector3(TILE_SIZE * 0.5f, -TILE_SIZE * 0.5f, 0.0f);
-
-					// コライダー設置
-					ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, colliderSize, colliderPos));
-					//break;
-				//}
-		//	}
-		//}
-	//}
+	// 生成したブロック全ての読み込み処理
+	for (auto& row : stageBlocks) {
+		for (auto& block : row.second) {
+			block.second->Load();
+		}
+	}
 }
 
 void FirstStage::SubInit(void)
 {
-	trans.LoadModel("Stage/StageMapChip/Grass");
-
+	// 生成したブロック全ての初期化処理
+	for (auto& row : stageBlocks) {
+		for (auto& block : row.second) {
+			block.second->Init();
+		}
+	}
 }
 
 void FirstStage::SubDraw(void)
 {
-	//// 対応する箇所を描画
-	//for (size_t y = 0; y < MAP_SIZE_Y; ++y) {
-	//	for (size_t x = 0; x < MAP_SIZE_X; ++x) {
-	//		int tileType = mapData[y][x];
+	// 現在は総呼び出ししているが、
+	// ここで配列番号を使って描画範囲制限を行う
+	// ブロック1つ1つをカメラに映っているか判定するのではなく、
+	// そもそも映っているであろう範囲の配列番号のブロックの処理しか呼び出さないように
 
-	//		// 何もない場所はスキップ
-	//		if (tileType == -1) continue;
-	//		
-	//		// CSV数値に応じてオブジェクト配置
-	//		switch (tileType) {
-	//		case 109:	// 通常の道ステージ(109)
-	//		{
-	//			// マップ上の座標を計算
-	//			tilePos = Vector3(
-	//				static_cast<float>(x) * TILE_SIZE,
-	//				-static_cast<float>(y) * TILE_SIZE,
-	//				0.0f
-	//			);
-
-				// 座標更新
-				trans.pos = tilePos;
-
-				// 描画
-				trans.Draw();
-
-				// デバッグ処理
-				DrawBox(trans.pos.x, trans.pos.y, trans.pos.x + TILE_SIZE, trans.pos.y + TILE_SIZE, GetColor(255, 0, 0), FALSE);
-				//break;
-	//		}
-
-	//		}
-	//	}
-	//}
+	// 生成したブロック全ての描画処理
+	for (auto& row : stageBlocks) {
+		for (auto& block : row.second) {
+			block.second->Draw();
+		}
+	}
 }
 
 void FirstStage::SubRelease(void)
 {
+	// 生成したブロック全ての解放処理
+	for(auto& row : stageBlocks) {
+		for(auto& block : row.second) {
+			block.second->Release();
+			delete block.second;
+			block.second = nullptr;
+		}
+		row.second.clear();
+	}
+	stageBlocks.clear();
+}
+
+std::vector<ColliderBase*> FirstStage::GetCollider(void)const
+{
+	std::vector<ColliderBase*> ret = {};
+
+	// 生成したブロック全てのコライダーを取得する仕様に
+	for(auto& row : stageBlocks) {
+		for(auto& block : row.second) {
+			for (auto& collider : block.second->GetCollider()) { ret.push_back(collider); }
+		}
+	}
+
+	return ret;
 }

@@ -49,6 +49,7 @@
     <ClCompile Include="Src\Object\Player\Player.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Object\Stage\MainStage\FirstStage.cpp" />
+    <ClCompile Include="Src\Object\Stage\StageBlock\GrassStageBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\Application.h" />
@@ -120,5 +121,6 @@
     <ClInclude Include="Src\Object\Player\Player.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerMoveState.h" />
     <ClInclude Include="Src\Object\Stage\MainStage\FirstStage.h" />
+    <ClInclude Include="Src\Object\Stage\StageBlock\GrassStageBlock.h" />
   </ItemGroup>
 </Project>

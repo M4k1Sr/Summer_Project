@@ -32,7 +32,7 @@ void GameScene::SubPostLoad(void)
 
 	ObjAdd(new SphereDebugObject(50.0f, Vector3(0,50,0), true, true, true, 50, true));
 
-	ObjAdd(new FirstStage(Vector3(0,0,0)));
+	ObjAdd(new FirstStage());
 }
 
 void GameScene::SubWorldPostUpdate(void)
