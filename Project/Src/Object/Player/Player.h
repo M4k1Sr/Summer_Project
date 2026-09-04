@@ -17,7 +17,8 @@ public:
 		unsigned char pushWeight
 	) :
 		CharacterBase("Data/Parameter/Player/"),
-		INIT_POS(pos)
+		INIT_POS(pos),
+		attackOperator(std::bind(&Player::ColliderCreate, this, std::placeholders::_1))
 	{
 		trans.pos = INIT_POS;
 		SetDynamicFlg(dynamicFlg);

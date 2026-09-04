@@ -3,6 +3,7 @@
 #include "../../Common/CharacterBase/CharacterStateBase.h"
 
 struct Vector3;
+class ColliderOperator;
 
 class PlayerPunchState : public CharacterStateBase
 {
@@ -11,7 +12,7 @@ public:
 
 
 	PlayerPunchState(
-		const Vector3& playerPos
+		const Vector3& playerPos, const float& angleY, ColliderOperator& colliderOperator
 	);
 	~PlayerPunchState()override = default;
 
@@ -30,7 +31,7 @@ private:
 
 	// プレイヤーの座標
 	const Vector3& playerPos;
-
+	ColliderOperator& colliderOperator;
 
 
 #pragma endregion

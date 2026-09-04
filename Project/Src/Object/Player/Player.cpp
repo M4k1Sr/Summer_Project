@@ -37,8 +37,7 @@ void Player::Load(void)
 		)
 	);
 
-	// UŒ‚”»’è‚ğİ’è
-
+	
 
 
 #pragma endregion
@@ -62,7 +61,9 @@ void Player::Load(void)
 	AddState(
 		STATE::Punch,
 		new PlayerPunchState(
-			trans.pos
+			trans.pos,
+			trans.angle.y,
+			attackOperator
 		)
 	);
 

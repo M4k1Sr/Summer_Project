@@ -1,12 +1,7 @@
 #pragma once
 #include "ColliderBase.h"
 
-struct AttackData
-{
-    int count;  //攻撃判定の個数
-	float duration; //攻撃判定の持続時間
-    int damage; //ダメージ量(基本は１固定)
-};
+
 
 class AttackCollider :
     public ColliderBase
@@ -17,14 +12,8 @@ public:
 
     AttackCollider(
         COLLIDER_TAG type,
-        const Vector3& size,
-        int count,
-        float duration,
-        int damage,
-        const Vector3& pos,
-        const Vector3& angle)
-        : ColliderBase(type, pos, angle),
-        attackData{ count, duration, damage }
+        float radius, const Vector3& pos = Vector3(), const Vector3& angle = Vector3())
+        : ColliderBase(type, pos, angle), radius(radius)
     {
         SetShape(COLLIDER_SHAPE::AttackSphere);
     }
@@ -32,9 +21,6 @@ public:
 
     float GetRadius(void)const { return radius; }
     void SetRadius(float radius) { this->radius = radius; }
-
-	//攻撃データを取得
-	AttackData GetAttackData(void)const { return attackData; }
 
     AABB GetAABB(void) const override {
         Vector3 p = GetPos();
@@ -50,8 +36,6 @@ public:
 private:
 
     float radius;
-
-	AttackData attackData;
     
 };
 

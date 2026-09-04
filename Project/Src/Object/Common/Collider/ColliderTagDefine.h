@@ -26,4 +26,6 @@ enum class COLLIDER_TAG
 	Stage,
 
 	DebugObject,
+
+	Punch,
 };
