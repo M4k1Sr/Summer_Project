@@ -4,6 +4,7 @@
 
 #include "../../Manager/Input/InputManager.h"
 #include "../SceneManager.h"
+#include "../ObjectUseDefine.h"
 
 #include "../../Manager/Camera/GameSpaceFollow/GameSpaceFollowCamera.h"
 
@@ -51,7 +52,12 @@ void TestScene::SubPostLoad(void)
 	//âºìGê∂ê¨
 	ObjAdd(new NormalSlime(Vector3(0, 250, 0)));
 	ObjAdd(new Cactus(Vector3(200, 200, 0)));
+<<<<<<< HEAD
 	ObjAdd(new Thorn(Vector3(600, 200, 0)));
+=======
+	//ÉvÉåÉCÉÑÅ[ç¿ïWìnÇµ
+	ObjSerch<Cactus>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
+>>>>>>> fb29c26942cc23028500bf070d8438c3588e526a
 
 	BuildRail();
 }

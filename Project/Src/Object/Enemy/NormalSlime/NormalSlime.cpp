@@ -9,7 +9,7 @@ void NormalSlime::Load(void)
 	// モデルをロード
 	trans.LoadModel("Enemy/NormalSlime/NormalSlime");
 
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 50.0f));
 	// モデルの角度のズレを設定
 	//trans.localAngle.y = Deg2Rad(90.0f);
 	//サイズ設定

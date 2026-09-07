@@ -40,8 +40,6 @@ private:
 	void CharacterUiDraw(void) override;
 	void CharacterRelease(void) override;
 
-	Vector3 GetMoveDirection(void) const;
-
 	void ResetPos(void) { trans.pos = INIT_POS; }
 };
 

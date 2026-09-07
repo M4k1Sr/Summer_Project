@@ -1,35 +1,39 @@
 #include "CactusWait.h"
-#include "../../../../Object/Player/Player.h"
 
-CactusWait::CactusWait(const Vector3& cactusPos)
-	: cactusPos(cactusPos)
+
+CactusWait::CactusWait(
+	const Vector3& cactusPos,
+	const Vector3*& playerPos,
+	std::function<void(void)> changeStateAttack,
+	std::function<void(void)> playAnimationWait
+
+	)
+	: cactusPos(cactusPos),
+		playerPos_(playerPos),
+	changeStateAttack(changeStateAttack),
+	playAnimationWait(playAnimationWait)
 {
-	player_ = std::make_unique<Player>(
-		Vector3(0.0f,0.0f,0.0f),
-		false, 
-		false, 
-		false, 
-		0);
 }
-
-void CactusWait::OwnStateConditionUpdate(void)
+void CactusWait::Enter()
 {
+	//アニメーションループ再生
+	playAnimationWait();
 }
-
 void CactusWait::Update(void)
 {
-	Vector3 playerPos = player_->GetPos();
 
 	//プレイヤーとのベクトルを取得
-	Vector3 vec = playerPos - cactusPos;
+	Vector3 vec = *playerPos_ - cactusPos;
 	//Y軸方向は移動しない
 	vec.y = 0.0f;
 
 	//距離が近い場合ステートを切り替え
-	if (vec.Length() < 10.0f)
+	if (vec.Length() < 100.0f)
 	{
+<<<<<<< HEAD
 		
+=======
+		changeStateAttack();
+>>>>>>> fb29c26942cc23028500bf070d8438c3588e526a
 	}
-
-
 }
