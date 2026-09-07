@@ -4,7 +4,7 @@
 
 #include "../../Common/ActorBase/ActorBase.h"
 
-class GrassStageBlock;
+class StageBlockBase;
 
 class FirstStage
 	: public ActorBase
@@ -44,6 +44,6 @@ private:
 	void SubRelease(void)override;
 
 	// ブロック配列
-	std::map<int, std::map<int, GrassStageBlock*>> stageBlocks;
+	std::map<int, std::map<int, StageBlockBase*>> stageBlocks;
 };
 

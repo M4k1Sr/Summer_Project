@@ -1,18 +1,15 @@
-#include "GrassStageBlock.h"
+#include "GrassBlock.h"
 
 #include "../../Common/Collider/BoxCollider.h"
 
-GrassStageBlock::GrassStageBlock(const Vector3& pos):
-	ActorBase()
+GrassBlock::GrassBlock(const Vector3& pos):
+	StageBlockBase(STAGE_BLOCK_TAG::Grass, pos,false,false)
 {
 	trans.pos = pos;
 }
 
-void GrassStageBlock::Load(void)
+void GrassBlock::Load(void)
 {
-	SetDynamicFlg(false);
-	SetPushFlg(true);
-
 	trans.LoadModel("Stage/StageMapChip/Grass");
 
 	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(100.0f, 73.242, 100.0f)));

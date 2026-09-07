@@ -4,7 +4,11 @@
 
 #include "FirstStage.h"
 
-#include "../StageBlock/GrassStageBlock.h"
+#include "../StageBlock/GrassBlock.h"
+#include "../StageBlock/DirtBlock.h"
+#include "../StageBlock/DeepGrassBlock.h"
+
+#include "../StageBlock/StageBlockBase.h"
 
 void FirstStage::Load()
 {
@@ -50,9 +54,19 @@ void FirstStage::Load()
 
 			// CSV数値に応じてオブジェクトセットアップ
 			switch (tileType) {
-				case 109:	// 通常の道ステージ(109)
+				case 18:	// 通常の道ステージ(18)
 				{
-					stageBlocks[y][x] = new GrassStageBlock(tilePos);
+					stageBlocks[y][x] = new GrassBlock(tilePos);
+					break;
+				}
+				case 15:		// 土ステージ(15)
+				{
+					stageBlocks[y][x] = new DirtBlock(tilePos);
+					break;
+				}
+				case 0:		// 奥行きのある草ステージ(0)
+				{
+					stageBlocks[y][x] = new DeepGrassBlock(tilePos);
 					break;
 				}
 			}
