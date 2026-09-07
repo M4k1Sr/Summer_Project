@@ -16,6 +16,7 @@
 #include "../../Object/Enemy/NormalSlime/NormalSlime.h"
 #include "../../Object/Enemy/Cactus/Cactus.h"
 #include "../../Object/Enemy/Thorn/Thorn.h"
+#include "../../Object/Enemy/Thorn/Wepon/Icicle.h"
 
 #include "../../Object/Player/Player.h"
 
@@ -40,11 +41,11 @@ void TestScene::SubPostLoad(void)
 	ObjAdd(new BoxDebugObject(Vector3(1800, 100, 1000), Vector3(0, -50, 0), false));
 
 	// 形状別の押し出し確認用オブジェクト
-	ObjAdd(new SphereDebugObject(90, Vector3(-350, 90, 0)));
+	//ObjAdd(new SphereDebugObject(90, Vector3(-350, 90, 0)));
 
-	ObjAdd(new CapsuleDebugObject(Vector3::Yonly(-80), Vector3::Yonly(80), 50.0f, Vector3(-100, 90, 0)));
+	//ObjAdd(new CapsuleDebugObject(Vector3::Yonly(-80), Vector3::Yonly(80), 50.0f, Vector3(-100, 90, 0)));
 
-	ObjAdd(new BoxDebugObject(Vector3(180, 180, 180), Vector3(320, 90, -120)));
+	//ObjAdd(new BoxDebugObject(Vector3(180, 180, 180), Vector3(320, 90, -120)));
 
 	// MeshCollider・BVH・坂の接地確認用
 	ObjAdd(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
@@ -52,12 +53,13 @@ void TestScene::SubPostLoad(void)
 	//仮敵生成
 	ObjAdd(new NormalSlime(Vector3(0, 250, 0)));
 	ObjAdd(new Cactus(Vector3(200, 200, 0)));
-<<<<<<< HEAD
 	ObjAdd(new Thorn(Vector3(600, 200, 0)));
-=======
+
 	//プレイヤー座標渡し
 	ObjSerch<Cactus>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
->>>>>>> fb29c26942cc23028500bf070d8438c3588e526a
+
+	ObjAdd(new Icicle(operatorObject->GetTrans().pos));
+
 
 	BuildRail();
 }

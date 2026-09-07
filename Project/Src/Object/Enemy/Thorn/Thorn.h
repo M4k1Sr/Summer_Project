@@ -54,4 +54,12 @@ private:
 
 	void ResetPos(void) { trans.pos = INIT_POS; }
 
+#pragma region ó‚¯‚Æ‚éQÆ
+
+	//À•WQÆ
+	const Vector3* playerPos;
+
+#pragma endregion
+
+
 };

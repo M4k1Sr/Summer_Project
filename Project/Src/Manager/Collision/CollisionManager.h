@@ -86,6 +86,8 @@ private:
 		// エネミー系にだけ当たるコライダー
 
 		// ステージ系にだけ当たるコライダー
+
+		{ COLLIDER_TAG::Icicle, COLLIDER_GROUP::Enemy },
 	};
 
 

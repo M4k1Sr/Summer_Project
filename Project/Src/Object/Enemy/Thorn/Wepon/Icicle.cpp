@@ -59,6 +59,14 @@ void Icicle::SubUpdate(void)
 
 	case Icicle::STATE::Fall: {
 
+
+		//プレイヤーに当たったら消す
+
+
+		//落下中に何かしらにステージ・敵にあったら消す
+
+
+		//画面外にでたら消す
 		if (trans.pos.y <= -5000.0f) {
 			state = STATE::None;
 

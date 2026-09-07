@@ -12,14 +12,17 @@ void Thorn::Load(void)
 	// モデルをロード
 	trans.LoadModel("Enemy/Thorn/Thorn");
 
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 60.0f));
 	// モデルの角度のズレを設定
 	//trans.localAngle.y = Deg2Rad(90.0f);
 	//サイズ設定
 	trans.scale = 1.3f;
 
-	//Icicle* icicle = new Icicle(プレイヤー座標);
-	//subObjects.emplace_back(icicle);
+	//アニメーションずれ修正
+	trans.centerDiff = Vector3(0.0f, -40.0f, 0.0f) * trans.scale;
+
+	Icicle* icicle = new Icicle(playerPos);
+	subObjects.emplace_back(icicle);
 
 #pragma region 状態初期設定(ステートが追加されるたびに追加する)
 
