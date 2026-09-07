@@ -129,23 +129,29 @@ CharacterStateBase& CharacterBase::GetStateIns(int state)
 
 void CharacterBase::CreateAnimationController(void) { if (anime == nullptr) anime = new AnimationController(trans.model); }
 
-void CharacterBase::AddInFbxAnimation(int inFbxMaxIndex, float speed)
+void CharacterBase::AddInFbxAnimation(int inFbxMaxIndex, float speed, const bool* const loop)
 {
 	for (int index = 0; index < inFbxMaxIndex; index++) {
-		anime->AddInFbx(index, speed, index);
+		anime->AddInFbx(index, speed, (loop != nullptr) ? loop[index] : true, index);
 	}
 }
 
-void CharacterBase::AddInFbxAnimation(int inFbxMaxIndex, const float* speed)
+void CharacterBase::AddInFbxAnimation(int inFbxMaxIndex, const float* const speed, const bool* const loop)
 {
 	for (int index = 0; index < inFbxMaxIndex; index++) {
-		anime->AddInFbx(index, speed[index], index);
+		anime->AddInFbx(index, speed[index], (loop != nullptr) ? loop[index] : true, index);
 	}
 }
 
-void CharacterBase::AddAnimation(int index, float speed, const char* filePath) { anime->Add(index, speed, filePath); }
+void CharacterBase::AddAnimation(int index, float speed, bool loop, const char* filePath)
+{
+	anime->Add(index, speed, loop, filePath);
+}
 
-void CharacterBase::AnimePlay(int type, bool loop) { anime->Play(type, loop); }
+void CharacterBase::AnimePlay(int type, signed char loop)
+{
+	anime->Play(type, loop);
+}
 
 bool CharacterBase::IsAnimeEnd(void) const { return anime->IsAnimEnd(); }
 

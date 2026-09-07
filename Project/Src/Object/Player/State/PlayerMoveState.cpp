@@ -15,6 +15,8 @@ PlayerMoveState::PlayerMoveState(
 	const Vector3& playerPos,
 
 	std::function<void(const Vector3& vec)> playerMoveAccel,
+	std::function<void(void)> playAnimeWalk,
+	std::function<void(void)> playAnimeRun,
 
 	const bool& playerIsGround,
 	float& playerVelocityY
@@ -27,6 +29,8 @@ PlayerMoveState::PlayerMoveState(
 	playerPos(playerPos),
 
 	playerMoveAccel(playerMoveAccel),
+	playAnimeWalk(playAnimeWalk),
+	playAnimeRun(playAnimeRun),
 
 	playerIsGround(playerIsGround),
 	playerVelocityY(playerVelocityY)
@@ -35,9 +39,20 @@ PlayerMoveState::PlayerMoveState(
 
 void PlayerMoveState::OwnStateConditionUpdate(void)
 {
-	if (GetMoveDirection() != 0.0f) {
+	if (
+		GetMoveDirection() != 0.0f ||
+		(Input::GetIns().GetInfo(KEY_TYPE::PlayerJump).down && playerIsGround)
+		) {
 		OwnChangeState();
 	}
+}
+
+void PlayerMoveState::Enter(void)
+{
+	// 非ダッシュ
+	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerDash).now) { playAnimeRun(); }
+	// ダッシュ
+	else { playAnimeWalk(); }
 }
 
 void PlayerMoveState::Update(void)

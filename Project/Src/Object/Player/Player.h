@@ -8,66 +8,99 @@ class Player :
 {
 public:
 
-	Player(
-		const Vector3& pos,
-
-		bool dynamicFlg,
-		bool isGravity,
-		bool pushFlg,
-		unsigned char pushWeight
-	) :
-		CharacterBase("Data/Parameter/Player/"),
-		INIT_POS(pos),
-		attackOperator(std::bind(&Player::ColliderCreate, this, std::placeholders::_1))
-	{
-		trans.pos = INIT_POS;
-		SetDynamicFlg(dynamicFlg);
-		SetGravityFlg(isGravity);
-		SetPushFlg(pushFlg);
-		SetPushWeight(pushWeight);
-	}
-
+	Player();
 	~Player()override = default;
 
-	void Load(void) override;
+	// 読み込み
+	void Load(void)override;
 
-	// プレイヤーの状態
-	enum class STATE {
+	// 当たり判定の通知
+	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
+
+	/// コライダーすべてを取得
+	std::vector<ColliderBase*> GetCollider(void)const override;
+
+private:
+
+	// 状態定義
+	enum class STATE
+	{
 		None = -1,
 
-		// 移動状態
+		Idle,
 		Move,
-		
-		//攻撃状態
-		Punch,	//パンチ攻撃
+		Jump,
+
+		Punch,
 
 		Max
 	};
 
-private:
+#pragma region アニメーション関係定義
 
-	// 初期座標
-	const Vector3 INIT_POS;
+	// アニメーションタイプ定義
+	enum class ANIME_TYPE
+	{
+		None,
 
-	//キャラクターUI画像
-	int SelectCopyStock;
-	int CopyStock;
-	int SelectImage;
+		Idle,
 
-	//攻撃コライダーのオペレーター
-	ColliderOperator attackOperator;
+		Walk,
+
+		Run,
+
+		Punch,
+
+		Max
+	};
+
+	// アニメーション再生速度テーブル
+	float ANIME_SPEED_TABLE[(int)ANIME_TYPE::Max] =
+	{
+		1.0f,
+	};
+
+	// アニメーションループ再生フラグテーブル
+	const bool ANIME_LOOP_TABLE[(int)ANIME_TYPE::Max] =
+	{
+		true,
+	};
+
+#pragma endregion
+
+	// プレイヤーが抱える下位アクター格納配列
+	std::vector<ActorBase*> subObjects;
+
+	// 初期化処理
+	void CharacterInit(void)override;
+
+	// 更新処理
+	void CharacterUpdate(void)override;
+
+	// 描画処理
+	void CharacterDraw(void)override {
+		// 抱える下位アクター全ての描画処理
+		for (ActorBase* subObject : subObjects) { subObject->Draw(); }
+	}
+
+	// 半透明描画処理
+	void CharacterAlphaDraw(void)override {
+		// 抱える下位アクター全ての描画処理
+		for (ActorBase* subObject : subObjects) { subObject->AlphaDraw(); }
+	}
+
+	// 解放処理
+	void CharacterRelease(void)override {
+		// 抱える下位アクター全ての解放処理
+		for (ActorBase*& subObject : subObjects) {
+			subObject->Release();
+			delete subObject;
+			subObject = nullptr;
+		}
+		subObjects.clear();
+	}
 
 
-	void CharacterInit(void) override;
-	void CharacterUpdate(void) override;
-	void CharacterDraw(void) override;
-	void CharacterAlphaDraw(void) override;
-	void CharacterUiDraw(void) override;
-	void CharacterRelease(void) override;
-
-	Vector3 GetMoveDirection(void) const;
-
-	void ResetPos(void) { trans.pos = INIT_POS; }
 };
 
 

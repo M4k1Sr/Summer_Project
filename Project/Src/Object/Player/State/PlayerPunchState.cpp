@@ -2,32 +2,38 @@
 
 #include "../../../Manager/Input/InputManager.h"
 
-#include "../../ColliderOperator/ColliderOperator.h"
+#include "../Wepon/PlayerPunchCollOperator.h"
 
-PlayerPunchState::PlayerPunchState(const Vector3& playerPos, const float& angleY, ColliderOperator& colliderOperator)
-	:playerPos(playerPos), colliderOperator(colliderOperator)
+#include "../../Common/Transform/Transform.h"
+
+
+
+
+PlayerPunchState::PlayerPunchState(
+	float COLL_START_TIME,
+	float COLL_END_TIME,
+
+	PlayerPunchCollOperator& collOperator,
+
+	std::function<void(void)> playAnimeAttack,
+	std::function<float(void)> getAnimeRatio,
+
+	std::function<void(void)> changeStateIdle
+) :
+	COLL_START_TIME(COLL_START_TIME),
+	COLL_END_TIME(COLL_END_TIME),
+
+	collOperator(collOperator),
+
+	playAnimeAttack(playAnimeAttack),
+	getAnimeRatio(getAnimeRatio),
+
+	changeStateIdle(changeStateIdle),
+
+	step()
 {
-
-	// 攻撃判定の生成位置を計算
-	Vector3 forward(
-		sinf(angleY),
-		0.0f,
-		cosf(angleY));
-
-	Vector3 pos =
-		Vector3(20.0f, 100.0f, 0.0f) -
-		forward * -80;
-
-	// 攻撃判定の生成
-	colliderOperator.CreateAttackCollider(
-		COLLIDER_TAG::Punch,
-		30.0f,
-		1,
-		0.5f,
-		1,
-		pos
-	);
 }
+
 
 void PlayerPunchState::OwnStateConditionUpdate(void)
 {
@@ -38,10 +44,76 @@ void PlayerPunchState::OwnStateConditionUpdate(void)
 
 void PlayerPunchState::Enter(void)
 {
+	// ステップを「前隙」へ
+	step = STEP::Startup;
 
+	// 当たり判定を消去
+	collOperator.Off();
+
+	// 攻撃アニメーション再生
+	playAnimeAttack();
 }
 
 void PlayerPunchState::Update(void)
 {
+	// アニメーションの再生割合を取得
+	const float animeRatio = getAnimeRatio();
 
+	// ステップ別更新
+	switch (step) {
+
+	case PlayerPunchState::STEP::Startup: {
+		// 前隙
+
+		// 攻撃判定発生開始
+		if (COLL_START_TIME <= animeRatio) {
+
+			// ステップを「攻撃判定発生中」へ
+			step = STEP::Active;
+
+			// 当たり判定を発生
+			collOperator.On();
+		}
+
+		break;
+	}
+
+	case PlayerPunchState::STEP::Active: {
+		// 攻撃判定発生中
+
+		// 当たり判定を追従
+
+		// 攻撃判定発生終了
+		if (animeRatio <= COLL_END_TIME) {
+
+			// ステップを「後隙」へ
+			step = STEP::Recovery;
+
+			// 当たり判定を消去
+			collOperator.Off();
+		}
+
+		break;
+	}
+
+	case PlayerPunchState::STEP::Recovery: {
+		// 後隙
+
+		// アニメーション再生終了で強制的に待機状態へ
+		if (1.0f <= animeRatio) {
+
+			// 待機状態へ遷移
+			changeStateIdle();
+		}
+
+		break;
+	}
+
+	}
+}
+
+void PlayerPunchState::Exit(void)
+{
+	// 当たり判定を消去
+	collOperator.Off();
 }

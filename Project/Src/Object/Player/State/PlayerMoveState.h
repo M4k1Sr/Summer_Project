@@ -18,6 +18,8 @@ public:
 		const Vector3& playerPos,
 
 		std::function<void(const Vector3& vec)> playerMoveAccel,
+		std::function<void(void)> playAnimeWalk,
+		std::function<void(void)> playAnimeRun,
 
 		const bool& playerIsGround,
 		float& playerVelocityY
@@ -26,9 +28,10 @@ public:
 
 	// 自分の状態に遷移する条件関数
 	void OwnStateConditionUpdate(void)override;
-
+	// 状態遷移後1度行う初期化処理
+	void Enter(void)override;
 	// 更新処理
-	void Update(void);
+	void Update(void)override;
 
 private:
 
@@ -45,6 +48,11 @@ private:
 
 	// 加速移動関数
 	std::function<void(const Vector3& vec)> playerMoveAccel;
+
+	// 歩きアニメーションの再生関数のポインタ
+	const std::function<void(void)> playAnimeWalk;
+	// 走りアニメーションの再生関数のポインタ
+	const std::function<void(void)> playAnimeRun;
 
 	// 接地判定
 	const bool& playerIsGround;

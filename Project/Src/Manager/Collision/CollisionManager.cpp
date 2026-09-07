@@ -611,7 +611,7 @@ void CollisionManager::CheckPairOnce(ColliderBase* a, ColliderBase* b)
 bool CollisionManager::IsHit(ColliderBase* a, ColliderBase* b, CollisionResult& result)
 {
 	// 当たり判定フラグを確認
-	if (!a->GetJudge() || !b->GetJudge()) { return false; }
+	if (!a->GetJudgeFlg() || !b->GetJudgeFlg()) { return false; }
 
 	const COLLIDER_SHAPE aShape = a->GetShape();
 	const COLLIDER_SHAPE bShape = b->GetShape();

@@ -111,7 +111,7 @@ public:
 	bool GetDynamicFlg(void)const;
 
 	// 当たり判定フラグ
-	bool GetJudge(void)const;
+	bool GetJudgeFlg(void)const;
 
 	// 押し出しのフラグ
 	bool GetPushFlg(void)const;
@@ -198,3 +198,4 @@ std::vector<T*> ColliderSerch(std::vector<ColliderBase*> collider, COLLIDER_TAG 
 	}
 	return out;
 }
+
