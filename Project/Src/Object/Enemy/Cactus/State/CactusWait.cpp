@@ -28,7 +28,7 @@ void CactusWait::Update(void)
 	//距離が近い場合ステートを切り替え
 	if (vec.Length() < 10.0f)
 	{
-		ChangeState
+		
 	}
 
 

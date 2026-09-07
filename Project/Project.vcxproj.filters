@@ -53,6 +53,9 @@
     <ClCompile Include="Src\Object\Enemy\Cactus\Cactus.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusWait.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusAttack.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\Thorn.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornAttack.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\Wepon\Icicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\Application.h" />
@@ -128,5 +131,8 @@
     <ClInclude Include="Src\Object\Enemy\Cactus\Cactus.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusWait.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusAttack.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\Thorn.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornAttack.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\Wepon\Icicle.h" />
   </ItemGroup>
 </Project>

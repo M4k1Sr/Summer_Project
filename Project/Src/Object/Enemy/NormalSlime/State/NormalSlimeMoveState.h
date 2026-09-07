@@ -1,9 +1,9 @@
 #pragma once
 #include "../../../Common/CharacterBase/CharacterStateBase.h"
-
 #include "../../../../Common/Vector3.h"
 
-class NormalSlimeMoveState : public CharacterStateBase
+class NormalSlimeMoveState 
+	: public CharacterStateBase
 { 
 public:
 

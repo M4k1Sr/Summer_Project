@@ -14,6 +14,8 @@
 
 #include "../../Object/Enemy/NormalSlime/NormalSlime.h"
 #include "../../Object/Enemy/Cactus/Cactus.h"
+#include "../../Object/Enemy/Thorn/Thorn.h"
+
 #include "../../Object/Player/Player.h"
 
 TestScene::TestScene(void) :
@@ -49,6 +51,7 @@ void TestScene::SubPostLoad(void)
 	//âºìGê∂ê¨
 	ObjAdd(new NormalSlime(Vector3(0, 250, 0)));
 	ObjAdd(new Cactus(Vector3(200, 200, 0)));
+	ObjAdd(new Thorn(Vector3(600, 200, 0)));
 
 	BuildRail();
 }
