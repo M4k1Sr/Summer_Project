@@ -17,9 +17,6 @@ public:
 	// 当たり判定の通知
 	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
 
-	/// コライダーすべてを取得
-	std::vector<ColliderBase*> GetCollider(void)const override;
-
 private:
 
 	// 状態定義
@@ -60,7 +57,7 @@ private:
 		0.5f,
 		0.5f,
 		0.5f,
-		0.5f,
+		0.75f,
 	};
 
 	// アニメーションループ再生フラグテーブル
@@ -74,31 +71,11 @@ private:
 
 #pragma endregion
 
-	// プレイヤーが抱える下位アクター格納配列
-	std::vector<ActorBase*> subObjects;
-
 	// 初期化処理
 	void SubInit(void)override;
 
 	// 更新処理
 	void SubUpdate(void)override;
-
-	// 描画処理
-	void SubDraw(void)override {
-		// 抱える下位アクター全ての描画処理
-		for (ActorBase* subObject : subObjects) { subObject->Draw(); }
-	}
-
-	// 解放処理
-	void SubRelease(void)override {
-		// 抱える下位アクター全ての解放処理
-		for (ActorBase*& subObject : subObjects) {
-			subObject->Release();
-			delete subObject;
-			subObject = nullptr;
-		}
-		subObjects.clear();
-	}
 };
 
 

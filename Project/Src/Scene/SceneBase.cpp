@@ -124,7 +124,7 @@ void SceneBase::Draw(void)
 	ActorsDraw(actors, ACTOR_DRAW_TYPE::Alpha);
 	SubAlphaDraw();
 
-	ActorsColliderDebugDraw(actors);
+	ActorsColliderDebugDraw();
 
 	// デバッグ用チャンク描画
 	if (collision != nullptr && camera != nullptr) { collision->DrawChunkGrid(camera->GetPos()); }
@@ -201,7 +201,7 @@ void SceneBase::ObjAdd(ActorBase* newObj)
 	newObj->Load();
 
 	// Actorが持つコライダーをCollisionManagerへ登録
-	if (collision != nullptr) { collision->Add(newObj->GetCollider()); }
+	if (collision != nullptr) { collision->Add(newObj->GetColliders()); }
 
 	// Actorをシーンの所有リストへ追加する
 	actors.emplace_back(newObj);
@@ -226,13 +226,9 @@ void SceneBase::ActorsDraw(const std::vector<ActorBase*>& actors, ACTOR_DRAW_TYP
 	}
 }
 
-void SceneBase::ActorsColliderDebugDraw(const std::vector<ActorBase*>& actors)
+void SceneBase::ActorsColliderDebugDraw(void)
 {
 	if (!App::GetIns().IsDrawDebug()) { return; }
 
-	for (ActorBase* actor : actors) {
-		actor->DrawColliderDebug();
-
-		ActorsColliderDebugDraw(actor->GetChildActors());
-	}
+	for (ActorBase* actor : actors) { actor->DrawColliderDebug(); }
 }

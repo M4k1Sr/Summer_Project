@@ -163,9 +163,22 @@ void ActorBase::Release(void)
 	trans.Release();
 }
 
+std::vector<ColliderBase*> ActorBase::GetColliders(void)const
+{
+	std::vector<ColliderBase*> ret = {};
+
+	for (ColliderBase* collider : colliders) { ret.emplace_back(collider); }
+
+	for(ActorBase* child : childActors) {
+		for (ColliderBase* collider : child->GetColliders()) { ret.emplace_back(collider); }
+	}
+
+	return ret;
+}
+
 void ActorBase::DrawColliderDebug(void) const
 {
-	for (ColliderBase* collider : colliders) {
+	for (ColliderBase* collider : GetColliders()) {
 		if (collider->GetJudgeFlg()) collider->DrawDebug();
 	}
 }
@@ -350,5 +363,5 @@ void ActorBase::MoveAccel(const Vector3& vec)
 	while (diffAngle < -DX_PI_F) { diffAngle += DX_TWO_PI_F; }
 
 	// Å’Z•ûŒü‚É•âŠÔ
-	trans.angle.y += (diffAngle * 0.25f) * TimeScale::Get();
+	trans.angle.y += (diffAngle * 0.5f) * TimeScale::Get();
 }

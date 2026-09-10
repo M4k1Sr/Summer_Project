@@ -135,7 +135,7 @@ private:
 	// アクター描画関数
 	void ActorsDraw(const std::vector<ActorBase*>& actors, ACTOR_DRAW_TYPE drawType);
 
-	void ActorsColliderDebugDraw(const std::vector<ActorBase*>& actors);
+	void ActorsColliderDebugDraw(void);
 
 #pragma endregion
 

@@ -80,7 +80,7 @@ public:
 	/// <summary>
 	/// コライダーすべてを取得
 	/// </summary>
-	virtual std::vector<ColliderBase*> GetCollider(void)const { return colliders; }
+	virtual std::vector<ColliderBase*> GetColliders(void)const;
 
 	// コライダーのデバッグ描画
 	void DrawColliderDebug(void)const;

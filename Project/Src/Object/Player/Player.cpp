@@ -19,9 +19,7 @@
 
 
 Player::Player()
-	: CharacterBase("Data/Parameter/Player/"),
-
-	subObjects()
+	: CharacterBase("Data/Parameter/Player/")
 {
 }
 
@@ -91,11 +89,9 @@ void Player::Load(void)
 
 	// 攻撃当たり判定管理クラス
 	PlayerPunchCollOperator* punchCollOperator =
-		new PlayerPunchCollOperator(0.0f, Vector3(0, 70, 100), trans);
+		new PlayerPunchCollOperator(60.0f, Vector3(0, 0, 100), trans);
 
-	subObjects.emplace_back(punchCollOperator);
-
-	for (ActorBase* subObect : subObjects) { subObect->Load(); }
+	AddChildActor(punchCollOperator);
 #pragma endregion
 
 
@@ -141,7 +137,7 @@ void Player::Load(void)
 	AddState(
 		STATE::Punch,
 		new PlayerPunchState(
-			0.9f, 1.0f,
+			0.4f, 0.5f,
 			*punchCollOperator,
 			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
 			[&]() { return GetAnimeRatio(); },
@@ -181,9 +177,6 @@ void Player::SubInit(void) {
 	ChangeState(STATE::Move);
 	// 待機状態に遷移
 	ChangeState(STATE::Idle);
-
-	// 抱える下位アクター全ての初期化処理
-	for (ActorBase* subObject : subObjects) { subObject->Update(); }
 }
 
 // 更新処理
@@ -195,24 +188,9 @@ void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_C) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::Rail); }
 
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
-	// 抱える下位アクター全ての更新処理
-	for (ActorBase* subObject : subObjects) { subObject->Update(); }
 }
 
 
 void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
-}
-
-std::vector<ColliderBase*> Player::GetCollider(void) const
-{
-	std::vector<ColliderBase*> ret = {};
-
-	for (ColliderBase* collider : ActorBase::GetCollider()) { ret.emplace_back(collider); }
-
-	for (ActorBase* subObject : subObjects) {
-		for (ColliderBase* collider : subObject->GetCollider()) { ret.emplace_back(collider); }
-	}
-
-	return ret;
 }
