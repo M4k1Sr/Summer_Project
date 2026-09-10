@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Manager\TimeScale\TimeScale.h" />
+    <ClInclude Include="Src\Object\Common\ActorBase\ActorDrawTypeDefine.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerIdleState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerJumpState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerPunchState.h" />

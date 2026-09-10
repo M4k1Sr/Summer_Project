@@ -131,5 +131,6 @@
     <ClInclude Include="Src\Object\Player\State\PlayerJumpState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\PlayerPunchCollOperator.h" />
     <ClInclude Include="Src\Manager\TimeScale\TimeScale.h" />
+    <ClInclude Include="Src\Object\Common\ActorBase\ActorDrawTypeDefine.h" />
   </ItemGroup>
 </Project>

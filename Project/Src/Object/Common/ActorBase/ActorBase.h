@@ -190,6 +190,12 @@ protected:
 	/// <param name="weight">0 ～ 100 で設定（数値が大きいほど重い）</param>
 	void SetPushWeight(unsigned char weight);
 
+	// 子クラスを追加する
+	void AddChildActor(ActorBase* child) {
+		child->Load();
+		childActors.push_back(child);
+	}
+
 #pragma region パラメーター外部ファイル管理に関する関数
 
 	bool IsParameterExist(const std::string& fileName, const std::string& parameterName)const;
