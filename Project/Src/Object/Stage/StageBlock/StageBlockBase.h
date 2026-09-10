@@ -11,8 +11,9 @@ public:
 	StageBlockBase(
 		STAGE_BLOCK_TAG BlockTag,
 		const Vector3& pos,
-		bool dynamicFlg = false,
-		bool isPushFlg = false
+		bool dynamicFlg,
+		bool isGravity,
+		bool isPushFlg
 		);
 
 	~StageBlockBase()override = default;

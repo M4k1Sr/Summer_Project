@@ -5,7 +5,11 @@
 class DirtBlock : public StageBlockBase
 {
 public:
-	DirtBlock(const Vector3& pos);
+	DirtBlock(const Vector3& pos,
+		bool dynamicFlg,
+		bool isGravity,
+		bool isPushFlg
+	);
 	~DirtBlock()override = default;
 
 	void Load(void)override;

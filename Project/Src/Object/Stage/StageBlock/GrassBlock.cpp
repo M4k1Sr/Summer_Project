@@ -2,8 +2,12 @@
 
 #include "../../Common/Collider/BoxCollider.h"
 
-GrassBlock::GrassBlock(const Vector3& pos):
-	StageBlockBase(STAGE_BLOCK_TAG::Grass, pos,true,true)
+GrassBlock::GrassBlock(const Vector3& pos, 
+	bool dynamicFlg,
+	bool isGravity,
+	bool isPushFlg
+):
+	StageBlockBase(STAGE_BLOCK_TAG::Grass, pos,dynamicFlg,isGravity,isPushFlg)
 {
 	trans.pos = pos;
 }

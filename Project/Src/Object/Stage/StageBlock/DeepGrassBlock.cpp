@@ -2,8 +2,11 @@
 
 #include "../../Common/Collider/BoxCollider.h"
 
-DeepGrassBlock::DeepGrassBlock(const Vector3& pos) :
-	StageBlockBase(STAGE_BLOCK_TAG::DeepGrass, pos, true, true)
+DeepGrassBlock::DeepGrassBlock(const Vector3& pos,
+	bool dynamicFlg, 
+	bool isGravity, 
+	bool isPushFlg) :
+	StageBlockBase(STAGE_BLOCK_TAG::DeepGrass, pos, dynamicFlg, isGravity, isPushFlg)
 {
 	trans.pos = pos;
 }

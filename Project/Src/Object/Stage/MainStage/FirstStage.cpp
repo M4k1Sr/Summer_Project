@@ -56,17 +56,17 @@ void FirstStage::Load()
 			switch (tileType) {
 				case 18:	// 通常の道ステージ(18)
 				{
-					stageBlocks[y][x] = new GrassBlock(tilePos);
+					stageBlocks[y][x] = new GrassBlock(tilePos,false,false,true);
 					break;
 				}
 				case 15:		// 土ステージ(15)
 				{
-					stageBlocks[y][x] = new DirtBlock(tilePos);
+					stageBlocks[y][x] = new DirtBlock(tilePos,false,false,true);
 					break;
 				}
 				case 0:		// 奥行きのある草ステージ(0)
 				{
-					stageBlocks[y][x] = new DeepGrassBlock(tilePos);
+					stageBlocks[y][x] = new DeepGrassBlock(tilePos,false,false,true);
 					break;
 				}
 			}

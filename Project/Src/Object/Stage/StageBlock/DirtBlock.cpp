@@ -2,8 +2,12 @@
 
 #include "../../Common/Collider/BoxCollider.h"
 
-DirtBlock::DirtBlock(const Vector3& pos) :
-	StageBlockBase(STAGE_BLOCK_TAG::Dirt, pos,true, true)
+DirtBlock::DirtBlock(const Vector3& pos,
+	bool dynamicFlg,
+	bool isGravity,
+	bool isPushFlg
+) :
+	StageBlockBase(STAGE_BLOCK_TAG::Dirt, pos,dynamicFlg,isGravity, isPushFlg)
 {
 	trans.pos = pos;
 }
