@@ -143,7 +143,7 @@ void Player::Load(void)
 		new PlayerPunchState(
 			0.9f, 1.0f,
 			*punchCollOperator,
-			[&]() { AnimePlay(ANIME_TYPE::Punch); },
+			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
 		)
@@ -170,7 +170,7 @@ void Player::Load(void)
 // 初期化処理
 void Player::CharacterInit(void) {
 	// モデルの角度のズレを設定
-	trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
+	//trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = 3.0f;

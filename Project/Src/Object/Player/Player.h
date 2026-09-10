@@ -41,7 +41,7 @@ private:
 	// アニメーションタイプ定義
 	enum class ANIME_TYPE
 	{
-		None,
+		None = -1,
 
 		Idle,
 
@@ -57,13 +57,19 @@ private:
 	// アニメーション再生速度テーブル
 	float ANIME_SPEED_TABLE[(int)ANIME_TYPE::Max] =
 	{
-		1.0f,
+		0.5f,
+		0.5f,
+		0.5f,
+		0.5f,
 	};
 
 	// アニメーションループ再生フラグテーブル
 	const bool ANIME_LOOP_TABLE[(int)ANIME_TYPE::Max] =
 	{
 		true,
+		true,
+		true,
+		false,
 	};
 
 #pragma endregion
