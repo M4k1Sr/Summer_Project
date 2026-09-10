@@ -168,7 +168,7 @@ void Player::Load(void)
 }
 
 // 初期化処理
-void Player::CharacterInit(void) {
+void Player::SubInit(void) {
 	// モデルの角度のズレを設定
 	//trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 
@@ -187,7 +187,7 @@ void Player::CharacterInit(void) {
 }
 
 // 更新処理
-void Player::CharacterUpdate(void) {
+void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_Z) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault); }
 
 	if (CheckHitKey(KEY_INPUT_X) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane); }

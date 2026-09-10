@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Manager\TimeScale\TimeScale.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerIdleState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerJumpState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerPunchState.cpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Manager\TimeScale\TimeScale.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerIdleState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerJumpState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerPunchState.h" />
@@ -258,7 +260,7 @@
     <ClInclude Include="Src\Scene\GameOver\GameOverScene.h" />
     <ClInclude Include="Src\Scene\Game\GameScene.h" />
     <ClInclude Include="Src\Scene\Common\GameDebugScene.h" />
-    <ClInclude Include="Src\Scene\ObjectUseDefine.h" />
+    <ClInclude Include="Src\Scene\ActorUseDefine.h" />
     <ClInclude Include="Src\Scene\SceneBase.h" />
     <ClInclude Include="Src\Scene\Common\Fade\FadeDefine.h" />
     <ClInclude Include="Src\Scene\Common\Fade\FadeSceneBase.h" />

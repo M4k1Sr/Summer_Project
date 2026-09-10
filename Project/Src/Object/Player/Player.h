@@ -78,25 +78,19 @@ private:
 	std::vector<ActorBase*> subObjects;
 
 	// 初期化処理
-	void CharacterInit(void)override;
+	void SubInit(void)override;
 
 	// 更新処理
-	void CharacterUpdate(void)override;
+	void SubUpdate(void)override;
 
 	// 描画処理
-	void CharacterDraw(void)override {
+	void SubDraw(void)override {
 		// 抱える下位アクター全ての描画処理
 		for (ActorBase* subObject : subObjects) { subObject->Draw(); }
 	}
 
-	// 半透明描画処理
-	void CharacterAlphaDraw(void)override {
-		// 抱える下位アクター全ての描画処理
-		for (ActorBase* subObject : subObjects) { subObject->AlphaDraw(); }
-	}
-
 	// 解放処理
-	void CharacterRelease(void)override {
+	void SubRelease(void)override {
 		// 抱える下位アクター全ての解放処理
 		for (ActorBase*& subObject : subObjects) {
 			subObject->Release();
@@ -105,8 +99,6 @@ private:
 		}
 		subObjects.clear();
 	}
-
-
 };
 
 

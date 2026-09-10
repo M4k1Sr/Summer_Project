@@ -48,7 +48,6 @@ private:
 	void SubInit(void)override;
 	void SubUpdate(void)override {}
 	void SubDraw(void)override {}
-	void SubAlphaDraw(void)override {}
 	void SubRelease(void)override {}
 
 	// ‹óŠÔ•ÏX‚ğÀs‚·‚é

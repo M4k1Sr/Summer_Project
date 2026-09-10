@@ -8,6 +8,8 @@
 
 #include "../Collider/ColliderTagDefine.h"
 
+#include "ActorDrawTypeDefine.h"
+
 #include "../../../Scene/Common/GameSpace/SpaceDefine.h"
 
 class ColliderBase;
@@ -32,8 +34,6 @@ public:
 	virtual void Init(void);
 	virtual void Update(void);
 	virtual void Draw(void);
-	virtual void AlphaDraw(void);
-	virtual void UiDraw(void) {}
 	virtual void Release(void);
 
 	// モデルを複製する
@@ -80,7 +80,16 @@ public:
 	/// <summary>
 	/// コライダーすべてを取得
 	/// </summary>
-	virtual std::vector<ColliderBase*> GetCollider(void)const { return collider; }
+	virtual std::vector<ColliderBase*> GetCollider(void)const { return colliders; }
+
+	// コライダーのデバッグ描画
+	void DrawColliderDebug(void)const;
+
+	// 描画タイプを取得
+	const ACTOR_DRAW_TYPE& GetDrawType(void)const { return drawType; }
+
+	// 子クラスを取得する
+	const std::vector<ActorBase*>& GetChildActors(void)const { return childActors; }
 
 	/// <summary>
 	/// 当たり判定フラグの取得
@@ -93,7 +102,7 @@ public:
 
 private:
 	// 当たり判定情報
-	std::vector<ColliderBase*> collider;
+	std::vector<ColliderBase*> colliders;
 
 	// 動的オブジェクトか否か（true = 動的、false = 静的）
 	bool dynamicFlg;
@@ -123,12 +132,15 @@ private:
 	// 描画判定 （true = 「描画する」、false = 「描画しない」）
 	bool isDraw;
 
-	// アルファ判定（true = 「メインの描画にアルファをかける」、false = 「メインの描画を普通に描画する」）（メインの描画 = 基底クラスで自動で描画されるモデルなど）
-	bool isAlphaDraw;
+	// 描画タイプ（通常描画、アルファ描画、UI描画など）
+	ACTOR_DRAW_TYPE drawType;
 
 	// WorldSceneBaseが所有する空間制約管理への非所有参照
 	const GameSpaceController* gameSpace;
 	SPACE_CONSTRAINT spaceConstraint;
+
+	// 子クラス
+	std::vector<ActorBase*> childActors;
 
 	// パラメーター外部ファイル管理クラス
 	ParameterLoad* parameter;
@@ -243,38 +255,11 @@ protected:
 	// 描画判定の設定（引数省略で現在の逆にスイッチ）
 	void SetIsDraw(void) { isDraw = !isDraw; }
 
-	// アルファ判定（true = 「メインの描画にアルファをかける」、false = 「メインの描画を普通に描画する」）（メインの描画 = 基底クラスで自動で描画されるモデルなど）
-	bool GetIsAlphaDraw(void)const { return isAlphaDraw; }
-
-	// アルファ判定の設定（true = 「メインの描画にアルファをかける」、false = 「メインの描画を普通に描画する」）（メインの描画 = 基底クラスで自動で描画されるモデルなど）
-	void SetIsAlphaDraw(bool flg) { isAlphaDraw = flg; }
-	// アルファ判定の設定（引数省略で現在の逆にスイッチ）
-	void SetIsAlphaDraw(void) { isAlphaDraw = !isAlphaDraw; }
+	// 描画タイプの設定
+	void SetDrawType(const ACTOR_DRAW_TYPE& type) { drawType = type; }
 
 	// 指定の方向に向かって加速度を用いて移動する
-	void MoveAccel(const Vector3& vec) {
-
-		if (vec == 0.0f) { return; }
-
-		// 単位ベクトルを取得
-		Vector3 unitVector = vec.Normalized();
-
-		// 加速
-		velocity += unitVector * ACCEL_RATE;
-
-		// 目標角度
-		float targetAngle = atan2f(unitVector.x, unitVector.z);
-
-		// 現在角度から目標角度までの角度差
-		float diffAngle = targetAngle - trans.angle.y;
-
-		// -π ～ +π に正規化して最短方向を求める
-		while (diffAngle > DX_PI_F) { diffAngle -= DX_TWO_PI_F; }
-		while (diffAngle < -DX_PI_F) { diffAngle += DX_TWO_PI_F; }
-
-		// 最短方向に補間
-		trans.angle.y += diffAngle * 0.4f;
-	}
+	void MoveAccel(const Vector3& vec);
 
 	// 派生先追加初期化
 	virtual void SubInit(void) {}
@@ -282,8 +267,13 @@ protected:
 	virtual void SubUpdate(void) {}
 	// 派生先追加描画
 	virtual void SubDraw(void) {}
-	// 派生先追加アルファ描画
-	virtual void SubAlphaDraw(void) {}
 	// 派生先追加解放
 	virtual void SubRelease(void) {}
+
+private:
+	// 中間基底クラス用追加処理
+	virtual void BaseInit(void) {}
+	virtual void BaseUpdate(void) {}
+	virtual void BaseDraw(void) {}
+	virtual void BaseRelease(void) {}
 };

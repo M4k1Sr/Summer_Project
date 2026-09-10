@@ -19,7 +19,7 @@ void WorldSceneBase::SubPreUpdate(void)
 void WorldSceneBase::SubPostUpdate(void)
 {
 	// “–‚½‚è”»’è‚Ì‰Ÿ‚µo‚µŒã‚É•â³‚·‚é‚±‚Æ‚ÅA2D’†‚ÉZ•ûŒü‚Ö‚¸‚ê‚é–â‘è‚ğ–h‚®
-	for (ActorBase* object : objects) {
+	for (ActorBase* object : actors) {
 		if (object != nullptr) { gameSpace.ApplyConstraint(*object); }
 	}
 

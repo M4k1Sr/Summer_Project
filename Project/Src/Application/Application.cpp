@@ -3,6 +3,7 @@
 #include "../pch.h"
 
 #include "../Manager/FPS/FPS.h"
+#include "../Manager/TimeScale/TimeScale.h"
 #include "../Manager/Input/InputManager.h"
 #include "../Manager/Sound/SoundManager.h"
 #include "../Manager/Font/FontManager.h"
@@ -66,6 +67,9 @@ void Application::Init(void)
 	fps = new FPS;
 	fps->Init();
 
+	// 時間倍率管理クラスの生成
+	TimeScale::CreateIns();
+
 	// 入力管理クラスの生成 / 初期化処理
 	Input::CreateIns();
 
@@ -87,6 +91,9 @@ void Application::Run(void)
 	{
 		// フレームレート上限まで経過していないなら再ループさせる
 		if (!fps->UpdateFrameRate()) { continue; }
+
+		// 時間倍率管理クラスの更新
+		TimeScale::GetIns().Update();
 
 		// 入力管理クラスの更新
 		Input::GetIns().Update();
@@ -133,6 +140,9 @@ void Application::Release(void)
 
 	// 入力制御削除
 	Input::DeleteIns();
+
+	// 時間倍率管理クラス削除
+	TimeScale::DeleteIns();
 
 	// フレームレート解放
 	delete fps;

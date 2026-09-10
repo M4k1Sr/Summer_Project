@@ -14,26 +14,16 @@
 #include "../Manager/Collision/CollisionManager.h"
 #include "../Object/Common/ActorBase/ActorBase.h"
 
-int SceneBase::hitStop = 0;
-
-int SceneBase::slow = 0;
-int SceneBase::slowInter = 1;
-int SceneBase::slowCounter = 0;
-
-int SceneBase::shake = 0;
-SceneBase::ShakeKinds SceneBase::shakeKinds = ShakeKinds::DIAG;
-SceneBase::ShakeSize SceneBase::shakeSize = ShakeSize::MEDIUM;
-
 SceneBase::SceneBase(void) :
 
 	state(STATE::Created),
 
-	mainScreen(-1),
+	postEffectScreen(-1),
 
 	camera(nullptr),
 	collision(nullptr),
 
-	objects()
+	actors()
 {
 }
 
@@ -46,8 +36,8 @@ void SceneBase::Load(void)
 	SubPreLoad();
 
 	// 画面揺れを適用するため、一度このスクリーンへ3D描画をまとめる
-	mainScreen = MakeScreen(App::SCREEN_SIZE_X, App::SCREEN_SIZE_Y, true);
-	if (mainScreen < 0) { throw std::runtime_error("SceneBaseのメインスクリーン生成に失敗しました"); }
+	postEffectScreen = MakeScreen(App::SCREEN_SIZE_X, App::SCREEN_SIZE_Y, true);
+	if (postEffectScreen < 0) { throw std::runtime_error("SceneBaseのメインスクリーン生成に失敗しました"); }
 
 	// シーンごとに独立した当たり判定管理クラスを生成する
 	if (UseCollisionManager()) { collision = new CollisionManager(); }
@@ -76,7 +66,7 @@ void SceneBase::Init(void)
 	if (camera != nullptr) { camera->Init(); }
 
 	// シーンが所有するActorをすべて初期化する
-	for (ActorBase* obj : objects) { obj->Init(); }
+	for (ActorBase* obj : actors) { obj->Init(); }
 
 	// 派生先の初期化（後）
 	SubPostInit();
@@ -92,13 +82,10 @@ void SceneBase::Update(void)
 	// 入力判定やシーン固有の事前処理
 	SubPreUpdate();
 
-	// ヒットストップ・スローによりゲーム本体を更新しないフレーム
-	if (!IsUpdateFrame()) { return; }
-
 	// カメラ情報をDxLibへ反映
 	if (camera != nullptr) { camera->Apply(); }
 	// オブジェクト全ての更新処理
-	for (ActorBase* obj : objects) { obj->Update(); }
+	for (ActorBase* obj : actors) { obj->Update(); }
 
 	// 当たり判定更新
 	if (collision != nullptr) { collision->Check(); }
@@ -112,12 +99,11 @@ void SceneBase::Update(void)
 
 void SceneBase::Draw(void)
 {
-	if (state != STATE::Initialized || mainScreen < 0) { return; }
+	if (state != STATE::Initialized || postEffectScreen < 0) { return; }
 
 #pragma region 画面揺れ用スクリーンへ描画
 
-	// 3D部分を一度mainScreenへ描画する
-	SetDrawScreen(mainScreen);
+	SetDrawScreen(postEffectScreen);
 	ClearDrawScreen();
 
 	// カメラ情報をDxLibへ反映
@@ -130,13 +116,15 @@ void SceneBase::Draw(void)
 
 	// 通常描画
 	SubPreDraw();
-	for (ActorBase* obj : objects) { obj->Draw(); }
+	ActorsDraw(actors, ACTOR_DRAW_TYPE::Normal);
 	SubPostDraw();
 
 	// 半透明描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-	for (ActorBase* obj : objects) { obj->AlphaDraw(); }
+	ActorsDraw(actors, ACTOR_DRAW_TYPE::Alpha);
 	SubAlphaDraw();
+
+	ActorsColliderDebugDraw(actors);
 
 	// デバッグ用チャンク描画
 	if (collision != nullptr && camera != nullptr) { collision->DrawChunkGrid(camera->GetPos()); }
@@ -145,23 +133,13 @@ void SceneBase::Draw(void)
 
 #pragma endregion
 
-#pragma region mainScreenを画面へ転送
-
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// 描画座標
-	const Vector2I shakePoint = GetShakePoint();
-	// 画面が揺れている場合は、画面端に黒い線が出ないように裏にもう1枚描画する
-	if (shakePoint != 0) { DrawGraph(0, 0, mainScreen, true); }
-	// 画面揺れを反映してmainScreenを描画する
-	DrawGraph(shakePoint.x, shakePoint.y, mainScreen, true);
-
-#pragma endregion
+	DrawGraph(0, 0, postEffectScreen, true);
 
 #pragma region UI描画
 
-	// UIは画面揺れの影響を受けないよう、mainScreen転送後に描画する
-	for (ActorBase* obj : objects) { obj->UiDraw(); }
+	ActorsDraw(actors, ACTOR_DRAW_TYPE::Ui);
 	SubUiDraw();
 
 	if (camera != nullptr) { camera->DrawDebug(); }
@@ -178,12 +156,12 @@ void SceneBase::Release(void)
 	SubPreRelease();
 
 	// 全てのオブジェクトを解放
-	for (ActorBase*& obj : objects) {
+	for (ActorBase*& obj : actors) {
 		obj->Release();
 		delete obj;
 		obj = nullptr;
 	}
-	objects.clear();
+	actors.clear();
 
 	// 当たり判定管理解放
 	if (collision != nullptr) {
@@ -200,9 +178,9 @@ void SceneBase::Release(void)
 	}
 
 	// 画面演出用のスクリーン解放
-	if (mainScreen >= 0) {
-		DeleteGraph(mainScreen);
-		mainScreen = -1;
+	if (postEffectScreen >= 0) {
+		DeleteGraph(postEffectScreen);
+		postEffectScreen = -1;
 	}
 
 	// 派生先の解放（後）
@@ -226,7 +204,7 @@ void SceneBase::ObjAdd(ActorBase* newObj)
 	if (collision != nullptr) { collision->Add(newObj->GetCollider()); }
 
 	// Actorをシーンの所有リストへ追加する
-	objects.emplace_back(newObj);
+	actors.emplace_back(newObj);
 
 	// 派生Scene固有の追加後処理
 	SubPostObjectAdd(*newObj);
@@ -239,89 +217,22 @@ void SceneBase::ObjAdd(ActorBase* newObj)
 	}
 }
 
-void SceneBase::HitStop(int time)
+void SceneBase::ActorsDraw(const std::vector<ActorBase*>& actors, ACTOR_DRAW_TYPE drawType)
 {
-	hitStop = (std::max)(0, time);
+	for (ActorBase* actor : actors) {
+		if (actor->GetDrawType() == drawType) { actor->Draw(); }
+
+		ActorsDraw(actor->GetChildActors(), drawType);
+	}
 }
 
-void SceneBase::Slow(int time, int inter)
+void SceneBase::ActorsColliderDebugDraw(const std::vector<ActorBase*>& actors)
 {
-	slow = (std::max)(0, time);
-	slowInter = (std::max)(1, inter);
-	slowCounter = 0;
-}
+	if (!App::GetIns().IsDrawDebug()) { return; }
 
-void SceneBase::Shake(ShakeKinds kinds, ShakeSize size, int time)
-{
-	// 短時間に何度も同じ揺れが来た場合、毎フレーム最初からやり直さないようにする
-	if (std::abs(shake - time) > 10 || shake <= 0)
-	{
-		shake = (std::max)(0, time);
+	for (ActorBase* actor : actors) {
+		actor->DrawColliderDebug();
+
+		ActorsColliderDebugDraw(actor->GetChildActors());
 	}
-
-	shakeKinds = kinds;
-	shakeSize = size;
-}
-
-bool SceneBase::IsUpdateFrame(void)
-{
-	// ヒットストップ中はActor / Collision / Cameraの更新を止める
-	if (hitStop > 0)
-	{
-		hitStop--;
-		return false;
-	}
-
-	// スロー中は指定間隔に1回だけ更新する
-	if (slow > 0)
-	{
-		slow--;
-		slowCounter = (slowCounter + 1) % slowInter;
-		return slowCounter == 0;
-	}
-
-	return true;
-}
-
-Vector2I SceneBase::GetShakePoint(void)
-{
-	Vector2I ret = {};
-
-	if (shake <= 0) { return ret; }
-
-	// 5フレームごとに正負を反転させる
-	const int direction = ((shake / 5) % 2) * 2 - 1;
-	const int power = static_cast<int>(shakeSize);
-
-	switch (shakeKinds)
-	{
-	case ShakeKinds::WID:
-		ret.x = direction * power;
-		break;
-
-	case ShakeKinds::HIG:
-		ret.y = direction * power;
-		break;
-
-	case ShakeKinds::DIAG:
-		ret.x = direction * power;
-		ret.y = direction * power;
-		break;
-
-	case ShakeKinds::ROUND:
-	{
-		// DxLibの三角関数はラジアンを使用する
-		const float angle = static_cast<float>((shake % 12) * 30) * DX_PI_F / 180.0f;
-		const float radius = static_cast<float>(power) * 1.5f;
-
-		ret.x = static_cast<int>(radius * std::cos(angle));
-		ret.y = static_cast<int>(radius * std::sin(angle));
-		break;
-	}
-	default:
-		break;
-	}
-
-	shake--;
-	return ret;
 }

@@ -28,17 +28,8 @@ CharacterBase::CharacterBase(const std::string& parameterPath):
 {
 }
 
-void CharacterBase::SubInit(void)
+void CharacterBase::BaseUpdate(void)
 {
-	// キャラクター固有の初期化
-	CharacterInit();
-}
-
-void CharacterBase::SubUpdate(void)
-{
-	// キャラクター固有の更新
-	CharacterUpdate();
-
 	// ステート更新
 	if (stateMap.contains(state)) {
 		stateMap.at(state)->OtherStateConditionsUpdate();
@@ -52,23 +43,8 @@ void CharacterBase::SubUpdate(void)
 	if (anime) { anime->Update(); }
 }
 
-void CharacterBase::SubDraw(void)
+void CharacterBase::BaseRelease(void)
 {
-	// キャラクター固有の描画
-	CharacterDraw();
-}
-
-void CharacterBase::SubAlphaDraw(void)
-{
-	// キャラクター固有の描画
-	CharacterAlphaDraw();
-}
-
-void CharacterBase::SubRelease(void)
-{
-	// キャラクター固有の解放
-	CharacterRelease();
-
 	// ステート管理用マップの解放
 	for (auto& s : stateMap) {
 		if (s.second) { delete s.second; s.second = nullptr; }

@@ -12,7 +12,7 @@
 
 #include "../SceneManager.h"
 
-#include "../ObjectUseDefine.h"
+#include "../ActorUseDefine.h"
 
 #include "../../Object/Common/DebugObject/BoxDebugObject.h"
 #include "../../Object/Common/DebugObject/SphereDebugObject.h"
@@ -51,7 +51,7 @@ void GameScene::SubUiDraw(void)
 
 void GameScene::CreateCamera(void)
 {
-	SphereDebugObject* target = ObjSerch<SphereDebugObject>(objects);
+	SphereDebugObject* target = ActorSerch<SphereDebugObject>(actors);
 	if (target == nullptr) { camera = nullptr; return; }
 	camera = new GameSpaceFollowCamera(target->GetTrans(), GetGameSpace());
 }
