@@ -177,11 +177,14 @@
     <ClCompile Include="Src\Object\Player\Player.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\PlayerPunchCollOperator.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Src\Object\Stage\MainStage\FirstStage.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\DeepGrassBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\DirtBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\GrassBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\StageBlockBase.cpp" />
+=======
+>>>>>>> GameDev/DemoStage
     <ClCompile Include="Src\Scene\Common\GameSpace\GameSpaceController.cpp" />
     <ClCompile Include="Src\Scene\Common\GameSpace\MovementRail.cpp" />
     <ClCompile Include="Src\Scene\Common\GameSpace\SpaceChangeTrigger.cpp" />
@@ -252,12 +255,15 @@
     <ClInclude Include="Src\Object\Player\Player.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerMoveState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\PlayerPunchCollOperator.h" />
+<<<<<<< HEAD
     <ClInclude Include="Src\Object\Stage\MainStage\FirstStage.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\DeepGrassBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\DirtBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\GrassBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockBase.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockDefine.h" />
+=======
+>>>>>>> GameDev/DemoStage
     <ClInclude Include="Src\pch.h" />
     <ClInclude Include="Src\Scene\Common\GameSpace\GameSpaceController.h" />
     <ClInclude Include="Src\Scene\Common\GameSpace\MovementRail.h" />

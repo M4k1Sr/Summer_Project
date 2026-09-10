@@ -119,7 +119,7 @@ void ActorBase::AlphaDraw(void)
 
 	// 当たり判定のデバッグ描画
 	if (App::GetIns().IsDrawDebug()) {
-		for (ColliderBase*& c : collider) { if (c->GetJudge()) c->DrawDebug(); }
+		for (ColliderBase*& c : collider) { if (c->GetJudgeFlg()) c->DrawDebug(); }
 	}	
 }
 
@@ -151,7 +151,7 @@ bool ActorBase::GetJudgeFlg(void)
 {
 	for (ColliderBase*& c : collider) {
 		if (!c) { continue; }
-		if (c->GetJudge()) { return true; }
+		if (c->GetJudgeFlg()) { return true; }
 	}
 	return false;
 }

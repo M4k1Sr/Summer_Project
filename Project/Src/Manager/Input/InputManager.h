@@ -53,6 +53,9 @@ public:
 		//	ダッシュ
 		PlayerDash,
 
+		//攻撃
+		PlayerAttack,
+
 #pragma endregion
 
 #pragma region カメラ操作

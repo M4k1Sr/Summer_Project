@@ -88,7 +88,7 @@ SPACE_CONSTRAINT ColliderBase::GetSpaceConstraint(void)const
 
 bool ColliderBase::GetDynamicFlg(void)const { return (dynamicFlg != nullptr) ? *dynamicFlg : true; }
 
-bool ColliderBase::GetJudge(void)const { return judgeFlg; }
+bool ColliderBase::GetJudgeFlg(void)const { return judgeFlg; }
 
 bool ColliderBase::GetPushFlg(void)const { return (pushFlg != nullptr) ? *pushFlg : true; }
 

@@ -50,6 +50,7 @@
     <ClCompile Include="Src\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Object\ColliderOperator\ColliderOperator.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerPunchState.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Src\Object\Player\State\PlayerIdleState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerJumpState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\PlayerPunchCollOperator.cpp" />
@@ -58,6 +59,8 @@
     <ClCompile Include="Src\Object\Stage\StageBlock\DirtBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\GrassBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\StageBlockBase.cpp" />
+=======
+>>>>>>> GameDev/DemoStage
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\Application.h" />
@@ -131,6 +134,7 @@
     <ClInclude Include="Src\Object\ColliderOperator\ColliderOperator.h" />
     <ClInclude Include="Src\Object\Common\Collider\AttackCollider.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerPunchState.h" />
+<<<<<<< HEAD
     <ClInclude Include="Src\Object\Player\State\PlayerIdleState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerJumpState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\PlayerPunchCollOperator.h" />
@@ -140,5 +144,7 @@
     <ClInclude Include="Src\Object\Stage\StageBlock\GrassBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockBase.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockDefine.h" />
+=======
+>>>>>>> GameDev/DemoStage
   </ItemGroup>
 </Project>
