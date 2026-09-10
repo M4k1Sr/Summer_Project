@@ -12,7 +12,7 @@ class FirstStage
 public:
 
 	// 1タイルのサイズ
-	static constexpr float TILE_SIZE = 80.0f;
+	static constexpr float TILE_SIZE = 150.0f;
 
 	// チップサイズ
 	static constexpr float CHIP_SIZE = 64.0f;

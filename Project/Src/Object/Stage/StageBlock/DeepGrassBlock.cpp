@@ -15,5 +15,5 @@ void DeepGrassBlock::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/DeepGrass");
 
-	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(100.0f, 73.242, 100.0f)));
+	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 1700.0f)));
 }
