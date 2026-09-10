@@ -21,8 +21,8 @@ void Thorn::Load(void)
 	//アニメーションずれ修正
 	trans.centerDiff = Vector3(0.0f, -40.0f, 0.0f) * trans.scale;
 
-	Icicle* icicle = new Icicle(playerPos);
-	subObjects.emplace_back(icicle);
+	//Icicle* icicle = new Icicle(playerPos);
+	//subObjects.emplace_back(icicle);
 
 #pragma region 状態初期設定(ステートが追加されるたびに追加する)
 
