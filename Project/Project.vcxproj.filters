@@ -56,7 +56,6 @@
     <ClCompile Include="Src\Object\Stage\MainStage\FirstStage.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\DeepGrassBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\DirtBlock.cpp" />
-    <ClCompile Include="Src\Object\Stage\StageBlock\FirstStage.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\GrassBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\StageBlockBase.cpp" />
   </ItemGroup>
@@ -138,7 +137,6 @@
     <ClInclude Include="Src\Object\Stage\MainStage\FirstStage.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\DeepGrassBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\DirtBlock.h" />
-    <ClInclude Include="Src\Object\Stage\StageBlock\FirstStage.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\GrassBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockBase.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockDefine.h" />
