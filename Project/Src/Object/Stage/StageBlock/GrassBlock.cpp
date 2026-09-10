@@ -3,7 +3,7 @@
 #include "../../Common/Collider/BoxCollider.h"
 
 GrassBlock::GrassBlock(const Vector3& pos):
-	StageBlockBase(STAGE_BLOCK_TAG::Grass, pos,false,false)
+	StageBlockBase(STAGE_BLOCK_TAG::Grass, pos,true,true)
 {
 	trans.pos = pos;
 }

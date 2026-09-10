@@ -3,7 +3,7 @@
 #include "../../Common/Collider/BoxCollider.h"
 
 DirtBlock::DirtBlock(const Vector3& pos) :
-	StageBlockBase(STAGE_BLOCK_TAG::Dirt, pos,false, false)
+	StageBlockBase(STAGE_BLOCK_TAG::Dirt, pos,true, true)
 {
 	trans.pos = pos;
 }

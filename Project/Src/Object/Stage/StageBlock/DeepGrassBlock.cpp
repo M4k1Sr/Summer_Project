@@ -3,7 +3,7 @@
 #include "../../Common/Collider/BoxCollider.h"
 
 DeepGrassBlock::DeepGrassBlock(const Vector3& pos) :
-	StageBlockBase(STAGE_BLOCK_TAG::DeepGrass, pos, false, false)
+	StageBlockBase(STAGE_BLOCK_TAG::DeepGrass, pos, true, true)
 {
 	trans.pos = pos;
 }
