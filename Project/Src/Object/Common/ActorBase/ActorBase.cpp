@@ -196,7 +196,7 @@ void ActorBase::Gravity(void)
 {
 	if (!gravityFlg) { return; }
 
-	velocity.y += GRAVITY;
+	velocity.y += GRAVITY * TimeScale::Get();
 	if (velocity.y < GRAVITY_MAX) { velocity.y = GRAVITY_MAX; }
 }
 
@@ -218,10 +218,10 @@ void ActorBase::VelocityUpdate(bool	deceleration)
 		// Œ¸‘¬ˆ—
 		if (deceleration) {
 			// ‰¡Ž²‚Ì‰Á‘¬“x‚ªŒ¸‘¬‚Ì”¼•ªˆÈ‰º‚Ìê‡‚ÍA‰¡Ž²‚Ì‰Á‘¬“x‚ð0‚É‚·‚é
-			if (widthAccelLen <= DECEL_RATE * 0.5f) { velocity.x = velocity.z = 0.0f; }
+			if (widthAccelLen <= (DECEL_RATE * TimeScale::Get()) * 0.5f) { velocity.x = velocity.z = 0.0f; }
 
 			// Œ¸‘¬
-			scale = (widthAccelLen - DECEL_RATE) / widthAccelLen;
+			scale = (widthAccelLen - (DECEL_RATE * TimeScale::Get())) / widthAccelLen;
 		}
 
 		// Å‘å‰Á‘¬§ŒÀ`````````````````````````````
@@ -237,7 +237,7 @@ void ActorBase::VelocityUpdate(bool	deceleration)
 #pragma endregion
 
 	// ‰Á‘¬“x‚ðÀ•W‚É”½‰f
-	if (velocity != 0.0f) { trans.pos += velocity; }
+	if (velocity != 0.0f) { trans.pos += velocity * TimeScale::Get(); }
 }
 
 void ActorBase::ColliderCreate(ColliderBase* newClass)
