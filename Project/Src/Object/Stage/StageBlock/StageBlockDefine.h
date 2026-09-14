@@ -9,9 +9,7 @@ enum class STAGE_BLOCK_TAG
 
 	Dirt,
 
-	DeepGrass,
-
-	DeepDirt,
+	Wall,
 
 };
 

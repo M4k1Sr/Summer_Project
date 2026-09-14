@@ -6,7 +6,7 @@
 
 #include "../StageBlock/GrassBlock.h"
 #include "../StageBlock/DirtBlock.h"
-#include "../StageBlock/DeepGrassBlock.h"
+#include "../StageBlock/WallBlock.h"
 
 #include "../StageBlock/StageBlockBase.h"
 
@@ -47,26 +47,21 @@ void FirstStage::Load()
 
 			// マップ上の座標を計算
 			Vector3 tilePos = Vector3(
-				static_cast<float>(x) * TILE_SIZE,
-				-static_cast<float>(y) * TILE_SIZE,
+				static_cast<float>(x) * TILE_SIZE_XZ,
+				-static_cast<float>(y) * TILE_SIZE_Y,
 				0.0f
 			);
 
 			// CSV数値に応じてオブジェクトセットアップ
 			switch (tileType) {
-				case 18:	// 通常の道ステージ(18)
+				case 11:	// 通常の道ステージ(11)
 				{
 					stageBlocks[y][x] = new GrassBlock(tilePos,false,false,true);
 					break;
 				}
-				case 15:		// 土ステージ(15)
+				case 0:		// 土ステージ(0)
 				{
 					stageBlocks[y][x] = new DirtBlock(tilePos,false,false,true);
-					break;
-				}
-				case 0:		// 奥行きのある草ステージ(0)
-				{
-					stageBlocks[y][x] = new DeepGrassBlock(tilePos,false,false,true);
 					break;
 				}
 			}
