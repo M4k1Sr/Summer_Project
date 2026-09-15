@@ -67,6 +67,8 @@ public:
 	/// <param name="time">ヒットストップさせる時間</param>
 	void HitStop(unsigned short time = 20) { TemporaryScale(0.0f, time); }
 
+	
+
 #pragma endregion
 	
 private:

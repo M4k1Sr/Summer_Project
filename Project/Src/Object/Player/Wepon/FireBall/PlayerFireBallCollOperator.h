@@ -1,19 +1,19 @@
 #pragma once
 
-#include "../../Common/ActorBase/ActorBase.h"
+#include "../../../Common/ActorBase/ActorBase.h"
 
 class SphereCollider;
 
-class PlayerPunchCollOperator : public ActorBase
+class PlayerFireBallCollOperator : public ActorBase
 {
 public:
-	PlayerPunchCollOperator(
+	PlayerFireBallCollOperator(
 		float COLL_RADIUS,
 		const Vector3& COLL_LOCAL_POS,
 
 		const Transform& playerTrans
 	);
-	~PlayerPunchCollOperator()override = default;
+	~PlayerFireBallCollOperator()override = default;
 
 	void Load(void)override;
 
@@ -29,11 +29,19 @@ private:
 	// 攻撃の判定を発生させる座標（プレイヤー座標からの相対座標）
 	const Vector3 COLL_LOCAL_POS;
 
+	// 飛翔時間（秒）
+	static constexpr float FIREBALL_LIFETIME_MAX = 2.0f; 
+	// 生存タイマー
+	float lifeTimer;                             
+
 	// プレイヤーのモデル制御情報の参照
 	const Transform& playerTrans;
 
 	// 生成するコライダー
 	SphereCollider* attackColl;
+
+	//最初に取得した前方
+	Vector3 front;
 
 	// 更新処理
 	void SubUpdate(void)override;

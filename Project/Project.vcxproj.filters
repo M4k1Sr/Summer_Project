@@ -52,8 +52,10 @@
     <ClCompile Include="Src\Object\Player\State\PlayerPunchState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerIdleState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerJumpState.cpp" />
-    <ClCompile Include="Src\Object\Player\Wepon\PlayerPunchCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Punch\PlayerPunchCollOperator.cpp" />
     <ClCompile Include="Src\Manager\TimeScale\TimeScale.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerFireBallState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\Application.h" />
@@ -129,8 +131,10 @@
     <ClInclude Include="Src\Object\Player\State\PlayerPunchState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerIdleState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerJumpState.h" />
-    <ClInclude Include="Src\Object\Player\Wepon\PlayerPunchCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Punch\PlayerPunchCollOperator.h" />
     <ClInclude Include="Src\Manager\TimeScale\TimeScale.h" />
     <ClInclude Include="Src\Object\Common\ActorBase\ActorDrawTypeDefine.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerFireBallState.h" />
   </ItemGroup>
 </Project>

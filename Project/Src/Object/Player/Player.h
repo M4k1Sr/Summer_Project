@@ -29,6 +29,7 @@ private:
 		Jump,
 
 		Punch,
+		FireBall,
 
 		Max
 	};

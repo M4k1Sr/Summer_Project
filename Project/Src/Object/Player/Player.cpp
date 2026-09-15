@@ -13,8 +13,10 @@
 #include "State/PlayerIdleState.h"
 #include "State/PlayerMoveState.h"
 #include "State/PlayerPunchState.h"
+#include "State/PlayerFireBallState.h"
 
-#include "Wepon/PlayerPunchCollOperator.h"
+#include "Wepon/Punch/PlayerPunchCollOperator.h"
+#include "Wepon/FireBall/PlayerFireBallCollOperator.h"
 
 
 
@@ -92,6 +94,14 @@ void Player::Load(void)
 		new PlayerPunchCollOperator(60.0f, Vector3(0, 0, 100), trans);
 
 	AddChildActor(punchCollOperator);
+
+
+	PlayerFireBallCollOperator* fireBallCollOperator =
+		new PlayerFireBallCollOperator(60.0f, Vector3(0, 0, 100), trans);
+
+	AddChildActor(fireBallCollOperator);
+
+
 #pragma endregion
 
 
@@ -145,6 +155,18 @@ void Player::Load(void)
 		)
 	);
 
+	// 攻撃（ファイアーボール）状態
+	AddState(
+		STATE::FireBall,
+		new PlayerFireBallState(
+			0.4f, 0.5f,
+			*fireBallCollOperator,
+			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
 	// 「待機状態」->「移動状態」の自動遷移登録
 	RegisterStateTransition(STATE::Idle, STATE::Move);
 	// 「移動状態」->「待機状態」の自動遷移登録
@@ -156,9 +178,14 @@ void Player::Load(void)
 	//RegisterStateTransition(STATE::Move, STATE::Jump);
 
 	// 「待機状態」->「攻撃（パンチ）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Idle, STATE::Punch);
-	// 「移動状態」->「攻撃（パンチ）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Move, STATE::Punch);
+	//RegisterStateTransition(STATE::Idle, STATE::Punch);
+	//// 「移動状態」->「攻撃（パンチ）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::Punch);
+
+	// 「待機状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Idle, STATE::FireBall);
+	// 「移動状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::FireBall);
 
 #pragma endregion
 }

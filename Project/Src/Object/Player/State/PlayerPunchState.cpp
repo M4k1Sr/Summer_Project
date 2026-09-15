@@ -2,7 +2,7 @@
 
 #include "../../../Manager/Input/InputManager.h"
 
-#include "../Wepon/PlayerPunchCollOperator.h"
+#include "../Wepon/Punch/PlayerPunchCollOperator.h"
 
 #include "../../Common/Transform/Transform.h"
 
