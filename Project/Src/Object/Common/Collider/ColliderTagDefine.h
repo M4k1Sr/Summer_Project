@@ -28,4 +28,6 @@ enum class COLLIDER_TAG
 	DebugObject,
 
 	Punch,
+
+	Fire,
 };

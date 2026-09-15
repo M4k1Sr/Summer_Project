@@ -13,7 +13,7 @@ PlayerFireBallState::PlayerFireBallState(
 	float COLL_START_TIME,
 	float COLL_END_TIME,
 
-	PlayerFireBallCollOperator& collOperator,
+	const std::vector<PlayerFireBallCollOperator*>& collOperators,
 
 	std::function<void(void)> playAnimeAttack,
 	std::function<float(void)> getAnimeRatio,
@@ -23,7 +23,7 @@ PlayerFireBallState::PlayerFireBallState(
 	COLL_START_TIME(COLL_START_TIME),
 	COLL_END_TIME(COLL_END_TIME),
 
-	collOperator(collOperator),
+	collOperators(collOperators),
 
 	playAnimeAttack(playAnimeAttack),
 	getAnimeRatio(getAnimeRatio),
@@ -48,7 +48,9 @@ void PlayerFireBallState::Enter(void)
 	step = STEP::Startup;
 
 	// 当たり判定を消去
-	collOperator.Off();
+	for (auto* op : collOperators) {
+		if (op) { op->Off(); }
+	}
 
 	// 攻撃アニメーション再生
 	playAnimeAttack();
@@ -72,7 +74,10 @@ void PlayerFireBallState::Update(void)
 			step = STEP::Active;
 
 			// 当たり判定を発生
-			collOperator.On();
+			for (auto* op : collOperators) {
+				
+				op->On();
+			}
 		}
 
 		break;

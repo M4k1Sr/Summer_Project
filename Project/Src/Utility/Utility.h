@@ -12,6 +12,12 @@
 #include "../Common/Vector2I.h"
 #include "../Common/Vector3.h"
 
+//zero
+static constexpr float ZERO = 0.0f;
+
+//半分用
+static constexpr float HALF = 2.0f;
+
 // ラジアン(rad)・度(deg)変換用
 static constexpr float RAD2DEG = (180.0f / DX_PI_F);
 static constexpr float DEG2RAD = (DX_PI_F / 180.0f);

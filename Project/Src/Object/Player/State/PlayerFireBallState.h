@@ -24,7 +24,7 @@ public:
 		float COLL_START_TIME,
 		float COLL_END_TIME,
 
-		PlayerFireBallCollOperator& collOperator,
+		const std::vector<PlayerFireBallCollOperator*>& collOperators,
 
 		std::function<void(void)> playAnimeAttack,
 		std::function<float(void)> getAnimeRatio,
@@ -71,7 +71,7 @@ private:
 #pragma region 受け取る参照変数・関数
 
 	// 攻撃の当たり判定管理クラスの参照
-	PlayerFireBallCollOperator& collOperator;
+	const std::vector<PlayerFireBallCollOperator*> collOperators;
 
 	// 攻撃アニメーションの再生関数のポインタ
 	const std::function<void(void)> playAnimeAttack;

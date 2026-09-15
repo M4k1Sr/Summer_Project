@@ -24,6 +24,9 @@ public:
 	// 判定消去
 	void Off(void);
 
+	//バウンドさせる
+	//void OnGrounded(void)override;
+
 private:
 
 	// 攻撃の判定を発生させる座標（プレイヤー座標からの相対座標）

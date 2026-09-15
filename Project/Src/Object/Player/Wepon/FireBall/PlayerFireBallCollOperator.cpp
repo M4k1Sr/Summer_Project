@@ -12,7 +12,7 @@ PlayerFireBallCollOperator::PlayerFireBallCollOperator(
 
 	playerTrans(playerTrans),
 
-	attackColl(new SphereCollider(COLLIDER_TAG::Punch, COLL_RADIUS)),
+	attackColl(new SphereCollider(COLLIDER_TAG::Fire, COLL_RADIUS)),
 	lifeTimer(0.0f)
 {
 }
@@ -24,11 +24,11 @@ void PlayerFireBallCollOperator::Load(void)
 	// 動的オブジェクトとしての処理を有効にする
 	SetDynamicFlg(true);
 
-	// 重力を無効にする
-	SetGravityFlg(false);
+	// 重力をにする
+	SetGravityFlg(true);
 
-	// 当たり判定による押し出しを無効にする
-	SetPushFlg(false);
+	// 当たり判定による押し出しを有効にする
+	SetPushFlg(true);
 
 #pragma endregion
 
@@ -77,7 +77,14 @@ void PlayerFireBallCollOperator::Off(void)
 	attackColl->SetJudgeFlg(false);
 }
 
+//void PlayerFireBallCollOperator::OnGrounded(void)
+//{
+//	if (GetDynamicFlg()) { velocity.y = (velocity.y < 0.0f) ? -velocity.y : velocity.y; }
+//	isGroundMaster = true;
+//}
+
 void PlayerFireBallCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
 
 }
+

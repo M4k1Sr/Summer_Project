@@ -90,16 +90,24 @@ void Player::Load(void)
 #pragma region 下位アクターの生成
 
 	// 攻撃当たり判定管理クラス
+
+	//パンチ
 	PlayerPunchCollOperator* punchCollOperator =
 		new PlayerPunchCollOperator(60.0f, Vector3(0, 0, 100), trans);
 
 	AddChildActor(punchCollOperator);
 
 
+	//ファイアーボール
 	PlayerFireBallCollOperator* fireBallCollOperator =
 		new PlayerFireBallCollOperator(60.0f, Vector3(0, 0, 100), trans);
 
 	AddChildActor(fireBallCollOperator);
+
+	PlayerFireBallCollOperator* fireBallCollOperator2 =
+		new PlayerFireBallCollOperator(60.0f, Vector3(0, 0, 100), trans);
+
+	AddChildActor(fireBallCollOperator2);
 
 
 #pragma endregion
@@ -160,7 +168,7 @@ void Player::Load(void)
 		STATE::FireBall,
 		new PlayerFireBallState(
 			0.4f, 0.5f,
-			*fireBallCollOperator,
+			{ fireBallCollOperator, fireBallCollOperator2 },
 			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
