@@ -56,7 +56,8 @@ private:
 	const Vector3 INIT_POS;
 
 	//アニメーションスピード
-	const float animationSpeedTabel_[(int)ANIM::MAX] = { 1.0f,0.5f,1.0f,1.0f,1.0f };
+	const float animationSpeedTabel_[(int)ANIM::MAX] 
+		= { 1.0f,0.5f,1.0f,1.0f,1.0f };
 
 	void CharacterInit(void) override;
 	void CharacterUpdate(void) override;

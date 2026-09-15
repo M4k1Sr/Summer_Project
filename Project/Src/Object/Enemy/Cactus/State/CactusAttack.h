@@ -18,14 +18,11 @@ public:
 	);
 	~CactusAttack()override = default;
 
-
 	 //更新処理
 	void Update(void);
 
-
 private:
 
-	
 #pragma region 定数
 
 	//最大クールタイム

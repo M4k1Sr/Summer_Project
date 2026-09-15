@@ -51,15 +51,13 @@ void TestScene::SubPostLoad(void)
 	ObjAdd(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
 
 	//仮敵生成
-	ObjAdd(new NormalSlime(Vector3(0, 250, 0)));
-	ObjAdd(new Cactus(Vector3(200, 200, 0)));
-	ObjAdd(new Thorn(Vector3(600, 200, 0)));
+	/*ObjAdd(new NormalSlime(Vector3(0, 250, 0)));
+	ObjAdd(new Cactus(Vector3(200, 200, 0)));*/
+	ObjAdd(new Thorn(Vector3(-600, 200, 0)));
 
 	//プレイヤー座標渡し
-	ObjSerch<Cactus>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
-
-	ObjAdd(new Icicle(operatorObject->GetTrans().pos));
-
+	//ObjSerch<Cactus>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
+	ObjSerch<Thorn>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
 	BuildRail();
 }

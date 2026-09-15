@@ -193,6 +193,7 @@
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Src\Object\Enemy\Thorn\Thorn.cpp" />
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornAttack.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornWait.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Enemy\Thorn\Wepon\Icicle.h" />
@@ -271,6 +272,7 @@
     <ClInclude Include="Src\Utility\Utility.h" />
     <ClInclude Include="Src\Object\Enemy\Thorn\Thorn.h" />
     <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornAttack.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornWait.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

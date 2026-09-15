@@ -13,7 +13,27 @@ public:
 		//攻撃状態
 		Attack,
 
+		//待機状態
+		Wait,
 		Max
+	};
+
+	//アニメーション
+	enum class ANIM
+	{
+		//待機
+		Wait,
+		//攻撃
+		Attack,
+		//移動
+		Move,
+		//HIT
+		Hit,
+		//死亡
+		Die,
+
+		MAX
+
 	};
 
 	Thorn(
@@ -28,10 +48,17 @@ public:
 
 	void Load(void) override;
 
+	//座標渡し
+	void SetPlayerPos(const Vector3* pos) { playerPos = pos; }
+
 private:
 
 	// 初期座標
 	const Vector3 INIT_POS;
+
+	//アニメーションスピード
+	const float animationSpeedTabel_[(int)ANIM::MAX]
+		= { 1.0f,0.5f,1.0f,1.0f,1.0f };
 
 	// プレイヤーが抱える下位アクター格納配列
 	std::vector<ActorBase*> subObjects;
