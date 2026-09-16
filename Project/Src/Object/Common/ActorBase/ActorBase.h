@@ -72,8 +72,8 @@ public:
 	virtual void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result) {}
 
 	// 接地判定の通知
-	virtual void OnGrounded() {
-		if (dynamicFlg) { velocity.y = (velocity.y < 0.0f) ? 0.0f : velocity.y; }
+	void OnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other) {
+		SubOnGrounded(ownTag, other);
 		isGroundMaster = true;
 	}
 
@@ -263,6 +263,12 @@ protected:
 
 	// 描画タイプの設定
 	void SetDrawType(const ACTOR_DRAW_TYPE& type) { drawType = type; }
+
+	// 設置判定を拾ったときに、呼び出されるアクターの挙動の処理
+	virtual void SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other) {
+		// デフォルトはシンプルな加速度リセット処理
+		if (dynamicFlg) { velocity.y = (velocity.y < 0.0f) ? 0.0f : velocity.y; }
+	}
 
 	// 指定の方向に向かって加速度を用いて移動する
 	void MoveAccel(const Vector3& vec);

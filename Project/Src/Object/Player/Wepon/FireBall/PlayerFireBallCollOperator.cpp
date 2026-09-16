@@ -77,11 +77,10 @@ void PlayerFireBallCollOperator::Off(void)
 	attackColl->SetJudgeFlg(false);
 }
 
-//void PlayerFireBallCollOperator::OnGrounded(void)
-//{
-//	if (GetDynamicFlg()) { velocity.y = (velocity.y < 0.0f) ? -velocity.y : velocity.y; }
-//	isGroundMaster = true;
-//}
+void PlayerFireBallCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
+{
+	velocity.y = (velocity.y < 0.0f) ? 15.0f : velocity.y;
+}
 
 void PlayerFireBallCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {

@@ -25,7 +25,12 @@ public:
 	void Off(void);
 
 	//ƒoƒEƒ“ƒh‚³‚¹‚é
-	//void OnGrounded(void)override;
+	void SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)override;
+
+	// Œ»Ý‘¶Ý‚µ‚Ä‚¢‚é‚©
+	bool IsAlive(void)const { return lifeTimer > 0.0f; }
+
+	float GetLifeTimer(void)const { return lifeTimer; }
 
 private:
 

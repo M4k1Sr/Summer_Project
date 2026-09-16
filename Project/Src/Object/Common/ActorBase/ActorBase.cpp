@@ -250,7 +250,7 @@ void ActorBase::ColliderCreate(ColliderBase* newClass)
 	colliders.back()->SetGameSpaceControllerPtr(gameSpace);
 	colliders.back()->SetSpaceConstraintPtr(&spaceConstraint);
 	colliders.back()->SetOnCollisionFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result) { this->OnCollision(ownTag, other, result); });
-	colliders.back()->SetOnGroundedFunc([this](void) { this->OnGrounded(); });
+	colliders.back()->SetOnGroundedFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other) { this->OnGrounded(ownTag, other); });
 }
 
 void ActorBase::SetDynamicFlg(bool flg)
