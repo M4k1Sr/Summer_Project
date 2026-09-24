@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 
+
 #include "FirstStage.h"
 
 #include "../StageBlock/GrassBlock.h"
@@ -9,6 +10,8 @@
 #include "../StageBlock/WallBlock.h"
 
 #include "../StageBlock/StageBlockBase.h"
+
+#include "../../../Manager/Camera/CurrentCamera.h"
 
 void FirstStage::Load()
 {
@@ -93,10 +96,31 @@ void FirstStage::SubDraw(void)
 	// ブロック1つ1つをカメラに映っているか判定するのではなく、
 	// そもそも映っているであろう範囲の配列番号のブロックの処理しか呼び出さないように
 
-	// 生成したブロック全ての描画処理
-	for (auto& row : stageBlocks) {
-		for (auto& block : row.second) {
-			block.second->Draw();
+	// カメラ座標を取得
+	const Vector3& camPos = CurrentCamera::Get().GetPos();
+
+	// カメラ座標によりタイルの配列番号の計算
+	int camTileX = static_cast<int>(camPos.x / TILE_SIZE_XZ);
+	int camTileY = static_cast<int>(-camPos.y / TILE_SIZE_Y);
+
+	constexpr int VIEW_RANGE_X = 10;
+	constexpr int VIEW_RANGE_Y = 6;
+
+	// 
+	int minX = (std::max)(0, camTileX - VIEW_RANGE_X);
+	int maxX = (std::min)(MAP_SIZE_X - 1, camTileX + VIEW_RANGE_X);
+	int minY = (std::max)(0, camTileY - VIEW_RANGE_Y);
+	int maxY = (std::min)(MAP_SIZE_Y - 1, camTileY + VIEW_RANGE_Y);
+
+	for (int y = minY; y <= maxY; ++y) {
+		auto rowIt = stageBlocks.find(y);
+		if (rowIt == stageBlocks.end()) { continue; }
+
+		for (int x = minX; x <= maxX; ++x) {
+			auto blockIt = rowIt->second.find(x);
+			if (blockIt == rowIt->second.end()) { continue; }
+
+			blockIt->second->Draw();
 		}
 	}
 }

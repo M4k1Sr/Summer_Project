@@ -46,5 +46,8 @@ private:
 
 	// ブロック配列
 	std::map<int, std::map<int, StageBlockBase*>> stageBlocks;
+
+	// カメラ座標
+	Vector3 camPos;
 };
 
