@@ -15,10 +15,12 @@
 #include "State/PlayerPunchState.h"
 #include "State/PlayerFireBallState.h"
 #include "State/PlayerWaterState.h"
+#include "State/PlayerThunderState.h"
 
 #include "Wepon/Punch/PlayerPunchCollOperator.h"
 #include "Wepon/FireBall/PlayerFireBallCollOperator.h"
 #include "Wepon/Water/PlayerWaterCollOperator.h"
+#include "Wepon/Thunder/PlayerThunderCollOperator.h"
 
 
 
@@ -101,15 +103,16 @@ void Player::Load(void)
 
 
 	//ファイアーボール
-	PlayerFireBallCollOperator* fireBallCollOperator =
-		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+	std::vector<PlayerFireBallCollOperator*> fireBallCollOperators;
 
-	AddChildActor(fireBallCollOperator);
+	fireBallCollOperators.reserve(PlayerFireBallCollOperator::FireBall_COLL_NUM);
 
-	PlayerFireBallCollOperator* fireBallCollOperator2 =
-		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+	for (int i = 0; i < PlayerFireBallCollOperator::FireBall_COLL_NUM; ++i) {
+		auto* fireBallCollOperator = new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+		AddChildActor(fireBallCollOperator);
 
-	AddChildActor(fireBallCollOperator2);
+		fireBallCollOperators.push_back(fireBallCollOperator);
+	}
 
 	//放水
 	std::vector<PlayerWaterCollOperator*> waterCollOperators;
@@ -121,6 +124,18 @@ void Player::Load(void)
 		AddChildActor(waterCollOperator);
 
 		waterCollOperators.push_back(waterCollOperator);
+	}
+
+	//サンダー
+	std::vector<PlayerThunderCollOperator*> thunderCollOperators;
+
+	thunderCollOperators.reserve(PlayerThunderCollOperator::THUNDER_COLL_NUM);
+
+	for (int i = 0; i < PlayerThunderCollOperator::THUNDER_COLL_NUM; ++i) {
+		auto* thunderCollOperator = new PlayerThunderCollOperator(20.0f, Vector3(0, 0, 100), trans);
+		AddChildActor(thunderCollOperator);
+
+		thunderCollOperators.push_back(thunderCollOperator);
 	}
 
 
@@ -183,7 +198,7 @@ void Player::Load(void)
 		STATE::FireBall,
 		new PlayerFireBallState(
 			0.4f, 0.5f,
-			{ fireBallCollOperator, fireBallCollOperator2 },
+			fireBallCollOperators,
 			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -197,6 +212,18 @@ void Player::Load(void)
 			0.7f, 0.9f,
 			waterCollOperators,
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
+	// 攻撃（サンダー）状態
+	AddState(
+		STATE::Thunder,
+		new PlayerThunderState(
+			0.4f, 0.5f,
+			thunderCollOperators,
+			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
 		)
@@ -223,9 +250,14 @@ void Player::Load(void)
 	//RegisterStateTransition(STATE::Move, STATE::FireBall);
 
 	// 「待機状態」->「攻撃（放水）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Idle, STATE::Water);
-	// 「移動状態」->「攻撃（放水）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Move, STATE::Water);
+	//RegisterStateTransition(STATE::Idle, STATE::Water);
+	//// 「移動状態」->「攻撃（放水）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::Water);
+
+	// 「待機状態」->「攻撃（サンダー）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Idle, STATE::Thunder);
+	// 「移動状態」->「攻撃（サンダー）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Thunder);
 
 #pragma endregion
 }

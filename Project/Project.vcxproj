@@ -138,7 +138,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Player\State\PlayerThunderState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerWaterState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerFireBallState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.cpp" />
@@ -197,7 +199,9 @@
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Player\State\PlayerThunderState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.h" />
     <ClInclude Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerFireBallState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.h" />

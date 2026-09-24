@@ -4,23 +4,23 @@
 
 class SphereCollider;
 
-class PlayerFireBallCollOperator : public ActorBase
+class PlayerThunderCollOperator : public ActorBase
 {
 public:
-	PlayerFireBallCollOperator(
+	PlayerThunderCollOperator(
 		float COLL_RADIUS,
 		const Vector3& COLL_LOCAL_POS,
 
 		const Transform& playerTrans
 	);
-	~PlayerFireBallCollOperator()override = default;
+	~PlayerThunderCollOperator()override = default;
 
 	void Load(void)override;
 
 	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
 
 	// 判定発生
-	void On(void);
+	void On(const Vector3& spawnOffset);
 	// 判定消去
 	void Off(void);
 
@@ -32,8 +32,8 @@ public:
 
 	float GetLifeTimer(void)const { return lifeTimer; }
 
-	//ファイアーボールコライダーの数
-	static constexpr int FireBall_COLL_NUM = 2;
+	//サンダーコライダーの数
+	static constexpr int THUNDER_COLL_NUM = 3;
 
 private:
 
@@ -41,9 +41,9 @@ private:
 	const Vector3 COLL_LOCAL_POS;
 
 	// 飛翔時間（秒）
-	static constexpr float FIREBALL_LIFETIME_MAX = 2.0f; 
+	static constexpr float WATER_LIFETIME_MAX = 0.8f;
 	// 生存タイマー
-	float lifeTimer;                             
+	float lifeTimer;
 
 	// プレイヤーのモデル制御情報の参照
 	const Transform& playerTrans;
@@ -53,6 +53,9 @@ private:
 
 	//最初に取得した前方
 	Vector3 front;
+
+	// 水滴ごとの移動速度ベクトル
+	Vector3 velocity_;
 
 	// 更新処理
 	void SubUpdate(void)override;
