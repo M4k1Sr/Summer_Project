@@ -44,11 +44,10 @@ void PlayerWaterCollOperator::SubUpdate(void)
 {
 	if (!attackColl->GetJudgeFlg()) { return; }
 
-	// 重力による落下の影響を加える
-	velocity.y -= 0.2f;
+	velocity_.y -= 0.5f;
 
 	// 移動処理
-	trans.pos += velocity;
+	trans.pos += velocity_;
 
 	// 寿命処理
 	lifeTimer -= 1.0f / 60.0f;
@@ -64,26 +63,27 @@ void PlayerWaterCollOperator::On(void)
 	// プレイヤーの座標と回転から初期位置を設定
 	trans.pos = playerTrans.pos + COLL_LOCAL_POS.TransMat(MGetRotY(playerTrans.angle.y));
 
-	// 1. 基準となる前方方向ベクトル
 	Vector3 baseFront = Vector3(
 		sinf(playerTrans.angle.y),
 		0.0f,
 		cosf(playerTrans.angle.y)
 	);
 
-	// 2. 放水用の拡散（ランダムなブレ）を加える
-	float spreadX = ((float)rand() / RAND_MAX - 0.5f) * 0.2f;
-	float spreadY = ((float)rand() / RAND_MAX - 0.2f) * 0.2f;
+	Vector3 launchDir = baseFront;
+	launchDir.y = 2.0f;
 
-	Vector3 dir = (baseFront + Vector3(spreadX, spreadY, 0.0f)).Normalized();
+	// 放水用の拡散
+	float spreadX = ((float)rand() / RAND_MAX - 0.5f) * 0.15f;
+	float spreadY = ((float)rand() / RAND_MAX - 0.5f) * 0.10f;
 
-	// 3. 飛ばすスピードを設定
-	float speed = 8.0f + ((float)rand() / RAND_MAX) * 4.0f;
+	Vector3 dir = (launchDir + Vector3(spreadX, spreadY, 0.0f)).Normalized();
 
-	velocity = dir * speed;
+	float speed = 12.0f + ((float)rand() / RAND_MAX) * 3.0f;
+
+	velocity_ = dir * speed;
 
 	// タイマーリセット
-	lifeTimer = FIREBALL_LIFETIME_MAX;
+	lifeTimer = WATER_LIFETIME_MAX;
 }
 
 void PlayerWaterCollOperator::Off(void)

@@ -41,7 +41,7 @@ private:
 	const Vector3 COLL_LOCAL_POS;
 
 	// 飛翔時間（秒）
-	static constexpr float FIREBALL_LIFETIME_MAX = 2.0f;
+	static constexpr float WATER_LIFETIME_MAX = 0.8f;
 	// 生存タイマー
 	float lifeTimer;
 
@@ -55,7 +55,7 @@ private:
 	Vector3 front;
 
 	// 水滴ごとの移動速度ベクトル
-	Vector3 velocity;
+	Vector3 velocity_;
 
 	// 更新処理
 	void SubUpdate(void)override;

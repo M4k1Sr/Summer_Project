@@ -50,6 +50,12 @@ private:
 
 		Punch,
 
+		Water,
+
+		Absorb_Start,
+
+		Absorb_End,
+
 		Max
 	};
 
@@ -60,6 +66,9 @@ private:
 		0.5f,
 		0.5f,
 		0.75f,
+		1.0f,
+		0.5f,
+		1.0f,
 	};
 
 	// アニメーションループ再生フラグテーブル
@@ -68,6 +77,9 @@ private:
 		true,
 		true,
 		true,
+		false,
+		false,
+		false,
 		false,
 	};
 
