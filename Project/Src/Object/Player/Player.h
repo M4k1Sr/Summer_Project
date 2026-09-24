@@ -30,6 +30,7 @@ private:
 
 		Punch,
 		FireBall,
+		Water,
 
 		Max
 	};

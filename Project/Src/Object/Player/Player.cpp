@@ -14,9 +14,11 @@
 #include "State/PlayerMoveState.h"
 #include "State/PlayerPunchState.h"
 #include "State/PlayerFireBallState.h"
+#include "State/PlayerWaterState.h"
 
 #include "Wepon/Punch/PlayerPunchCollOperator.h"
 #include "Wepon/FireBall/PlayerFireBallCollOperator.h"
+#include "Wepon/Water/PlayerWaterCollOperator.h"
 
 
 
@@ -100,14 +102,27 @@ void Player::Load(void)
 
 	//ファイアーボール
 	PlayerFireBallCollOperator* fireBallCollOperator =
-		new PlayerFireBallCollOperator(60.0f, Vector3(0, 0, 100), trans);
+		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
 
 	AddChildActor(fireBallCollOperator);
 
 	PlayerFireBallCollOperator* fireBallCollOperator2 =
-		new PlayerFireBallCollOperator(60.0f, Vector3(0, 0, 100), trans);
+		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
 
 	AddChildActor(fireBallCollOperator2);
+
+	//放水
+	std::vector<PlayerWaterCollOperator*> waterCollOperators;
+
+	waterCollOperators.reserve(PlayerWaterCollOperator::WATER_COLL_NUM);
+
+	for (int i = 0; i < PlayerWaterCollOperator::WATER_COLL_NUM; ++i) {
+		auto* waterCollOperator = new PlayerWaterCollOperator(20.0f, Vector3(0, 0, 100), trans);
+		AddChildActor(waterCollOperator);
+
+		waterCollOperators.push_back(waterCollOperator);
+	}
+
 
 
 #pragma endregion
@@ -175,6 +190,18 @@ void Player::Load(void)
 		)
 	);
 
+	// 攻撃（放水）状態
+	AddState(
+		STATE::Water,
+		new PlayerWaterState(
+			0.4f, 0.5f,
+			waterCollOperators,
+			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
 	// 「待機状態」->「移動状態」の自動遷移登録
 	RegisterStateTransition(STATE::Idle, STATE::Move);
 	// 「移動状態」->「待機状態」の自動遷移登録
@@ -191,9 +218,14 @@ void Player::Load(void)
 	//RegisterStateTransition(STATE::Move, STATE::Punch);
 
 	// 「待機状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Idle, STATE::FireBall);
-	// 「移動状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Move, STATE::FireBall);
+	//RegisterStateTransition(STATE::Idle, STATE::FireBall);
+	//// 「移動状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::FireBall);
+
+	// 「待機状態」->「攻撃（放水）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Idle, STATE::Water);
+	// 「移動状態」->「攻撃（放水）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Water);
 
 #pragma endregion
 }

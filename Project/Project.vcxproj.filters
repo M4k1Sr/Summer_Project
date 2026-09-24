@@ -56,6 +56,8 @@
     <ClCompile Include="Src\Manager\TimeScale\TimeScale.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerFireBallState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerWaterState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\Application.h" />
@@ -136,5 +138,7 @@
     <ClInclude Include="Src\Object\Common\ActorBase\ActorDrawTypeDefine.h" />
     <ClInclude Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerFireBallState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
   </ItemGroup>
 </Project>

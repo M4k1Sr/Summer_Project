@@ -79,7 +79,7 @@ void PlayerFireBallCollOperator::Off(void)
 
 void PlayerFireBallCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
 {
-	velocity.y = (velocity.y < 0.0f) ? 15.0f : velocity.y;
+	velocity.y = (velocity.y < 0.0f) ? 5.0f : velocity.y;
 }
 
 void PlayerFireBallCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
