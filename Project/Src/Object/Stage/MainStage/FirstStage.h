@@ -29,7 +29,7 @@ public:
 	void Load(void)override;
 
 	// コライダーすべてを取得
-	std::vector<ColliderBase*> GetCollider(void)const;
+	std::vector<ColliderBase*> GetColliders(void)const;
 
 private:
 

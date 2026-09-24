@@ -13,15 +13,17 @@
 #include "State/PlayerIdleState.h"
 #include "State/PlayerMoveState.h"
 #include "State/PlayerPunchState.h"
+#include "State/PlayerFireBallState.h"
+#include "State/PlayerWaterState.h"
 
-#include "Wepon/PlayerPunchCollOperator.h"
+#include "Wepon/Punch/PlayerPunchCollOperator.h"
+#include "Wepon/FireBall/PlayerFireBallCollOperator.h"
+#include "Wepon/Water/PlayerWaterCollOperator.h"
 
 
 
 Player::Player()
-	: CharacterBase("Data/Parameter/Player/"),
-
-	subObjects()
+	: CharacterBase("Data/Parameter/Player/")
 {
 }
 
@@ -90,12 +92,39 @@ void Player::Load(void)
 #pragma region 下位アクターの生成
 
 	// 攻撃当たり判定管理クラス
+
+	//パンチ
 	PlayerPunchCollOperator* punchCollOperator =
-		new PlayerPunchCollOperator(0.0f, Vector3(0, 70, 100), trans);
+		new PlayerPunchCollOperator(60.0f, Vector3(0, 0, 100), trans);
 
-	subObjects.emplace_back(punchCollOperator);
+	AddChildActor(punchCollOperator);
 
-	for (ActorBase* subObect : subObjects) { subObect->Load(); }
+
+	//ファイアーボール
+	PlayerFireBallCollOperator* fireBallCollOperator =
+		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+
+	AddChildActor(fireBallCollOperator);
+
+	PlayerFireBallCollOperator* fireBallCollOperator2 =
+		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+
+	AddChildActor(fireBallCollOperator2);
+
+	//放水
+	std::vector<PlayerWaterCollOperator*> waterCollOperators;
+
+	waterCollOperators.reserve(PlayerWaterCollOperator::WATER_COLL_NUM);
+
+	for (int i = 0; i < PlayerWaterCollOperator::WATER_COLL_NUM; ++i) {
+		auto* waterCollOperator = new PlayerWaterCollOperator(20.0f, Vector3(0, 0, 100), trans);
+		AddChildActor(waterCollOperator);
+
+		waterCollOperators.push_back(waterCollOperator);
+	}
+
+
+
 #pragma endregion
 
 
@@ -141,9 +170,33 @@ void Player::Load(void)
 	AddState(
 		STATE::Punch,
 		new PlayerPunchState(
-			0.9f, 1.0f,
+			0.4f, 0.5f,
 			*punchCollOperator,
-			[&]() { AnimePlay(ANIME_TYPE::Punch); },
+			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
+	// 攻撃（ファイアーボール）状態
+	AddState(
+		STATE::FireBall,
+		new PlayerFireBallState(
+			0.4f, 0.5f,
+			{ fireBallCollOperator, fireBallCollOperator2 },
+			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
+	// 攻撃（放水）状態
+	AddState(
+		STATE::Water,
+		new PlayerWaterState(
+			0.4f, 0.5f,
+			waterCollOperators,
+			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
 		)
@@ -160,17 +213,27 @@ void Player::Load(void)
 	//RegisterStateTransition(STATE::Move, STATE::Jump);
 
 	// 「待機状態」->「攻撃（パンチ）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Idle, STATE::Punch);
-	// 「移動状態」->「攻撃（パンチ）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Move, STATE::Punch);
+	//RegisterStateTransition(STATE::Idle, STATE::Punch);
+	//// 「移動状態」->「攻撃（パンチ）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::Punch);
+
+	// 「待機状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Idle, STATE::FireBall);
+	//// 「移動状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::FireBall);
+
+	// 「待機状態」->「攻撃（放水）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Idle, STATE::Water);
+	// 「移動状態」->「攻撃（放水）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Water);
 
 #pragma endregion
 }
 
 // 初期化処理
-void Player::CharacterInit(void) {
+void Player::SubInit(void) {
 	// モデルの角度のズレを設定
-	trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
+	//trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = 3.0f;
@@ -181,13 +244,10 @@ void Player::CharacterInit(void) {
 	ChangeState(STATE::Move);
 	// 待機状態に遷移
 	ChangeState(STATE::Idle);
-
-	// 抱える下位アクター全ての初期化処理
-	for (ActorBase* subObject : subObjects) { subObject->Update(); }
 }
 
 // 更新処理
-void Player::CharacterUpdate(void) {
+void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_Z) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault); }
 
 	if (CheckHitKey(KEY_INPUT_X) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane); }
@@ -195,24 +255,9 @@ void Player::CharacterUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_C) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::Rail); }
 
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
-	// 抱える下位アクター全ての更新処理
-	for (ActorBase* subObject : subObjects) { subObject->Update(); }
 }
 
 
 void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
-}
-
-std::vector<ColliderBase*> Player::GetCollider(void) const
-{
-	std::vector<ColliderBase*> ret = {};
-
-	for (ColliderBase* collider : ActorBase::GetCollider()) { ret.emplace_back(collider); }
-
-	for (ActorBase* subObject : subObjects) {
-		for (ColliderBase* collider : subObject->GetCollider()) { ret.emplace_back(collider); }
-	}
-
-	return ret;
 }

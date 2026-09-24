@@ -22,17 +22,6 @@ public:
 
 private:
 
-	// 初期化
-	void SubInit(void)override;
-	// 更新
-	void SubUpdate(void)override;
-	// 描画
-	void SubDraw(void)override;
-	// 半透明描画
-	void SubAlphaDraw(void)override;
-	// 解放
-	void SubRelease(void)override;
-
 	// アニメーションコントローラーのインスタンス
 	AnimationController* anime;
 	
@@ -50,6 +39,11 @@ private:
 
 	// 指定のステートインスタンスをゲットする関数
 	CharacterStateBase& GetStateIns(int state);
+
+	// キャラクターベース固有の更新処理
+	void BaseUpdate(void) override final;
+	// キャラクターベース固有の解放処理
+	void BaseRelease(void) override final;
 
 protected:
 
@@ -79,14 +73,6 @@ protected:
 	CharacterStateBase& GetStateIns(StateEnum state) { return GetStateIns(static_cast<int>(state)); }
 
 #pragma endregion
-
-	// キャラクター固有の処理をここに追加
-	virtual void CharacterInit(void) {}
-	virtual void CharacterUpdate(void) {}
-	virtual void CharacterDraw(void) {}
-	virtual void CharacterAlphaDraw(void) {}
-	virtual void CharacterUiDraw(void) {}
-	virtual void CharacterRelease(void) {}
 
 #pragma region アニメーションコントローラー
 

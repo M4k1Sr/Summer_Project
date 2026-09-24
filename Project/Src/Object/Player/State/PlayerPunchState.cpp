@@ -2,7 +2,7 @@
 
 #include "../../../Manager/Input/InputManager.h"
 
-#include "../Wepon/PlayerPunchCollOperator.h"
+#include "../Wepon/Punch/PlayerPunchCollOperator.h"
 
 #include "../../Common/Transform/Transform.h"
 
@@ -84,7 +84,7 @@ void PlayerPunchState::Update(void)
 		// 当たり判定を追従
 
 		// 攻撃判定発生終了
-		if (animeRatio <= COLL_END_TIME) {
+		if (COLL_END_TIME <= animeRatio) {
 
 			// ステップを「後隙」へ
 			step = STEP::Recovery;

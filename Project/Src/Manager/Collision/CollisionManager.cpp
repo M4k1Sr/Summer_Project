@@ -2530,14 +2530,14 @@ Vector3 CollisionManager::RestrictCollisionPoint(const ColliderBase* collider, c
 	return gameSpace->RestrictPosition(collisionPoint, collider->GetSpaceConstraint());
 }
 
-void CollisionManager::MoveCollider(ColliderBase* collider, const Vector3& pushVector)const
+void CollisionManager::MoveCollider(ColliderBase* ownCollider, const Vector3& pushVector, const ColliderBase* otherCollider)const
 {
-	if (collider == nullptr) { return; }
-	const Vector3 restrictedPush = RestrictPushVector(collider, pushVector);
+	if (ownCollider == nullptr) { return; }
+	const Vector3 restrictedPush = RestrictPushVector(ownCollider, pushVector);
 	if (restrictedPush.LengthSq() <= 0.000001f) { return; }
-	collider->SetTransformPosAdd(restrictedPush);
+	ownCollider->SetTransformPosAdd(restrictedPush);
 	const Vector3 restrictedNormal = restrictedPush.Normalized();
-	if (restrictedNormal.y > 0.5f) { collider->CallOnGrounded(); }
+	if (restrictedNormal.y > 0.5f) { ownCollider->CallOnGrounded(ownCollider->GetTag(), *otherCollider); }
 }
 
 void CollisionManager::ApplyPush(ColliderBase* a, ColliderBase* b, const Vector3& normal, float overlap)const
@@ -2557,16 +2557,16 @@ void CollisionManager::ApplyPush(ColliderBase* a, ColliderBase* b, const Vector3
 		float aRatio = 0.0f, bRatio = 0.0f;
 		WeightRatioCalculation(a->GetPushWeight(), b->GetPushWeight(), aRatio, bRatio);
 
-		MoveCollider(a, overlapVec * aRatio);
-		MoveCollider(b, -overlapVec * bRatio);
+		MoveCollider(a, overlapVec * aRatio, b);
+		MoveCollider(b, -overlapVec * bRatio, a);
 	}
-	else if (aDynamic && !bDynamic) { MoveCollider(a, overlapVec); }
-	else if (!aDynamic && bDynamic) { MoveCollider(b, -overlapVec); }
+	else if (aDynamic && !bDynamic) { MoveCollider(a, overlapVec, b); }
+	else if (!aDynamic && bDynamic) { MoveCollider(b, -overlapVec, a); }
 }
 
 void CollisionManager::ApplyPushOneSide(ColliderBase* dynamicColl, ColliderBase* staticColl, const Vector3& overlapVec)const
 {
-	MoveCollider(dynamicColl, overlapVec);
+	MoveCollider(dynamicColl, overlapVec, staticColl);
 }
 
 #pragma endregion

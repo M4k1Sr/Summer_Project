@@ -6,6 +6,8 @@
 
 #include "../../../Application/Application.h"
 
+#include "../../TimeScale/TimeScale.h"
+
 FollowAutoCamera::FollowAutoCamera(
 	const Vector3* targetPos,
 	const Vector3* focusPos,

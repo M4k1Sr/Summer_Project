@@ -6,6 +6,8 @@
 
 #include "../../Input/InputManager.h"
 
+#include "../../TimeScale/TimeScale.h"
+
 FollowYawCamera::FollowYawCamera(
 	const Vector3* targetPos,
 	const Vector3& cameraOffset,
@@ -59,7 +61,7 @@ void FollowYawCamera::NormalUpdate(void)
 
 	// 現在の追従対象の座標と角度情報から自身(カメラ)の座標を算出する
 	SmoothCameraMove(pos, *targetPos + cameraOffset.TransMat(MatrixAllMultXY({ Vector3::XYonly(controlAngle.x,controlAngle.y) })));
-	lookAtPos = *targetPos + lookAtOffset.TransMat(MatrixAllMultXY({ Vector3::XYonly(controlAngle.x, controlAngle.y) }));
+	SmoothCameraMove(lookAtPos, *targetPos + lookAtOffset.TransMat(MatrixAllMultXY({ Vector3::XYonly(controlAngle.x, controlAngle.y) })));
 
 	// 角度
 	angle = CalcCameraAngle(pos, lookAtPos);

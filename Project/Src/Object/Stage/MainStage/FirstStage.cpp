@@ -139,14 +139,14 @@ void FirstStage::SubRelease(void)
 	stageBlocks.clear();
 }
 
-std::vector<ColliderBase*> FirstStage::GetCollider(void)const
+std::vector<ColliderBase*> FirstStage::GetColliders(void)const
 {
 	std::vector<ColliderBase*> ret = {};
 
 	// 生成したブロック全てのコライダーを取得する仕様に
 	for(auto& row : stageBlocks) {
 		for(auto& block : row.second) {
-			for (auto& collider : block.second->GetCollider()) { ret.push_back(collider); }
+			for (auto& collider : block.second->GetColliders()) { ret.push_back(collider); }
 		}
 	}
 
