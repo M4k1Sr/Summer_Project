@@ -14,6 +14,8 @@
 
 #include "../../Object/Player/Player.h"
 
+#include "../../Object/Stage/MainStage/FirstStage.h"
+
 TestScene::TestScene(void) :
 	WorldSceneBase(),
 	operatorObject(nullptr),
@@ -39,12 +41,14 @@ void TestScene::SubPostLoad(void)
 
 	ObjAdd(new CapsuleDebugObject(Vector3::Yonly(-80), Vector3::Yonly(80), 50.0f, Vector3(-100, 90, 0)));
 
-	ObjAdd(new BoxDebugObject(Vector3(180, 180, 180), Vector3(320, 90, -120)));
+	//ObjAdd(new BoxDebugObject(Vector3(180, 180, 180), Vector3(320, 90, -120)));
 
 	// MeshCollider・BVH・坂の接地確認用
 	ObjAdd(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
 
 	BuildRail();
+
+	ObjAdd(new FirstStage());
 }
 
 void TestScene::SubPostInit(void)
