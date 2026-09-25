@@ -44,7 +44,7 @@ public:
 	// 状態遷移前1度行う終了処理
 	void Exit(void)override;
 	// 水滴を1個生成・再利用するヘルパー
-	void EmitWaterParticle();
+	void EmitThunderParticle(void);
 
 private:
 
@@ -89,9 +89,12 @@ private:
 	// 攻撃ステップ
 	STEP step;
 
-	// 水滴の発生間隔タイマー
-	static constexpr float SPAWN_INTERVAL = 0.05f;
+	// 発生間隔タイマー
+	static constexpr float SPAWN_INTERVAL = 0.15f;
 	float spawnTimer;
-
+	// 発生座標関連
+	float spawnedCount;
+	static constexpr float THUNDER_DISTANCE_INTERVAL = 100.0f;
+	static constexpr float THUNDER_SPAWN_HEIGHT = 500.0f;
 };
 

@@ -43,12 +43,6 @@ void PlayerThunderCollOperator::Load(void)
 void PlayerThunderCollOperator::SubUpdate(void)
 {
 	if (!attackColl->GetJudgeFlg()) { return; }
-
-	velocity_.y -= 0.5f;
-
-	// 移動処理
-	trans.pos += velocity_;
-
 	// 寿命処理
 	lifeTimer -= 1.0f / 60.0f;
 	if (lifeTimer <= 0.0f) {
@@ -56,7 +50,7 @@ void PlayerThunderCollOperator::SubUpdate(void)
 	}
 }
 
-void PlayerThunderCollOperator::On(const Vector3& spawnOffset)
+void PlayerThunderCollOperator::On(const Vector3& offSet)
 {
 	attackColl->SetJudgeFlg(true);
 
@@ -70,8 +64,10 @@ void PlayerThunderCollOperator::On(const Vector3& spawnOffset)
 	);
 
 
+	trans.pos += (baseFront * offSet.z) + Vector3(0.0f, offSet.y, 0.0f);
+
 	// タイマーリセット
-	lifeTimer = WATER_LIFETIME_MAX;
+	lifeTimer = THUNDER_LIFETIME_MAX;
 }
 
 void PlayerThunderCollOperator::Off(void)
@@ -82,6 +78,8 @@ void PlayerThunderCollOperator::Off(void)
 void PlayerThunderCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
 {
 	velocity.y = (velocity.y < 0.0f) ? 0.0f : velocity.y;
+	// 寿命処理
+	Off();
 }
 
 void PlayerThunderCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)

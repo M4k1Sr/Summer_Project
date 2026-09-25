@@ -20,7 +20,7 @@ public:
 	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
 
 	// 判定発生
-	void On(const Vector3& spawnOffset);
+	void On(const Vector3& offSet);
 	// 判定消去
 	void Off(void);
 
@@ -41,7 +41,7 @@ private:
 	const Vector3 COLL_LOCAL_POS;
 
 	// 飛翔時間（秒）
-	static constexpr float WATER_LIFETIME_MAX = 0.8f;
+	static constexpr float THUNDER_LIFETIME_MAX = 5.0f;
 	// 生存タイマー
 	float lifeTimer;
 

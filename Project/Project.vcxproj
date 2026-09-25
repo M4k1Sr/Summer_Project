@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerThunderState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerWaterState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerThunderState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.h" />

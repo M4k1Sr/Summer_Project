@@ -30,7 +30,7 @@ PlayerThunderState::PlayerThunderState(
 
 	changeStateIdle(changeStateIdle),
 
-	step()
+	step(STEP::Startup)
 {
 }
 
@@ -49,6 +49,10 @@ void PlayerThunderState::Enter(void)
 
 	// 攻撃アニメーション再生
 	playAnimeAttack();
+
+	//初期化
+	spawnedCount = 0.0f;
+	spawnTimer = 0.0f;
 }
 
 void PlayerThunderState::Update(void)
@@ -62,18 +66,20 @@ void PlayerThunderState::Update(void)
 	case PlayerThunderState::STEP::Startup: {
 		// 前隙
 
-	// デルタタイム（例: 1/60s）を加算して一定間隔で生成
-		spawnTimer += 1.0f / 60.0f;
-
-		if (spawnTimer >= SPAWN_INTERVAL) {
-			spawnTimer = 0.0f;
-
-			// 空いているコライダーを探す
-			EmitWaterParticle();
-		}
-
 		if (COLL_START_TIME <= animeRatio) {
 			step = STEP::Active;
+		}
+
+		// 1フレームごとにタイマーを進める
+		spawnTimer += 1.0f / 60.0f; // 毎フレーム加算
+
+		// タイマーが間隔（SPAWN_INTERVAL）を超えたら1つ降らせる
+		if (spawnTimer >= SPAWN_INTERVAL && spawnedCount < PlayerThunderCollOperator::THUNDER_COLL_NUM) {
+			spawnTimer = 0.0f; // タイマーリセット
+
+			// 1つ分生成（何個目の雷かに応じて位置をずらす）
+			EmitThunderParticle();
+			spawnedCount++;
 		}
 
 		break;
@@ -82,7 +88,7 @@ void PlayerThunderState::Update(void)
 	case PlayerThunderState::STEP::Active: {
 		// 攻撃判定発生中
 
-		// 当たり判定を追従
+	
 
 		if (COLL_END_TIME <= animeRatio) {
 
@@ -115,26 +121,28 @@ void PlayerThunderState::Exit(void)
 
 }
 
-void PlayerThunderState::EmitWaterParticle()
+void PlayerThunderState::EmitThunderParticle(void)
 {
-	bool search = false;
+	// 何番目の雷かに応じたオフセット計算（例: 高さと前方距離）
+	float frontOffset = (spawnedCount + 1) * THUNDER_DISTANCE_INTERVAL;
+	Vector3 offset(0.0f, THUNDER_SPAWN_HEIGHT, frontOffset);
 
-	// 未使用のものを探索
+	// 未使用のコライダーを「1つだけ」探してONにする
 	for (auto op : collOperators) {
-		if (op->IsAlive()) { continue; }
-		search = true;
-		op->On();
-		break;
+		if (!op->IsAlive()) {
+			op->On(offset); // オフセットを渡してON
+			return;         // 1つONにしたら関数を抜ける
+		}
 	}
 
-	// すべて使用中の場合は一番寿命の短いものを上書き
-	if (!search && !collOperators.empty()) {
+	// 空きがない場合の上書き処理（必要であれば）
+	if (!collOperators.empty()) {
 		size_t overrideIndex = 0;
 		for (size_t i = 1; i < collOperators.size(); i++) {
 			if (collOperators.at(overrideIndex)->GetLifeTimer() > collOperators.at(i)->GetLifeTimer()) {
 				overrideIndex = i;
 			}
 		}
-		collOperators.at(overrideIndex)->On();
+		collOperators.at(overrideIndex)->On(offset);
 	}
 }

@@ -7,8 +7,6 @@
 #include "../../Common/Transform/Transform.h"
 
 
-
-
 PlayerFireBallState::PlayerFireBallState(
 	float COLL_START_TIME,
 	float COLL_END_TIME,
@@ -30,7 +28,7 @@ PlayerFireBallState::PlayerFireBallState(
 
 	changeStateIdle(changeStateIdle),
 
-	step()
+	step(STEP::Startup)
 {
 }
 
@@ -99,7 +97,6 @@ void PlayerFireBallState::Update(void)
 				// ‚»‚Ì•ûŒü‚Ås‚­‚È‚çˆê•Ï”(serch)‚²‚ÆÁ‚µ‚Ä‘åä•v
 
 				// ``````````````````````````ƒpƒ^[ƒ“1
-
 
 				// ƒpƒ^[ƒ“2```````````````````````````````````````````
 

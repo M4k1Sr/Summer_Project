@@ -11,15 +11,6 @@ class PlayerPunchState : public CharacterStateBase
 {
 public:
 
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	/// <param name="COLL_START_TIME"></param>
-	/// <param name="COLL_END_TIME"></param>
-	/// <param name="collOperator"></param>
-	/// <param name="playAnimeAttack"></param>
-	/// <param name="getAnimeRatio"></param>
-	/// <param name="changeStateIdle"></param>
 	PlayerPunchState(
 		float COLL_START_TIME,
 		float COLL_END_TIME,

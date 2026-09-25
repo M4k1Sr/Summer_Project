@@ -132,7 +132,7 @@ void Player::Load(void)
 	thunderCollOperators.reserve(PlayerThunderCollOperator::THUNDER_COLL_NUM);
 
 	for (int i = 0; i < PlayerThunderCollOperator::THUNDER_COLL_NUM; ++i) {
-		auto* thunderCollOperator = new PlayerThunderCollOperator(20.0f, Vector3(0, 0, 100), trans);
+		auto* thunderCollOperator = new PlayerThunderCollOperator(40.0f, Vector3(0, 0, 0), trans);
 		AddChildActor(thunderCollOperator);
 
 		thunderCollOperators.push_back(thunderCollOperator);
@@ -185,7 +185,7 @@ void Player::Load(void)
 	AddState(
 		STATE::Punch,
 		new PlayerPunchState(
-			0.4f, 0.5f,
+			GetParameter("Collider", "CollStart"), GetParameter("Collider", "CollEnd"),
 			*punchCollOperator,
 			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
 			[&]() { return GetAnimeRatio(); },
@@ -197,7 +197,7 @@ void Player::Load(void)
 	AddState(
 		STATE::FireBall,
 		new PlayerFireBallState(
-			0.4f, 0.5f,
+			GetParameter("Collider", "CollStart"), GetParameter("Collider", "CollEnd"),
 			fireBallCollOperators,
 			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
@@ -209,7 +209,7 @@ void Player::Load(void)
 	AddState(
 		STATE::Water,
 		new PlayerWaterState(
-			0.7f, 0.9f,
+			GetParameter("Collider", "SusCollStart"), GetParameter("Collider", "SusCollEnd"),
 			waterCollOperators,
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
@@ -221,9 +221,9 @@ void Player::Load(void)
 	AddState(
 		STATE::Thunder,
 		new PlayerThunderState(
-			0.4f, 0.5f,
+			GetParameter("Collider", "SusCollStart"), GetParameter("Collider", "SusCollEnd"),
 			thunderCollOperators,
-			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
+			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
 		)
@@ -268,9 +268,9 @@ void Player::SubInit(void) {
 	//trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 
 	// ‰ÁŒ¸‘¬“x‚ðÝ’è
-	ACCEL_RATE = DECEL_RATE = 3.0f;
+	ACCEL_RATE = DECEL_RATE = GetParameter("Init", "Rate");
 	// ‰Á‘¬Å‘å’l‚ðÝ’è
-	ACCEL_MAX = 15.0f;
+	ACCEL_MAX = GetParameter("Init", "AccelMax");
 
 	// ‰Šúó‘Ô‚ðÝ’è
 	ChangeState(STATE::Move);

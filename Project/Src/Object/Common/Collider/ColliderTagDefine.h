@@ -30,4 +30,10 @@ enum class COLLIDER_TAG
 	Punch,
 
 	Fire,
+
+	Water,
+
+	Thunder,
+
+	FrostBlade,
 };
