@@ -44,15 +44,15 @@ void GameScene::SubPostLoad(void)
 
 void GameScene::SubWorldPostUpdate(void)
 {
-	// ゲーム終了処理
-	if (Input::GetIns().GetInfo(KEY_TYPE::End).down) {
-		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title);
-	}
+	//// ゲーム終了処理
+	//if (Input::GetIns().GetInfo(KEY_TYPE::End).down) {
+	//	SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title);
+	//}
 
-	// 決定
-	if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
-		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
-	}
+	//// 決定
+	//if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
+	//	SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
+	//}
 }
 
 void GameScene::SubUiDraw(void)

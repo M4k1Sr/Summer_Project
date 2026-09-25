@@ -11,6 +11,7 @@
 #include "../../../Common/Collider/AttackCollider.h"
 
 Bell::Bell()
+	: CharacterBase("Data/Parameter/Npc/")
 {
 }
 
@@ -27,7 +28,7 @@ void Bell::Load(void)
 	// 当たり判定による押し出しを有効にする
 	SetPushFlg(true);
 
-	// 押し出しだしによる重みを設定
+	// 押し出しによる重みを設定
 	SetPushWeight(50);
 
 #pragma endregion
@@ -36,16 +37,18 @@ void Bell::Load(void)
 #pragma region モデル設定
 
 	// モデルの読み込み
-	trans.LoadModel("Npc/Bell");
+	trans.LoadModel("NPC/Bell");
 
 	// モデルのスケール設定
-	trans.scale = 1;
+	trans.scale = 2;
 
 	// モデルの中心点のズレの補正
 	trans.centerDiff = Vector3(0.0f, -102.81f, 0.0f) * trans.scale;
 
 	// モデルの角度のズレの補正
 	trans.localAngle = Vector3(0.0f, Deg2Rad(180.0f), 0.0f);
+
+	AnimePlay((int)ANIME_TYPE::Idle);
 
 #pragma endregion
 
@@ -66,9 +69,9 @@ void Bell::Load(void)
 	ColliderCreate(
 		new CapsuleCollider(
 			COLLIDER_TAG::Npc,
-			Vector3::Yonly(60.0f) * trans.scale,
-			Vector3::Yonly(-60.0f) * trans.scale,
-			60.0f * trans.scale.MaxElementF()
+			Vector3::Yonly(-45.0f) * trans.scale,
+			Vector3::Yonly(-50.0f) * trans.scale,
+			50.0f * trans.scale.MaxElementF()
 		)
 	);
 
@@ -82,6 +85,8 @@ void Bell::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const Col
 
 void Bell::SubInit(void)
 {
+	trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
+	trans.pos = Vector3(GetParameter("Init", "pos"));
 }
 
 void Bell::SubUpdate(void)

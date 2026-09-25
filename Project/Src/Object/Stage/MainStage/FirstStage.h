@@ -11,6 +11,13 @@ class FirstStage
 {
 public:
 
+	enum class STAGE_BLOCK_TYPE
+	{
+		NONE = -1,	// なし
+		DIRT = 0,	// 土ブロック
+		GRASS = 11,	// 草ブロック
+	};
+
 	// 1タイルのサイズ
 	static constexpr float TILE_SIZE_XZ = 200.0f;
 	static constexpr float TILE_SIZE_Y = 150.0f;
@@ -22,10 +29,17 @@ public:
 	static constexpr int MAP_SIZE_X = 30;
 	static constexpr int MAP_SIZE_Y = 17;
 
-	FirstStage() {}
+	// 描画するタイルの範囲X,Y
+	static constexpr int VIEW_RANGE_X = 10;
+	static constexpr int VIEW_RANGE_Y = 6;
 
+	// コンストラクタ
+	FirstStage();
+
+	// デストラクタ
 	~FirstStage()override = default;
 
+	// 読み込み処理
 	void Load(void)override;
 
 	// コライダーすべてを取得
@@ -43,6 +57,9 @@ private:
 	void SubDraw(void)override;
 	// 解放
 	void SubRelease(void)override;
+
+	// ステージブロックの種類
+	STAGE_BLOCK_TYPE stageBlockType;
 
 	// ブロック配列
 	std::map<int, std::map<int, StageBlockBase*>> stageBlocks;
