@@ -14,7 +14,9 @@ DirtBlock::DirtBlock(const Vector3& pos,
 
 void DirtBlock::Load(void)
 {
+	// モデル読み込み
 	trans.LoadModel("Stage/StageMapChip/Dirt");
 
+	// コライダー生成
 	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 200.0f)));
 }

@@ -14,7 +14,9 @@ GrassBlock::GrassBlock(const Vector3& pos,
 
 void GrassBlock::Load(void)
 {
+	// モデル読み込み
 	trans.LoadModel("Stage/StageMapChip/Grass");
 
+	// コライダー生成
 	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 600.0f)));
 }

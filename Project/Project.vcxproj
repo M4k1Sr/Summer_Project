@@ -138,6 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\NPC\CharactorType\Bell\Bell.cpp" />
+    <ClCompile Include="Src\Object\NPC\NpcBase.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerWaterState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerFireBallState.cpp" />
@@ -182,7 +184,6 @@
     <ClCompile Include="Src\Object\Player\Player.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Object\Stage\MainStage\FirstStage.cpp" />
-    <ClCompile Include="Src\Object\Stage\StageBlock\WallBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\DirtBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\GrassBlock.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBlock\StageBlockBase.cpp" />
@@ -200,8 +201,11 @@
     <ClCompile Include="Src\Scene\Common\Fade\Default\DefaultFadeScene.cpp" />
     <ClCompile Include="Src\Scene\Test\TestScene.cpp" />
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\NPC\CharactorType\Bell\Bell.h" />
+    <ClInclude Include="Src\Object\NPC\NpcBase.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerFireBallState.h" />
@@ -263,7 +267,6 @@
     <ClInclude Include="Src\Object\Player\Player.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerMoveState.h" />
     <ClInclude Include="Src\Object\Stage\MainStage\FirstStage.h" />
-    <ClInclude Include="Src\Object\Stage\StageBlock\WallBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\DirtBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\GrassBlock.h" />
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockBase.h" />
@@ -288,6 +291,13 @@
     <ClInclude Include="Src\Scene\Test\TestScene.h" />
     <ClInclude Include="Src\Scene\Title\TitleScene.h" />
     <ClInclude Include="Src\Utility\Utility.h" />
+    <ClInclude Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Doctor\Doctor.mv1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Doctor\Doctor.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

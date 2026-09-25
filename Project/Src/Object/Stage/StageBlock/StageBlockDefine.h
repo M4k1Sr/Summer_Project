@@ -5,11 +5,9 @@ enum class STAGE_BLOCK_TAG
 {
 	None = -1,
 
-	Grass,
+	Grass,	// í èÌÇÃìπ
 
-	Dirt,
-
-	Wall,
+	Dirt,	// ìy
 
 };
 

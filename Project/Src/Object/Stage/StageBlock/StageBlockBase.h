@@ -8,6 +8,7 @@ class StageBlockBase : public ActorBase
 {
 public:
 
+	// コンストラクタ
 	StageBlockBase(
 		STAGE_BLOCK_TAG BlockTag,
 		const Vector3& pos,
@@ -16,8 +17,10 @@ public:
 		bool isPushFlg
 		);
 
+	// デストラクタ
 	~StageBlockBase()override = default;
 
+	// 読み込み処理
 	void Load(void)override {}
 	
 protected:
