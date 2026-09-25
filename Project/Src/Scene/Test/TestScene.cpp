@@ -38,7 +38,7 @@ void TestScene::SubPostLoad(void)
 	ObjAdd(operatorObject);
 
 	// 通常Box床
-	ObjAdd(new BoxDebugObject(Vector3(1800, 100, 1000), Vector3(0, -50, 0), false));
+	ObjAdd(new BoxDebugObject(Vector3(3000, 100, 1500), Vector3(0, -50, 0), false));
 
 	// 形状別の押し出し確認用オブジェクト
 	//ObjAdd(new SphereDebugObject(90, Vector3(-350, 90, 0)));

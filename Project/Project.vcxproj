@@ -138,6 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeDieState.cpp" />
+    <ClCompile Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeHItState.cpp" />
     <ClCompile Include="Src\Object\Enemy\Thorn\Wepon\Icicle.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusAttack.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusWait.cpp" />
@@ -196,6 +198,8 @@
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornWait.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeDieState.h" />
+    <ClInclude Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeHItState.h" />
     <ClInclude Include="Src\Object\Enemy\Thorn\Wepon\Icicle.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusAttack.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusWait.h" />

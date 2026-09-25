@@ -3,17 +3,26 @@
 #include "../../Common/Collider/SphereCollider.h"
 
 #include "State/NormalSlimeMoveState.h"
+#include "State/NormalSlimeHItState.h"
+#include "State/NormalSlimeDieState.h"
 
 void NormalSlime::Load(void)
 {
 	// モデルをロード
 	trans.LoadModel("Enemy/NormalSlime/NormalSlime");
 
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 50.0f));
-	// モデルの角度のズレを設定
-	//trans.localAngle.y = Deg2Rad(90.0f);
+	//アニメーション追加
+	CreateAnimationController();
+	//アニメーション登録
+	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
+
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
+
+	//モデルの角度のズレを設定
+	trans.localAngle.y = Deg2Rad(ADJUSTMENT_ANGLE);
+
 	//サイズ設定
-	trans.scale = 1.3f;
+	trans.scale = ADJUSTMENT_SIZE;
 
 #pragma region 状態初期設定(ステートが追加されるたびに追加する)
 
@@ -25,12 +34,40 @@ void NormalSlime::Load(void)
 			std::bind(&NormalSlime::MoveAccel, this, std::placeholders::_1)
 			));
 
+	// 移動状態を追加
+	AddState(
+		STATE::Hit,
+		new NormalSlimeHItState(
+			trans.pos,
+			[&]()
+			{
+				//再生アニメーション
+				AnimePlay((int)ANIM::Hit, false);
+			}
+		));
+
+	// 移動状態を追加
+	AddState(
+		STATE::Die,
+		new NormalSlimeDieState(
+			trans.pos,
+			[&]()
+			{
+				//再生アニメーション
+				AnimePlay((int)ANIM::Die, false);
+			}
+		));
+
 #pragma endregion
 }
 
 void NormalSlime::CharacterInit(void)
 {
+	//初期ステート
 	ChangeState(STATE::Move);
+
+	//初期再生アニメーション
+	AnimePlay((int)ANIM::Idle, true);
 
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = 3.0f;
