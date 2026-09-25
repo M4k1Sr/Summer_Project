@@ -74,12 +74,10 @@ private:
 	const float animationSpeedTabel_[(int)ANIM::MAX]
 		= { 1.0f,1.0f,1.0f,1.0f,1.0f };
 
-	void CharacterInit(void) override;
-	void CharacterUpdate(void) override;
-	void CharacterDraw(void) override;
-	void CharacterAlphaDraw(void) override;
-	void CharacterUiDraw(void) override;
-	void CharacterRelease(void) override;
+	void SubInit(void) override;
+	void SubUpdate(void) override;
+	void SubDraw(void) override;
+	void SubRelease(void) override;
 
 	void ResetPos(void) { trans.pos = INIT_POS; }
 };

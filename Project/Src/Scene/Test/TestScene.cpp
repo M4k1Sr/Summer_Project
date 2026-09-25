@@ -4,7 +4,6 @@
 
 #include "../../Manager/Input/InputManager.h"
 #include "../SceneManager.h"
-#include "../ObjectUseDefine.h"
 
 #include "../../Manager/Camera/GameSpaceFollow/GameSpaceFollowCamera.h"
 
@@ -58,8 +57,8 @@ void TestScene::SubPostLoad(void)
 	ObjAdd(new Thorn(Vector3(-600, 200, 0)));
 
 	//プレイヤー座標渡し
-	ObjSerch<Cactus>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
-	ObjSerch<Thorn>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
+	/*ObjSerch<Cactus>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
+	ObjSerch<Thorn>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);*/
 
 	BuildRail();
 

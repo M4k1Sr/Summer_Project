@@ -77,7 +77,7 @@ void Thorn::Load(void)
 	for (ActorBase* subObject : subObjects) { subObject->Load(); }
 }
 
-void Thorn::CharacterInit(void)
+void Thorn::SubInit(void)
 {
 	ChangeState(STATE::Wait);
 
@@ -88,31 +88,19 @@ void Thorn::CharacterInit(void)
 	for (ActorBase* subObject : subObjects) { subObject->Init(); }
 }
 
-void Thorn::CharacterUpdate(void)
+void Thorn::SubUpdate(void)
 {
 	// 抱える下位アクター全ての描画処理
 	for (ActorBase* subObject : subObjects) { subObject->Update(); }
-
 }
 
-void Thorn::CharacterDraw(void)
+void Thorn::SubDraw(void)
 {
 	// 抱える下位アクター全ての描画処理
 	for (ActorBase* subObject : subObjects) { subObject->Draw(); }
 }
 
-void Thorn::CharacterAlphaDraw(void)
-{
-	// 抱える下位アクター全ての描画処理
-	for (ActorBase* subObject : subObjects) { subObject->AlphaDraw(); }
-}
-
-void Thorn::CharacterUiDraw(void)
-{
-	for (ActorBase* subObject : subObjects) { subObject->UiDraw(); }
-}
-
-void Thorn::CharacterRelease(void)
+void Thorn::SubRelease(void)
 {
 	// 抱える下位アクター全ての解放処理
 	for (ActorBase*& subObject : subObjects) {
@@ -122,4 +110,5 @@ void Thorn::CharacterRelease(void)
 	}
 	subObjects.clear();
 }
+
 

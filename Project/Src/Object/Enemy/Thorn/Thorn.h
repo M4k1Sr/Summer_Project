@@ -63,18 +63,10 @@ private:
 	// プレイヤーが抱える下位アクター格納配列
 	std::vector<ActorBase*> subObjects;
 
-	// 初期化処理
-	void CharacterInit(void)override;
-	// 更新処理
-	void CharacterUpdate(void)override;
-	// 描画処理
-	void CharacterDraw(void)override;
-	// 半透明描画処理
-	void CharacterAlphaDraw(void)override;
-	void CharacterUiDraw(void) override;
-	// 解放処理
-	void CharacterRelease(void)override;
-
+	void SubInit(void) override;
+	void SubUpdate(void) override;
+	void SubDraw(void) override;
+	void SubRelease(void) override;
 
 
 	Vector3 GetMoveDirection(void) const;

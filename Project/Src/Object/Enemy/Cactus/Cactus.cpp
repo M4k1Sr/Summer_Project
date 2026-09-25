@@ -61,28 +61,20 @@ void Cactus::Load(void)
 #pragma endregion
 }
 
-void Cactus::CharacterInit(void)
+void Cactus::SubInit(void)
 {
 	//èâä˙
 	ChangeState(STATE::Wait);
 }
 
-void Cactus::CharacterUpdate(void)
+void Cactus::SubUpdate(void)
 {
 }
 
-void Cactus::CharacterDraw(void)
+void Cactus::SubDraw(void)
 {
 }
 
-void Cactus::CharacterAlphaDraw(void)
-{
-}
-
-void Cactus::CharacterUiDraw(void)
-{
-}
-
-void Cactus::CharacterRelease(void)
+void Cactus::SubRelease(void)
 {
 }

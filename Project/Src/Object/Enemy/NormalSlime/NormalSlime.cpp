@@ -61,7 +61,7 @@ void NormalSlime::Load(void)
 #pragma endregion
 }
 
-void NormalSlime::CharacterInit(void)
+void NormalSlime::SubInit(void)
 {
 	//初期ステート
 	ChangeState(STATE::Move);
@@ -75,22 +75,14 @@ void NormalSlime::CharacterInit(void)
 	ACCEL_MAX = 7.0f;
 }
 
-void NormalSlime::CharacterUpdate(void)
+void NormalSlime::SubUpdate(void)
 {
 }
 
-void NormalSlime::CharacterDraw(void)
+void NormalSlime::SubDraw(void)
 {
 }
 
-void NormalSlime::CharacterAlphaDraw(void)
-{
-}
-
-void NormalSlime::CharacterUiDraw(void)
-{
-}
-
-void NormalSlime::CharacterRelease(void)
+void NormalSlime::SubRelease(void)
 {
 }
