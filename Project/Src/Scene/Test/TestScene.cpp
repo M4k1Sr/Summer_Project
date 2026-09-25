@@ -48,6 +48,7 @@ void TestScene::SubPostLoad(void)
 
 	BuildRail();
 
+	// テスト用ステージ
 	ObjAdd(new FirstStage());
 }
 

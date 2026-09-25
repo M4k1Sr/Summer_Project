@@ -18,6 +18,7 @@
 #include "../../Object/Common/DebugObject/SphereDebugObject.h"
 #include "../../Object/Common/DebugObject/MeshDebugObject.h"
 
+#include "../../Object/NPC/CharactorType/Bell/Bell.h"
 #include "../../Object/Stage/MainStage/FirstStage.h"
 
 GameScene::GameScene() : WorldSceneBase()
@@ -32,7 +33,13 @@ void GameScene::SubPostLoad(void)
 
 	ObjAdd(new SphereDebugObject(50.0f, Vector3(0,50,0), true, true, true, 50, true));
 
+	// ベル
+	ObjAdd(new Bell());
+
+	// ステージ1
 	ObjAdd(new FirstStage());
+
+
 }
 
 void GameScene::SubWorldPostUpdate(void)

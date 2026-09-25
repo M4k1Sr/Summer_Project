@@ -21,6 +21,8 @@ enum class COLLIDER_TAG
 
 	Player,
 
+	Npc,
+
 	Enemy,
 
 	Stage,
