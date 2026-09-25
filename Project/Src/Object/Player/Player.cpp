@@ -8,31 +8,135 @@
 #include "../../Scene/Common/GameSpace/GameSpaceController.h"
 
 #include "../Common/Collider/CapsuleCollider.h"
+#include "../Common/Collider/AttackCollider.h"
 
+#include "State/PlayerIdleState.h"
 #include "State/PlayerMoveState.h"
+#include "State/PlayerPunchState.h"
+#include "State/PlayerFireBallState.h"
+#include "State/PlayerWaterState.h"
+
+#include "Wepon/Punch/PlayerPunchCollOperator.h"
+#include "Wepon/FireBall/PlayerFireBallCollOperator.h"
+#include "Wepon/Water/PlayerWaterCollOperator.h"
+
+
+
+Player::Player()
+	: CharacterBase("Data/Parameter/Player/")
+{
+}
 
 void Player::Load(void)
 {
-	// モデルをロード
+
+#pragma region オブジェクト設定
+
+	// 動的オブジェクトとしての処理を有効にする
+	SetDynamicFlg(true);
+
+	// 重力を有効にする
+	SetGravityFlg(true);
+
+	// 当たり判定による押し出しを有効にする
+	SetPushFlg(true);
+
+	// 押し出しだしによる重みを設定
+	SetPushWeight(50);
+
+#pragma endregion
+
+
+#pragma region モデル設定
+
+	// モデルの読み込み
 	trans.LoadModel("Player/Player");
 
-#pragma region 当たり判定情報設定
+	// モデルのスケール設定
+	trans.scale = 1;
 
-	// メインのカプセルコライダーを設定
+	// モデルの中心点のズレの補正
+	trans.centerDiff = Vector3(0.0f, -102.81f, 0.0f) * trans.scale;
+
+	// モデルの角度のズレの補正
+	trans.localAngle = Vector3(0.0f, Deg2Rad(180.0f), 0.0f);
+
+#pragma endregion
+
+
+#pragma region アニメーション読み込み
+
+	// アニメーションコントローラーの生成
+	CreateAnimationController();
+
+	// アニメーションの読み込み
+	AddInFbxAnimation((int)ANIME_TYPE::Max, ANIME_SPEED_TABLE, ANIME_LOOP_TABLE);
+
+#pragma endregion
+
+
+#pragma region コライダーの生成
+
 	ColliderCreate(
 		new CapsuleCollider(
 			COLLIDER_TAG::Player,
-			GetParameterToVector3("Collider", "StartPos"),
-			GetParameterToVector3("Collider", "EndPos"),
-			GetParameter("Collider", "Radius")
+			Vector3::Yonly(60.0f) * trans.scale,
+			Vector3::Yonly(-60.0f) * trans.scale,
+			60.0f * trans.scale.MaxElementF()
 		)
 	);
 
 #pragma endregion
 
-#pragma region 状態初期設定
 
-	// 移動状態を追加
+#pragma region 下位アクターの生成
+
+	// 攻撃当たり判定管理クラス
+
+	//パンチ
+	PlayerPunchCollOperator* punchCollOperator =
+		new PlayerPunchCollOperator(60.0f, Vector3(0, 0, 100), trans);
+
+	AddChildActor(punchCollOperator);
+
+
+	//ファイアーボール
+	PlayerFireBallCollOperator* fireBallCollOperator =
+		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+
+	AddChildActor(fireBallCollOperator);
+
+	PlayerFireBallCollOperator* fireBallCollOperator2 =
+		new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+
+	AddChildActor(fireBallCollOperator2);
+
+	//放水
+	std::vector<PlayerWaterCollOperator*> waterCollOperators;
+
+	waterCollOperators.reserve(PlayerWaterCollOperator::WATER_COLL_NUM);
+
+	for (int i = 0; i < PlayerWaterCollOperator::WATER_COLL_NUM; ++i) {
+		auto* waterCollOperator = new PlayerWaterCollOperator(20.0f, Vector3(0, 0, 100), trans);
+		AddChildActor(waterCollOperator);
+
+		waterCollOperators.push_back(waterCollOperator);
+	}
+
+
+
+#pragma endregion
+
+
+#pragma region 状態設定
+
+	// 待機状態
+	AddState(
+		STATE::Idle,
+		new PlayerIdleState([&]() { AnimePlay(ANIME_TYPE::Idle); })
+	);
+
+	// 移動状態
 	AddState(
 		STATE::Move,
 		new PlayerMoveState(
@@ -40,18 +144,96 @@ void Player::Load(void)
 			GetSpaceConstraint(),
 			trans.pos,
 			std::bind(&Player::MoveAccel, this, std::placeholders::_1),
+			[&]() { AnimePlay(ANIME_TYPE::Walk); },
+			[&]() { AnimePlay(ANIME_TYPE::Run); },
 			isGround,
 			velocity.y
 		)
 	);
 
+
+	//// ジャンプ状態
+	//AddState(
+	//	STATE::Jump,
+	//	new PlayerJumpState(
+	//		20.0f, velocity.y, isGround,
+	//		std::bind(&Player::MoveAccel, this, std::placeholders::_1),
+	//		[&]() { AnimePlay(ANIME_TYPE::JumpStart); },
+	//		[&]() { AnimePlay(ANIME_TYPE::JumpLoop); },
+	//		[&]() { AnimePlay(ANIME_TYPE::Stamp); },
+	//		std::bind(&Player::IsAnimeEnd, this),
+	//		[&]() { ChangeState(STATE::Idle); }
+	//	)
+	//);
+
+	// 攻撃（パンチ）状態
+	AddState(
+		STATE::Punch,
+		new PlayerPunchState(
+			0.4f, 0.5f,
+			*punchCollOperator,
+			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
+	// 攻撃（ファイアーボール）状態
+	AddState(
+		STATE::FireBall,
+		new PlayerFireBallState(
+			0.4f, 0.5f,
+			{ fireBallCollOperator, fireBallCollOperator2 },
+			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
+	// 攻撃（放水）状態
+	AddState(
+		STATE::Water,
+		new PlayerWaterState(
+			0.4f, 0.5f,
+			waterCollOperators,
+			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
+	// 「待機状態」->「移動状態」の自動遷移登録
+	RegisterStateTransition(STATE::Idle, STATE::Move);
+	// 「移動状態」->「待機状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Idle);
+
+	//// 「待機状態」->「ジャンプ状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Idle, STATE::Jump);
+	//// 「移動状態」->「ジャンプ状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::Jump);
+
+	// 「待機状態」->「攻撃（パンチ）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Idle, STATE::Punch);
+	//// 「移動状態」->「攻撃（パンチ）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::Punch);
+
+	// 「待機状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Idle, STATE::FireBall);
+	//// 「移動状態」->「攻撃（ファイアーボール）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::FireBall);
+
+	// 「待機状態」->「攻撃（放水）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Idle, STATE::Water);
+	// 「移動状態」->「攻撃（放水）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Water);
+
 #pragma endregion
 }
 
-void Player::CharacterInit(void)
-{
+// 初期化処理
+void Player::SubInit(void) {
 	// モデルの角度のズレを設定
-	trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
+	//trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = 3.0f;
@@ -60,10 +242,12 @@ void Player::CharacterInit(void)
 
 	// 初期状態を設定
 	ChangeState(STATE::Move);
+	// 待機状態に遷移
+	ChangeState(STATE::Idle);
 }
 
-void Player::CharacterUpdate(void)
-{
+// 更新処理
+void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_Z) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault); }
 
 	if (CheckHitKey(KEY_INPUT_X) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane); }
@@ -73,18 +257,7 @@ void Player::CharacterUpdate(void)
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
 }
 
-void Player::CharacterDraw(void)
-{
-}
 
-void Player::CharacterAlphaDraw(void)
-{
-}
-
-void Player::CharacterUiDraw(void)
-{
-}
-
-void Player::CharacterRelease(void)
+void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
 }

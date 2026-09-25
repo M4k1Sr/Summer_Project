@@ -2,10 +2,12 @@
 
 #include <stdexcept>
 
-#include "../../../Application/Application.h"
-
 #include "../../../Common/Vector2.h"
 #include "../../../Common/Vector2I.h"
+
+#include "../../../Application/Application.h"
+
+#include "../../../Manager/TimeScale/TimeScale.h"
 
 #include "../Collider/ColliderBase.h"
 
@@ -15,7 +17,7 @@
 
 ActorBase::ActorBase() :
 	trans(),
-	collider(),
+	colliders(),
 
 	dynamicFlg(true),
 	gravityFlg(false),
@@ -28,18 +30,20 @@ ActorBase::ActorBase() :
 	isGroundMaster(false),
 
 	isDraw(true),
-	isAlphaDraw(false),
+	drawType(ACTOR_DRAW_TYPE::Normal),
 
 	parameter(nullptr),
 
 	gameSpace(nullptr),
-	spaceConstraint(SPACE_CONSTRAINT::StageDefault)
+	spaceConstraint(SPACE_CONSTRAINT::StageDefault),
+
+	childActors()
 {
 }
 
 ActorBase::ActorBase(const std::string& parameterPath) :
 	trans(),
-	collider(),
+	colliders(),
 
 	dynamicFlg(true),
 	gravityFlg(false),
@@ -52,18 +56,27 @@ ActorBase::ActorBase(const std::string& parameterPath) :
 	isGroundMaster(false),
 
 	isDraw(true),
-	isAlphaDraw(false),
+	drawType(ACTOR_DRAW_TYPE::Normal),
 
 	parameter(new ParameterLoad(parameterPath)),
 
 	gameSpace(nullptr),
-	spaceConstraint(SPACE_CONSTRAINT::StageDefault)
+	spaceConstraint(SPACE_CONSTRAINT::StageDefault),
+
+	childActors()
 {
 }
 
 void ActorBase::Init(void)
 {
+	// ÅI”h¶ŒÅ—L
 	SubInit();
+
+	// ’†ŠÔŠî’êŒÅ—L
+	BaseInit();
+
+	// qƒAƒNƒ^[‚Ì‰Šú‰»
+	for (ActorBase* child : childActors) { child->Init(); }
 
 	trans.Attach();
 	
@@ -82,8 +95,11 @@ void ActorBase::Update(void)
 	// “®“IƒIƒuƒWƒFƒNƒg‚Ìê‡1ƒtƒŒ[ƒ€‘O‚ÌÀ•W‚ğ•Û
 	if (dynamicFlg) { trans.prevPos = trans.pos; }
 
-	// ”h¶æ’Ç‰ÁXV
+	// ÅI”h¶ŒÅ—L
 	SubUpdate();
+
+	// ’†ŠÔŠî’êŒÅ—L
+	BaseUpdate();
 
 	if (dynamicFlg) {
 		// ‰Á‘¬“xXV
@@ -92,41 +108,41 @@ void ActorBase::Update(void)
 		// Ú’n”»’è‚ÌƒŠƒZƒbƒg
 		isGroundMaster = false;
 	}
+
+	// qƒAƒNƒ^[‚ÌXV
+	for (ActorBase* child : childActors) { child->Update(); }
 }
 
 void ActorBase::Draw(void)
 {
-	// ”h¶æ’Ç‰Á•`‰æ
+	// •`‰æ”»’è
+	if (!isDraw) { return; }
+
+	// ÅI”h¶ŒÅ—L
 	SubDraw();
 
-	// •`‰æ”»’è
-	if (!isDraw) { return; }
+	// ’†ŠÔŠî’êŒÅ—L
+	BaseDraw();
 
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ
-	if (!isAlphaDraw) { trans.Draw(); }
-}
-
-void ActorBase::AlphaDraw(void)
-{
-	// ”h¶æ’Ç‰ÁƒAƒ‹ƒtƒ@•`‰æ
-	SubAlphaDraw();
-
-	// •`‰æ”»’è
-	if (!isDraw) { return; }
-
-	// ƒ‚ƒfƒ‹‚Ì•`‰æiƒAƒ‹ƒtƒ@•`‰æj
-	if (isAlphaDraw) { trans.Draw(); }
-
-	// “–‚½‚è”»’è‚ÌƒfƒoƒbƒO•`‰æ
-	if (App::GetIns().IsDrawDebug()) {
-		for (ColliderBase*& c : collider) { if (c->GetJudge()) c->DrawDebug(); }
-	}	
+	trans.Draw();
 }
 
 void ActorBase::Release(void)
 {
-	// ”h¶æ’Ç‰Á‰ğ•ú
+	// ÅI”h¶ŒÅ—L
 	SubRelease();
+
+	// ’†ŠÔŠî’êŒÅ—L
+	BaseRelease();
+
+	// qƒAƒNƒ^[‚Ì‰ğ•ú
+	for (ActorBase*& child : childActors) {
+		if (!child) { continue; }
+		child->Release();
+		delete child;
+		child = nullptr;
+	}
 
 	// ƒpƒ‰ƒ[ƒ^‚Ì‰ğ•ú
 	if (parameter != nullptr) {
@@ -136,22 +152,42 @@ void ActorBase::Release(void)
 	}
 
 	// “–‚½‚è”»’èî•ñ‚ğ‰ğ•ú
-	for (ColliderBase*& c : collider) {
+	for (ColliderBase*& c : colliders) {
 		if (!c) { continue; }
 		delete c;
 		c = nullptr;
 	}
-	collider.clear();
+	colliders.clear();
 
 	// ƒ‚ƒfƒ‹§Œäî•ñ‚Ì‰ğ•ú
 	trans.Release();
 }
 
+std::vector<ColliderBase*> ActorBase::GetColliders(void)const
+{
+	std::vector<ColliderBase*> ret = {};
+
+	for (ColliderBase* collider : colliders) { ret.emplace_back(collider); }
+
+	for(ActorBase* child : childActors) {
+		for (ColliderBase* collider : child->GetColliders()) { ret.emplace_back(collider); }
+	}
+
+	return ret;
+}
+
+void ActorBase::DrawColliderDebug(void) const
+{
+	for (ColliderBase* collider : GetColliders()) {
+		if (collider->GetJudgeFlg()) collider->DrawDebug();
+	}
+}
+
 bool ActorBase::GetJudgeFlg(void)
 {
-	for (ColliderBase*& c : collider) {
+	for (ColliderBase*& c : colliders) {
 		if (!c) { continue; }
-		if (c->GetJudge()) { return true; }
+		if (c->GetJudgeFlg()) { return true; }
 	}
 	return false;
 }
@@ -160,7 +196,7 @@ void ActorBase::Gravity(void)
 {
 	if (!gravityFlg) { return; }
 
-	velocity.y += GRAVITY;
+	velocity.y += GRAVITY * TimeScale::Get();
 	if (velocity.y < GRAVITY_MAX) { velocity.y = GRAVITY_MAX; }
 }
 
@@ -182,10 +218,10 @@ void ActorBase::VelocityUpdate(bool	deceleration)
 		// Œ¸‘¬ˆ—
 		if (deceleration) {
 			// ‰¡²‚Ì‰Á‘¬“x‚ªŒ¸‘¬‚Ì”¼•ªˆÈ‰º‚Ìê‡‚ÍA‰¡²‚Ì‰Á‘¬“x‚ğ0‚É‚·‚é
-			if (widthAccelLen <= DECEL_RATE * 0.5f) { velocity.x = velocity.z = 0.0f; }
+			if (widthAccelLen <= (DECEL_RATE * TimeScale::Get()) * 0.5f) { velocity.x = velocity.z = 0.0f; }
 
 			// Œ¸‘¬
-			scale = (widthAccelLen - DECEL_RATE) / widthAccelLen;
+			scale = (widthAccelLen - (DECEL_RATE * TimeScale::Get())) / widthAccelLen;
 		}
 
 		// Å‘å‰Á‘¬§ŒÀ`````````````````````````````
@@ -201,20 +237,20 @@ void ActorBase::VelocityUpdate(bool	deceleration)
 #pragma endregion
 
 	// ‰Á‘¬“x‚ğÀ•W‚É”½‰f
-	if (velocity != 0.0f) { trans.pos += velocity; }
+	if (velocity != 0.0f) { trans.pos += velocity * TimeScale::Get(); }
 }
 
 void ActorBase::ColliderCreate(ColliderBase* newClass)
 {
-	collider.emplace_back(newClass);
-	collider.back()->SetTransformPtr(&trans);
-	collider.back()->SetDynamicFlgPtr(&dynamicFlg);
-	collider.back()->SetPushFlgPtr(&pushFlg);
-	collider.back()->SetPushWeightPtr(&pushWeight);
-	collider.back()->SetGameSpaceControllerPtr(gameSpace);
-	collider.back()->SetSpaceConstraintPtr(&spaceConstraint);
-	collider.back()->SetOnCollisionFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result) { this->OnCollision(ownTag, other, result); });
-	collider.back()->SetOnGroundedFunc([this](void) { this->OnGrounded(); });
+	colliders.emplace_back(newClass);
+	colliders.back()->SetTransformPtr(&trans);
+	colliders.back()->SetDynamicFlgPtr(&dynamicFlg);
+	colliders.back()->SetPushFlgPtr(&pushFlg);
+	colliders.back()->SetPushWeightPtr(&pushWeight);
+	colliders.back()->SetGameSpaceControllerPtr(gameSpace);
+	colliders.back()->SetSpaceConstraintPtr(&spaceConstraint);
+	colliders.back()->SetOnCollisionFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result) { this->OnCollision(ownTag, other, result); });
+	colliders.back()->SetOnGroundedFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other) { this->OnGrounded(ownTag, other); });
 }
 
 void ActorBase::SetDynamicFlg(bool flg)
@@ -280,15 +316,16 @@ Vector2I ActorBase::GetParameterToVector2I(const std::string& fileName, const st
 
 void ActorBase::SetJudge(bool flg)
 {
-	for (ColliderBase*& c : collider) {
+	for (ColliderBase*& c : colliders) {
 		if (!c) { continue; }
 		c->SetJudgeFlg(flg);
 	}
 }
+
 void ActorBase::SetGameSpaceController(const GameSpaceController* controller)
 {
 	gameSpace = controller;
-	for (ColliderBase* coll : collider) {
+	for (ColliderBase* coll : colliders) {
 		if (coll == nullptr) { continue; }
 		coll->SetGameSpaceControllerPtr(gameSpace);
 		coll->SetSpaceConstraintPtr(&spaceConstraint);
@@ -306,4 +343,25 @@ void ActorBase::RestrictVelocity(void)
 	if (gameSpace == nullptr) { return; }
 
 	velocity = gameSpace->RestrictDirection(velocity, trans.pos, spaceConstraint);
+}
+
+void ActorBase::MoveAccel(const Vector3& vec)
+{
+	if (vec == 0.0f) { return; }
+
+	// ‰Á‘¬
+	velocity += (vec * ACCEL_RATE) * TimeScale::Get();
+
+	// –Ú•WŠp“x
+	float targetAngle = atan2f(vec.x, vec.z);
+
+	// Œ»İŠp“x‚©‚ç–Ú•WŠp“x‚Ü‚Å‚ÌŠp“x·
+	float diffAngle = targetAngle - trans.angle.y;
+
+	// -ƒÎ ` +ƒÎ ‚É³‹K‰»‚µ‚ÄÅ’Z•ûŒü‚ğ‹‚ß‚é
+	while (diffAngle > DX_PI_F) { diffAngle -= DX_TWO_PI_F; }
+	while (diffAngle < -DX_PI_F) { diffAngle += DX_TWO_PI_F; }
+
+	// Å’Z•ûŒü‚É•âŠÔ
+	trans.angle.y += (diffAngle * 0.5f) * TimeScale::Get();
 }

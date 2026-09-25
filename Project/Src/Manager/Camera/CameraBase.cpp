@@ -6,6 +6,8 @@
 
 #include "../Input/InputManager.h"
 
+#include "../TimeScale/TimeScale.h"
+
 #include "CameraEvent/CameraEventBase.h"
 
 // カメラ回転におけるマウス感度
@@ -152,7 +154,7 @@ bool CameraBase::MoveInput(Vector3& out)
 
 void CameraBase::SmoothCameraMove(Vector3& cameraPos, const Vector3& desiredPos)
 {
-	cameraPos += (desiredPos - cameraPos) * smoothCameraMoveRate;
+	cameraPos += (desiredPos - cameraPos) * smoothCameraMoveRate * TimeScale::Get();
 }
 
 #pragma endregion

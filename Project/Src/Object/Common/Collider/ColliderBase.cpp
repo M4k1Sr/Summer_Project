@@ -40,9 +40,9 @@ void ColliderBase::SetGameSpaceControllerPtr(const GameSpaceController* ptr) { g
 
 void ColliderBase::SetSpaceConstraintPtr(const SPACE_CONSTRAINT* ptr) { spaceConstraint = ptr; }
 
-void ColliderBase::SetOnCollisionFunc(std::function<void(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)> OnCollisionFunc) { OnCollision = std::move(OnCollisionFunc); }
+void ColliderBase::SetOnCollisionFunc(std::function<void(COLLIDER_TAG, const ColliderBase&, const CollisionResult&)> OnCollisionFunc) { OnCollision = std::move(OnCollisionFunc); }
 
-void ColliderBase::SetOnGroundedFunc(std::function<void(void)> OnGroundedFunc) { OnGrounded = std::move(OnGroundedFunc); }
+void ColliderBase::SetOnGroundedFunc(std::function<void(COLLIDER_TAG, const ColliderBase&)> OnGroundedFunc) { OnGrounded = std::move(OnGroundedFunc); }
 
 Vector3 ColliderBase::GetPos(void)const
 {
@@ -88,7 +88,7 @@ SPACE_CONSTRAINT ColliderBase::GetSpaceConstraint(void)const
 
 bool ColliderBase::GetDynamicFlg(void)const { return (dynamicFlg != nullptr) ? *dynamicFlg : true; }
 
-bool ColliderBase::GetJudge(void)const { return judgeFlg; }
+bool ColliderBase::GetJudgeFlg(void)const { return judgeFlg; }
 
 bool ColliderBase::GetPushFlg(void)const { return (pushFlg != nullptr) ? *pushFlg : true; }
 
@@ -104,10 +104,10 @@ void ColliderBase::CallOnCollision(COLLIDER_TAG ownTag, const ColliderBase& othe
 	OnCollision(ownTag, other, result);
 }
 
-void ColliderBase::CallOnGrounded(void)
+void ColliderBase::CallOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
 {
 	if (!OnGrounded) { return; }
-	OnGrounded();
+	OnGrounded(ownTag, other);
 }
 
 void ColliderBase::SetTransformPos(const Vector3& pos)

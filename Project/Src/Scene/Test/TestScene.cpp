@@ -20,6 +20,8 @@
 
 #include "../../Object/Player/Player.h"
 
+#include "../../Object/Stage/MainStage/FirstStage.h"
+
 TestScene::TestScene(void) :
 	WorldSceneBase(),
 	operatorObject(nullptr),
@@ -34,7 +36,7 @@ void TestScene::SubPostLoad(void)
 	//ObjAdd(operatorObject);
 
 	// ‘€ì‘ÎÛiƒ‚ƒfƒ‹‚ ‚èj
-	operatorObject = new Player(Vector3(0, 180, 0), true, true, true, 100);
+	operatorObject = new Player();
 	ObjAdd(operatorObject);
 
 	// ’ÊíBox°
@@ -60,6 +62,8 @@ void TestScene::SubPostLoad(void)
 	ObjSerch<Thorn>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
 	BuildRail();
+
+	ObjAdd(new FirstStage());
 }
 
 void TestScene::SubPostInit(void)

@@ -15,6 +15,8 @@ PlayerMoveState::PlayerMoveState(
 	const Vector3& playerPos,
 
 	std::function<void(const Vector3& vec)> playerMoveAccel,
+	std::function<void(void)> playAnimeWalk,
+	std::function<void(void)> playAnimeRun,
 
 	const bool& playerIsGround,
 	float& playerVelocityY
@@ -27,6 +29,8 @@ PlayerMoveState::PlayerMoveState(
 	playerPos(playerPos),
 
 	playerMoveAccel(playerMoveAccel),
+	playAnimeWalk(playAnimeWalk),
+	playAnimeRun(playAnimeRun),
 
 	playerIsGround(playerIsGround),
 	playerVelocityY(playerVelocityY)
@@ -35,13 +39,20 @@ PlayerMoveState::PlayerMoveState(
 
 void PlayerMoveState::OwnStateConditionUpdate(void)
 {
-	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveRight).now ||
-		Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveLeft).now ||
-		Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveFront).now ||
-		Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveBack).now) {
-
+	if (
+		GetMoveDirection() != 0.0f ||
+		(Input::GetIns().GetInfo(KEY_TYPE::PlayerJump).down && playerIsGround)
+		) {
 		OwnChangeState();
 	}
+}
+
+void PlayerMoveState::Enter(void)
+{
+	// 非ダッシュ
+	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerDash).now) { playAnimeRun(); }
+	// ダッシュ
+	else { playAnimeWalk(); }
 }
 
 void PlayerMoveState::Update(void)
@@ -66,7 +77,6 @@ Vector3 PlayerMoveState::GetMoveDirection(void) const
 		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveLeft).now) { input.x -= 1.0f; }
 		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveFront).now) { input.y += 1.0f; }
 		if (Input::GetIns().GetInfo(KEY_TYPE::PlayerMoveBack).now) { input.y -= 1.0f; }
-
 
 		if (input != 0.0f) { input.Normalize(); }
 	}

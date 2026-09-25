@@ -6,6 +6,8 @@
 
 #include "../../Input/InputManager.h"
 
+#include "../../TimeScale/TimeScale.h"
+
 FollowRemoteCamera::FollowRemoteCamera(
 	const Vector3* targetPos,
 	const Vector3& cameraOffset,
@@ -46,7 +48,7 @@ void FollowRemoteCamera::NormalUpdate(void)
 	Vector3 rotInput = Vector3();
 	if (RotationInput(rotInput)) {
 
-		controlAngle += rotInput * ROT_POWER;
+		controlAngle += rotInput * ROT_POWER * TimeScale::Get();
 
 		// âÒì]ÇÃêîílêßå‰
 		if (controlAngle.y <= Deg2Rad(0.0f)) { controlAngle.y += Deg2Rad(360.0f); }
@@ -57,7 +59,7 @@ void FollowRemoteCamera::NormalUpdate(void)
 
 	// åªç›ÇÃí«è]ëŒè€ÇÃç¿ïWÇ∆äpìxèÓïÒÇ©ÇÁé©êg(ÉJÉÅÉâ)ÇÃç¿ïWÇéZèoÇ∑ÇÈ
 	SmoothCameraMove(pos, *targetPos + cameraOffset.TransMat(MatrixAllMultXY({ Vector3::XYonly(controlAngle.x,controlAngle.y) })));
-	lookAtPos = *targetPos + lookAtOffset.TransMat(MatrixAllMultXY({ Vector3::XYonly(controlAngle.x, controlAngle.y) }));
+	SmoothCameraMove(lookAtPos, *targetPos + lookAtOffset.TransMat(MatrixAllMultXY({ Vector3::XYonly(controlAngle.x, controlAngle.y) })));
 
 	// äpìx
 	angle = CalcCameraAngle(pos, lookAtPos);

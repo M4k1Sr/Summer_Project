@@ -82,7 +82,7 @@ public:
 	void SetOnCollisionFunc(std::function<void(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)> OnCollisionFunc);
 
 	// 接地判定通知用関数セット
-	void SetOnGroundedFunc(std::function<void(void)> OnGroundedFunc);
+	void SetOnGroundedFunc(std::function<void(COLLIDER_TAG, const ColliderBase&)> OnGroundedFunc);
 #pragma endregion
 
 #pragma region 各ゲット関数
@@ -111,7 +111,7 @@ public:
 	bool GetDynamicFlg(void)const;
 
 	// 当たり判定フラグ
-	bool GetJudge(void)const;
+	bool GetJudgeFlg(void)const;
 
 	// 押し出しのフラグ
 	bool GetPushFlg(void)const;
@@ -129,7 +129,7 @@ public:
 	void CallOnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result);
 
 	// 接地判定通知の呼び出し
-	void CallOnGrounded(void);
+	void CallOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other);
 
 	// 自分が占有している範囲
 	virtual AABB GetAABB(void)const = 0;
@@ -173,7 +173,7 @@ private:
 	std::function<void(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)> OnCollision;
 
 	// 接地したときに呼び出す関数
-	std::function<void(void)> OnGrounded;
+	std::function<void(COLLIDER_TAG, const ColliderBase&)> OnGrounded;
 
 protected:
 	void SetShape(COLLIDER_SHAPE s);
@@ -198,3 +198,4 @@ std::vector<T*> ColliderSerch(std::vector<ColliderBase*> collider, COLLIDER_TAG 
 	}
 	return out;
 }
+
