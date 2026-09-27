@@ -48,8 +48,6 @@ void Bell::Load(void)
 	// ƒ‚ƒfƒ‹‚ÌŠp“x‚ÌƒYƒŒ‚Ì•â³
 	trans.localAngle = Vector3(0.0f, Deg2Rad(180.0f), 0.0f);
 
-	AnimePlay((int)ANIME_TYPE::Idle);
-
 #pragma endregion
 
 
@@ -87,6 +85,9 @@ void Bell::SubInit(void)
 {
 	trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 	trans.pos = Vector3(GetParameter("Init", "pos"));
+
+	AnimePlay((int)ANIME_TYPE::Idle);
+
 }
 
 void Bell::SubUpdate(void)

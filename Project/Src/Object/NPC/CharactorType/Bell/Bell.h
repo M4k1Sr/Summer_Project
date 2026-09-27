@@ -24,8 +24,6 @@ private:
 		None = -1,
 
 		Idle,	// 待機状態
-		Move,	// 移動状態
-		Jump,	// ジャンプ状態
 
 		Max
 	};
@@ -39,10 +37,6 @@ private:
 
 		Idle,	// 待機アニメーション
 
-		Walk,	// 歩きアニメーション
-
-		Run,	// 走りアニメーション
-
 		Max
 	};
 
@@ -50,16 +44,12 @@ private:
 	float ANIME_SPEED_TABLE[(int)ANIME_TYPE::Max] =
 	{
 		0.5f,
-		0.5f,
-		0.5f,
 	};
 
 	// アニメーションループ再生フラグテーブル
 	const bool ANIME_LOOP_TABLE[(int)ANIME_TYPE::Max] =
 	{
-		true,
-		true,
-		true,
+		true
 	};
 
 #pragma endregion
