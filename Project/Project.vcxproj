@@ -206,6 +206,7 @@
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
     <ClCompile Include="Src\Renderer\Manager\UiManager.cpp" />
+    <ClCompile Include="Src\Renderer\Base\UiBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Renderer\UiElements\HpUi.h" />
@@ -300,6 +301,7 @@
     <ClInclude Include="Src\Utility\Utility.h" />
     <ClInclude Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.h" />
     <ClInclude Include="Src\Renderer\Manager\UiManager.h" />
+    <ClInclude Include="Src\Renderer\Base\UiBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />
