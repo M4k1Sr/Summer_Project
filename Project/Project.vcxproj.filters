@@ -66,6 +66,9 @@
     <ClCompile Include="Src\Object\NPC\NpcBase.cpp" />
     <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
     <ClCompile Include="Src\Object\NPC\CharactorType\Bell\Bell.cpp" />
+    <ClCompile Include="Src\Renderer\Manager\UiManager.cpp" />
+    <ClCompile Include="Src\Renderer\UiElements\SkillUi.cpp" />
+    <ClCompile Include="Src\Renderer\UiElements\HpUi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -157,6 +160,9 @@
     <ClInclude Include="Src\Object\NPC\NpcBase.h" />
     <ClInclude Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.h" />
     <ClInclude Include="Src\Object\NPC\CharactorType\Bell\Bell.h" />
+    <ClInclude Include="Src\Renderer\Manager\UiManager.h" />
+    <ClInclude Include="Src\Renderer\UiElements\SkillUi.h" />
+    <ClInclude Include="Src\Renderer\UiElements\HpUi.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />
