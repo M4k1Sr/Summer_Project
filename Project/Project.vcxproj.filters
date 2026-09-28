@@ -66,6 +66,21 @@
     <ClCompile Include="Src\Object\NPC\NpcBase.cpp" />
     <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
     <ClCompile Include="Src\Object\NPC\CharactorType\Bell\Bell.cpp" />
+    <ClCompile Include="Src\Object\ColliderOperator\ColliderOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerPunchState.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerIdleState.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerJumpState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Punch\PlayerPunchCollOperator.cpp" />
+    <ClCompile Include="Src\Manager\TimeScale\TimeScale.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerFireBallState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerWaterState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerThunderState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerAbsorbState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -136,6 +151,16 @@
     <ClInclude Include="Src\Object\Stage\StageBlock\StageBlockDefine.h" />
     <ClInclude Include="Src\Object\Player\Wepon\Punch\PlayerPunchCollOperator.h" />
     <ClInclude Include="Src\pch.h" />
+    <ClInclude Include="Src\Scene\GameOver\GameOverScene.h" />
+    <ClInclude Include="Src\Scene\Game\GameScene.h" />
+    <ClInclude Include="Src\Scene\Common\GameDebugScene.h" />
+    <ClInclude Include="Src\Scene\SceneBase.h" />
+    <ClInclude Include="Src\Utility\Utility.h" />
+    <ClInclude Include="Src\Scene\ActorUseDefine.h" />
+    <ClInclude Include="Src\Scene\Common\Fade\FadeDefine.h" />
+    <ClInclude Include="Src\Scene\Common\Fade\FadeSceneBase.h" />
+    <ClInclude Include="Src\Scene\Common\Fade\Default\DefaultFadeScene.h" />
+    <ClInclude Include="Src\Scene\Common\GameSpace\WorldSceneBase.h" />
     <ClInclude Include="Src\Scene\Common\GameSpace\GameSpaceController.h" />
     <ClInclude Include="Src\Scene\Common\GameSpace\MovementRail.h" />
     <ClInclude Include="Src\Scene\Common\GameSpace\SpaceChangeTrigger.h" />
@@ -163,5 +188,24 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Doctor\Doctor.png" />
+    <ClInclude Include="Src\Object\Player\Player.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerMoveState.h" />
+    <ClInclude Include="Src\Object\ColliderOperator\ColliderOperator.h" />
+    <ClInclude Include="Src\Object\Common\Collider\AttackCollider.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerPunchState.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerIdleState.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerJumpState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Punch\PlayerPunchCollOperator.h" />
+    <ClInclude Include="Src\Manager\TimeScale\TimeScale.h" />
+    <ClInclude Include="Src\Object\Common\ActorBase\ActorDrawTypeDefine.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerFireBallState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerThunderState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerAbsorbState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.h" />
   </ItemGroup>
 </Project>

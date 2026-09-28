@@ -1,9 +1,9 @@
-#include "PlayerWaterCollOperator.h"
+#include "PlayerThunderCollOperator.h"
 #include <cstdlib>
 
 #include "../../../Common/Collider/SphereCollider.h"
 
-PlayerWaterCollOperator::PlayerWaterCollOperator(
+PlayerThunderCollOperator::PlayerThunderCollOperator(
 	float COLL_RADIUS,
 	const Vector3& COLL_LOCAL_POS,
 
@@ -18,7 +18,7 @@ PlayerWaterCollOperator::PlayerWaterCollOperator(
 {
 }
 
-void PlayerWaterCollOperator::Load(void)
+void PlayerThunderCollOperator::Load(void)
 {
 #pragma region オブジェクト設定
 
@@ -40,15 +40,9 @@ void PlayerWaterCollOperator::Load(void)
 }
 
 
-void PlayerWaterCollOperator::SubUpdate(void)
+void PlayerThunderCollOperator::SubUpdate(void)
 {
 	if (!attackColl->GetJudgeFlg()) { return; }
-
-	velocity_.y -= 0.5f;
-
-	// 移動処理
-	trans.pos += velocity_;
-
 	// 寿命処理
 	lifeTimer -= 1.0f / 60.0f;
 	if (lifeTimer <= 0.0f) {
@@ -56,7 +50,7 @@ void PlayerWaterCollOperator::SubUpdate(void)
 	}
 }
 
-void PlayerWaterCollOperator::On(void)
+void PlayerThunderCollOperator::On(const Vector3& offSet)
 {
 	attackColl->SetJudgeFlg(true);
 
@@ -69,34 +63,26 @@ void PlayerWaterCollOperator::On(void)
 		cosf(playerTrans.angle.y)
 	);
 
-	Vector3 launchDir = baseFront;
-	launchDir.y = 2.0f;
 
-	// 放水用の拡散
-	float spreadX = ((float)rand() / RAND_MAX - 0.5f) * 0.15f;
-	float spreadY = ((float)rand() / RAND_MAX - 0.5f) * 0.10f;
-
-	Vector3 dir = (launchDir + Vector3(spreadX, spreadY, 0.0f)).Normalized();
-
-	float speed = 12.0f + ((float)rand() / RAND_MAX) * 3.0f;
-
-	velocity_ = dir * speed;
+	trans.pos += (baseFront * offSet.z) + Vector3(0.0f, offSet.y, 0.0f);
 
 	// タイマーリセット
-	lifeTimer = WATER_LIFETIME_MAX;
+	lifeTimer = THUNDER_LIFETIME_MAX;
 }
 
-void PlayerWaterCollOperator::Off(void)
+void PlayerThunderCollOperator::Off(void)
 {
 	attackColl->SetJudgeFlg(false);
 }
 
-void PlayerWaterCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
+void PlayerThunderCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
 {
 	velocity.y = (velocity.y < 0.0f) ? 0.0f : velocity.y;
+	// 寿命処理
+	Off();
 }
 
-void PlayerWaterCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
+void PlayerThunderCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
 
 }

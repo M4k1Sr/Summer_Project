@@ -29,7 +29,15 @@ enum class COLLIDER_TAG
 
 	DebugObject,
 
+	Absorb,
+
 	Punch,
 
 	Fire,
+
+	Water,
+
+	Thunder,
+
+	FrostBlade,
 };

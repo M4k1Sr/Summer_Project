@@ -138,9 +138,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClCompile Include="Src\Object\NPC\CharactorType\Bell\Bell.cpp" />
     <ClCompile Include="Src\Object\NPC\NpcBase.cpp" />
+=======
+    <ClCompile Include="Src\Object\Player\State\PlayerAbsorbState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerThunderState.cpp" />
+>>>>>>> GameDev/DemoStage
     <ClCompile Include="Src\Object\Player\State\PlayerWaterState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerFireBallState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.cpp" />
@@ -205,9 +213,17 @@
     <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClInclude Include="Src\Object\NPC\CharactorType\Bell\Bell.h" />
     <ClInclude Include="Src\Object\NPC\NpcBase.h" />
+=======
+    <ClInclude Include="Src\Object\Player\State\PlayerAbsorbState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerThunderState.h" />
+>>>>>>> GameDev/DemoStage
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.h" />
     <ClInclude Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerFireBallState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.h" />

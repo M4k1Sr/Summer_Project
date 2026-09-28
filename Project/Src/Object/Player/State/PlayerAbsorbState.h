@@ -2,32 +2,29 @@
 
 #include "../../Common/CharacterBase/CharacterStateBase.h"
 
-#include "../../../Common/Vector3.h"
 
-struct Transform;
-class PlayerPunchCollOperator;
+struct Vector3;
+class PlayerAbsorbCollOperator;
 
-class PlayerPunchState : public CharacterStateBase
+class PlayerAbsorbState : public CharacterStateBase
 {
 public:
-
-	PlayerPunchState(
+	PlayerAbsorbState(
 		float COLL_START_TIME,
 		float COLL_END_TIME,
 
-		PlayerPunchCollOperator& collOperator,
+		PlayerAbsorbCollOperator& collOperators,
 
-		std::function<void(void)> playAnimeAttack,
+		std::function<void(void)> playAnimeAbsorbStart,
+		std::function<void(void)> playAnimeAbsorbEnd,
 		std::function<float(void)> getAnimeRatio,
-
 		std::function<void(void)> changeStateIdle
-	);
 
-	~PlayerPunchState()override = default;
+	);
+	~PlayerAbsorbState()override = default;
 
 	// 自分の状態に遷移する条件関数
-	void OwnStateConditionUpdate(void);
-
+	void OwnStateConditionUpdate(void)override;
 	// 状態遷移後1度行う初期化処理
 	void Enter(void)override;
 	// 更新処理
@@ -62,10 +59,11 @@ private:
 #pragma region 受け取る参照変数・関数
 
 	// 攻撃の当たり判定管理クラスの参照
-	PlayerPunchCollOperator& collOperator;
+	PlayerAbsorbCollOperator& collOperators;
 
 	// 攻撃アニメーションの再生関数のポインタ
-	const std::function<void(void)> playAnimeAttack;
+	const std::function<void(void)> playAnimeAbsorbStart;
+	const std::function<void(void)> playAnimeAbsorbEnd;
 
 	// アニメーションの再生割合を取得する関数のポインタ
 	const std::function<float(void)> getAnimeRatio;
@@ -77,5 +75,8 @@ private:
 
 	// 攻撃ステップ
 	STEP step;
-};
 
+	// 水滴の発生間隔タイマー
+	static constexpr float SPAWN_INTERVAL = 0.05f;
+	float spawnTimer;
+};
