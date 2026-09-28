@@ -18,6 +18,9 @@
 #include "../../Object/Common/DebugObject/SphereDebugObject.h"
 #include "../../Object/Common/DebugObject/MeshDebugObject.h"
 
+#include "../../Object/NPC/CharactorType/Bell/Bell.h"
+#include "../../Object/Player/Player.h"
+
 #include "../../Object/Stage/MainStage/FirstStage.h"
 
 GameScene::GameScene() : WorldSceneBase()
@@ -30,22 +33,29 @@ void GameScene::SubPostLoad(void)
 
 	//ObjAdd(new BoxDebugObject(Vector3(2000, 1000, 2000), Vector3::Yonly(-500), false));
 
-	ObjAdd(new SphereDebugObject(50.0f, Vector3(0,50,0), true, true, true, 50, true));
+	//ObjAdd(new SphereDebugObject(50.0f, Vector3(0,50,0), true, true, true, 50, true));
 
+	// ベル
+	ObjAdd(new Bell());
+
+	// ステージ1
 	ObjAdd(new FirstStage());
+
+	ObjAdd(new Player());
+
 }
 
 void GameScene::SubWorldPostUpdate(void)
 {
-	// ゲーム終了処理
-	if (Input::GetIns().GetInfo(KEY_TYPE::End).down) {
-		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title);
-	}
+	//// ゲーム終了処理
+	//if (Input::GetIns().GetInfo(KEY_TYPE::End).down) {
+	//	SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title);
+	//}
 
-	// 決定
-	if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
-		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
-	}
+	//// 決定
+	//if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
+	//	SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
+	//}
 }
 
 void GameScene::SubUiDraw(void)
@@ -55,7 +65,7 @@ void GameScene::SubUiDraw(void)
 
 void GameScene::CreateCamera(void)
 {
-	SphereDebugObject* target = ActorSerch<SphereDebugObject>(actors);
+	Player* target = ActorSerch<Player>(actors);
 	if (target == nullptr) { camera = nullptr; return; }
 	camera = new GameSpaceFollowCamera(target->GetTrans(), GetGameSpace());
 }

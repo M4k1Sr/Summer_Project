@@ -1,15 +1,14 @@
 #pragma once
-#include "../Common/CharacterBase/CharacterBase.h"
-#include "../ColliderOperator/ColliderOperator.h"
+#include "../../../Common/CharacterBase/CharacterBase.h"
+#include "../../../ColliderOperator/ColliderOperator.h"
 
-
-class Player :
+class Bell :
 	public CharacterBase
 {
 public:
 
-	Player();
-	~Player()override = default;
+	Bell();
+	~Bell()override = default;
 
 	// 読み込み
 	void Load(void)override;
@@ -24,15 +23,7 @@ private:
 	{
 		None = -1,
 
-		Idle,
-		Move,
-		Absorb,
-		Jump,
-
-		Punch,
-		FireBall,
-		Water,
-		Thunder,
+		Idle,	// 待機状態
 
 		Max
 	};
@@ -44,19 +35,7 @@ private:
 	{
 		None = -1,
 
-		Idle,
-
-		Walk,
-
-		Run,
-
-		Punch,
-
-		Water,
-
-		Absorb_Start,
-
-		Absorb_End,
+		Idle,	// 待機アニメーション
 
 		Max
 	};
@@ -65,24 +44,12 @@ private:
 	float ANIME_SPEED_TABLE[(int)ANIME_TYPE::Max] =
 	{
 		0.5f,
-		0.5f,
-		0.5f,
-		0.75f,
-		1.0f,
-		0.5f,
-		1.0f,
 	};
 
 	// アニメーションループ再生フラグテーブル
 	const bool ANIME_LOOP_TABLE[(int)ANIME_TYPE::Max] =
 	{
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false,
+		true
 	};
 
 #pragma endregion
@@ -93,5 +60,4 @@ private:
 	// 更新処理
 	void SubUpdate(void)override;
 };
-
 

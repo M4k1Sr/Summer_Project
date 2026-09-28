@@ -21,6 +21,8 @@ enum class COLLIDER_TAG
 
 	Player,
 
+	Npc,
+
 	Enemy,
 
 	Stage,
@@ -29,7 +31,15 @@ enum class COLLIDER_TAG
 
 	DebugObject,
 
+	Absorb,
+
 	Punch,
 
 	Fire,
+
+	Water,
+
+	Thunder,
+
+	FrostBlade,
 };

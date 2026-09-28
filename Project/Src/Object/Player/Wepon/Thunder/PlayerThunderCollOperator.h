@@ -4,23 +4,23 @@
 
 class SphereCollider;
 
-class PlayerWaterCollOperator : public ActorBase
+class PlayerThunderCollOperator : public ActorBase
 {
 public:
-	PlayerWaterCollOperator(
+	PlayerThunderCollOperator(
 		float COLL_RADIUS,
 		const Vector3& COLL_LOCAL_POS,
 
 		const Transform& playerTrans
 	);
-	~PlayerWaterCollOperator()override = default;
+	~PlayerThunderCollOperator()override = default;
 
 	void Load(void)override;
 
 	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
 
 	// 判定発生
-	void On(void);
+	void On(const Vector3& offSet);
 	// 判定消去
 	void Off(void);
 
@@ -32,8 +32,8 @@ public:
 
 	float GetLifeTimer(void)const { return lifeTimer; }
 
-	//放水コライダーの数
-	static constexpr int WATER_COLL_NUM = 20;
+	//サンダーコライダーの数
+	static constexpr int THUNDER_COLL_NUM = 3;
 
 private:
 
@@ -41,7 +41,7 @@ private:
 	const Vector3 COLL_LOCAL_POS;
 
 	// 飛翔時間（秒）
-	static constexpr float WATER_LIFETIME_MAX = 0.8f;
+	static constexpr float THUNDER_LIFETIME_MAX = 5.0f;
 	// 生存タイマー
 	float lifeTimer;
 

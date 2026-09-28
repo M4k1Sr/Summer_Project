@@ -151,7 +151,14 @@
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornWait.cpp" />
     <ClCompile Include="Src\Object\Enemy\Thorn\Thorn.cpp" />
     <ClCompile Include="Src\Object\Enemy\Thorn\Wepon\Icicle.cpp" />
+    <ClCompile Include="Src\Object\NPC\CharactorType\Bell\Bell.cpp" />
+    <ClCompile Include="Src\Object\NPC\NpcBase.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerAbsorbState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.cpp" />
+    <ClCompile Include="Src\Object\Player\State\PlayerThunderState.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerWaterState.cpp" />
+    <ClCompile Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerFireBallState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.cpp" />
@@ -213,6 +220,7 @@
     <ClCompile Include="Src\Scene\Common\Fade\Default\DefaultFadeScene.cpp" />
     <ClCompile Include="Src\Scene\Test\TestScene.cpp" />
     <ClCompile Include="Src\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Enemy\EnemyBase.h" />
@@ -228,7 +236,14 @@
     <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornWait.h" />
     <ClInclude Include="Src\Object\Enemy\Thorn\Thorn.h" />
     <ClInclude Include="Src\Object\Enemy\Thorn\Wepon\Icicle.h" />
+    <ClInclude Include="Src\Object\NPC\CharactorType\Bell\Bell.h" />
+    <ClInclude Include="Src\Object\NPC\NpcBase.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerAbsorbState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.h" />
+    <ClInclude Include="Src\Object\Player\State\PlayerThunderState.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
+    <ClInclude Include="Src\Object\Player\Wepon\Thunder\PlayerThunderCollOperator.h" />
     <ClInclude Include="Src\Object\Player\Wepon\Water\PlayerWaterCollOperator.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerFireBallState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\FireBall\PlayerFireBallCollOperator.h" />
@@ -314,6 +329,13 @@
     <ClInclude Include="Src\Scene\Test\TestScene.h" />
     <ClInclude Include="Src\Scene\Title\TitleScene.h" />
     <ClInclude Include="Src\Utility\Utility.h" />
+    <ClInclude Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Doctor\Doctor.mv1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Doctor\Doctor.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,17 +5,26 @@
 #include "../../../Common/Vector3.h"
 
 struct Transform;
-class PlayerPunchCollOperator;
+class PlayerThunderCollOperator;
 
-class PlayerPunchState : public CharacterStateBase
+class PlayerThunderState : public CharacterStateBase
 {
 public:
 
-	PlayerPunchState(
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="COLL_START_TIME"></param>
+	/// <param name="COLL_END_TIME"></param>
+	/// <param name="collOperator"></param>
+	/// <param name="playAnimeAttack"></param>
+	/// <param name="getAnimeRatio"></param>
+	/// <param name="changeStateIdle"></param>
+	PlayerThunderState(
 		float COLL_START_TIME,
 		float COLL_END_TIME,
 
-		PlayerPunchCollOperator& collOperator,
+		const std::vector<PlayerThunderCollOperator*>& collOperators,
 
 		std::function<void(void)> playAnimeAttack,
 		std::function<float(void)> getAnimeRatio,
@@ -23,7 +32,7 @@ public:
 		std::function<void(void)> changeStateIdle
 	);
 
-	~PlayerPunchState()override = default;
+	~PlayerThunderState()override = default;
 
 	// 自分の状態に遷移する条件関数
 	void OwnStateConditionUpdate(void);
@@ -34,6 +43,8 @@ public:
 	void Update(void)override;
 	// 状態遷移前1度行う終了処理
 	void Exit(void)override;
+	// 水滴を1個生成・再利用するヘルパー
+	void EmitThunderParticle(void);
 
 private:
 
@@ -62,7 +73,7 @@ private:
 #pragma region 受け取る参照変数・関数
 
 	// 攻撃の当たり判定管理クラスの参照
-	PlayerPunchCollOperator& collOperator;
+	const std::vector<PlayerThunderCollOperator*> collOperators;
 
 	// 攻撃アニメーションの再生関数のポインタ
 	const std::function<void(void)> playAnimeAttack;
@@ -77,5 +88,13 @@ private:
 
 	// 攻撃ステップ
 	STEP step;
+
+	// 発生間隔タイマー
+	static constexpr float SPAWN_INTERVAL = 0.15f;
+	float spawnTimer;
+	// 発生座標関連
+	float spawnedCount;
+	static constexpr float THUNDER_DISTANCE_INTERVAL = 100.0f;
+	static constexpr float THUNDER_SPAWN_HEIGHT = 500.0f;
 };
 
