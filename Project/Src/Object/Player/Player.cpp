@@ -12,6 +12,7 @@
 
 #include "State/PlayerIdleState.h"
 #include "State/PlayerMoveState.h"
+#include "State/PlayerAbsorbState.h"
 #include "State/PlayerPunchState.h"
 #include "State/PlayerFireBallState.h"
 #include "State/PlayerWaterState.h"
@@ -21,6 +22,7 @@
 #include "Wepon/FireBall/PlayerFireBallCollOperator.h"
 #include "Wepon/Water/PlayerWaterCollOperator.h"
 #include "Wepon/Thunder/PlayerThunderCollOperator.h"
+#include "Wepon/Absorb/PlayerAbsorbCollOperator.h"
 
 
 
@@ -95,6 +97,12 @@ void Player::Load(void)
 
 	// 攻撃当たり判定管理クラス
 
+	//吸収
+	PlayerAbsorbCollOperator* absorbCollOperator =
+		new PlayerAbsorbCollOperator(60.0f, Vector3(0, 0, 0), Vector3(0, 0, 100), Vector3(0, 100, 100), trans);
+
+	AddChildActor(absorbCollOperator);
+
 	//パンチ
 	PlayerPunchCollOperator* punchCollOperator =
 		new PlayerPunchCollOperator(60.0f, Vector3(0, 0, 100), trans);
@@ -166,6 +174,19 @@ void Player::Load(void)
 		)
 	);
 
+	// 吸収
+	AddState(
+		STATE::Absorb,
+		new PlayerAbsorbState(
+			GetParameter("Collider", "CollStart"), GetParameter("Collider", "CollEnd"),
+			*absorbCollOperator,
+			[&]() { AnimePlay(ANIME_TYPE::Absorb_Start, false); },
+			[&]() { AnimePlay(ANIME_TYPE::Absorb_End, false); },
+			[&]() { return GetAnimeRatio(); },
+			[&]() { ChangeState(STATE::Idle); }
+		)
+	);
+
 
 	//// ジャンプ状態
 	//AddState(
@@ -234,6 +255,11 @@ void Player::Load(void)
 	// 「移動状態」->「待機状態」の自動遷移登録
 	RegisterStateTransition(STATE::Move, STATE::Idle);
 
+	// 「待機状態」->「吸収状態」の自動遷移登録
+	RegisterStateTransition(STATE::Idle, STATE::Absorb);
+	// 「移動状態」->「吸収状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Absorb);
+
 	//// 「待機状態」->「ジャンプ状態」の自動遷移登録
 	//RegisterStateTransition(STATE::Idle, STATE::Jump);
 	//// 「移動状態」->「ジャンプ状態」の自動遷移登録
@@ -255,9 +281,9 @@ void Player::Load(void)
 	//RegisterStateTransition(STATE::Move, STATE::Water);
 
 	// 「待機状態」->「攻撃（サンダー）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Idle, STATE::Thunder);
-	// 「移動状態」->「攻撃（サンダー）状態」の自動遷移登録
-	RegisterStateTransition(STATE::Move, STATE::Thunder);
+	//RegisterStateTransition(STATE::Idle, STATE::Thunder);
+	//// 「移動状態」->「攻撃（サンダー）状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::Thunder);
 
 #pragma endregion
 }

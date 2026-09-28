@@ -26,6 +26,7 @@ private:
 
 		Idle,
 		Move,
+		Absorb,
 		Jump,
 
 		Punch,
