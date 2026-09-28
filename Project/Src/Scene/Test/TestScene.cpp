@@ -5,6 +5,8 @@
 #include "../../Manager/Input/InputManager.h"
 #include "../SceneManager.h"
 
+#include "../ActorUseDefine.h"
+
 #include "../../Manager/Camera/GameSpaceFollow/GameSpaceFollowCamera.h"
 
 #include "../../Object/Common/DebugObject/SphereDebugObject.h"
@@ -16,6 +18,8 @@
 #include "../../Object/Enemy/Cactus/Cactus.h"
 #include "../../Object/Enemy/Thorn/Thorn.h"
 #include "../../Object/Enemy/Thorn/Wepon/Icicle.h"
+
+#include "../../Object/Enemy/EnemyManager.h"
 
 #include "../../Object/Player/Player.h"
 
@@ -51,14 +55,12 @@ void TestScene::SubPostLoad(void)
 	// MeshCollider・BVH・坂の接地確認用
 	ObjAdd(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
 
-	//仮敵生成
-	ObjAdd(new NormalSlime(Vector3(0, 250, 0)));
-	ObjAdd(new Cactus(Vector3(200, 200, 0)));
-	ObjAdd(new Thorn(Vector3(-600, 200, 0)));
+
+	//敵の生成
+	ObjAdd(new EnemyManager);
 
 	//プレイヤー座標渡し
-	/*ObjSerch<Cactus>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);
-	ObjSerch<Thorn>(objects)->SetPlayerPos(&operatorObject->GetTrans().pos);*/
+	ActorSerch<EnemyManager>(actors)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
 	BuildRail();
 

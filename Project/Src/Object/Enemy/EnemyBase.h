@@ -16,7 +16,6 @@ public:
 	// エネミーデータ
 	struct EnemyData
 	{
-		int id;
 		//タイプ
 		EnemyBase::TYPE type;
 		int hp;
