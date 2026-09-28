@@ -11,7 +11,7 @@ class FirstStage
 {
 public:
 
-	enum class STAGE_BLOCK_TYPE
+	enum class STAGE_BLOCK_TYPE : int
 	{
 		NONE = -1,	// ‚È‚µ
 		DIRT = 0,	// “yƒuƒƒbƒN
