@@ -11,7 +11,7 @@ class FirstStage
 {
 public:
 
-	enum class STAGE_BLOCK_TYPE
+	enum class STAGE_BLOCK_TYPE : int
 	{
 		NONE = -1,	// なし
 		DIRT = 0,	// 土ブロック
@@ -26,7 +26,7 @@ public:
 	static constexpr float CHIP_SIZE = 64.0f;
 
 	// マップの大きさX,Y
-	static constexpr int MAP_SIZE_X = 30;
+	static constexpr int MAP_SIZE_X = 65;
 	static constexpr int MAP_SIZE_Y = 17;
 
 	// 描画するタイルの範囲X,Y
