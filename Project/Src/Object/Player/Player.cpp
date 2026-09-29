@@ -255,10 +255,10 @@ void Player::Load(void)
 	// 「移動状態」->「待機状態」の自動遷移登録
 	RegisterStateTransition(STATE::Move, STATE::Idle);
 
-	// 「待機状態」->「吸収状態」の自動遷移登録
-	RegisterStateTransition(STATE::Idle, STATE::Absorb);
-	// 「移動状態」->「吸収状態」の自動遷移登録
-	RegisterStateTransition(STATE::Move, STATE::Absorb);
+	//// 「待機状態」->「吸収状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Idle, STATE::Absorb);
+	//// 「移動状態」->「吸収状態」の自動遷移登録
+	//RegisterStateTransition(STATE::Move, STATE::Absorb);
 
 	//// 「待機状態」->「ジャンプ状態」の自動遷移登録
 	//RegisterStateTransition(STATE::Idle, STATE::Jump);
@@ -281,9 +281,9 @@ void Player::Load(void)
 	//RegisterStateTransition(STATE::Move, STATE::Water);
 
 	// 「待機状態」->「攻撃（サンダー）状態」の自動遷移登録
-	//RegisterStateTransition(STATE::Idle, STATE::Thunder);
-	//// 「移動状態」->「攻撃（サンダー）状態」の自動遷移登録
-	//RegisterStateTransition(STATE::Move, STATE::Thunder);
+	RegisterStateTransition(STATE::Idle, STATE::Thunder);
+	// 「移動状態」->「攻撃（サンダー）状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Thunder);
 
 #pragma endregion
 }

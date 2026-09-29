@@ -54,8 +54,8 @@ private:
 	//最初に取得した前方
 	Vector3 front;
 
-	// 水滴ごとの移動速度ベクトル
-	Vector3 velocity_;
+	//エフェクトハンドル
+	int effect;
 
 	// 更新処理
 	void SubUpdate(void)override;

@@ -44,10 +44,10 @@ void PlayerWaterCollOperator::SubUpdate(void)
 {
 	if (!attackColl->GetJudgeFlg()) { return; }
 
-	velocity_.y -= 0.5f;
+	waterVec.y -= 0.5f;
 
 	// 移動処理
-	trans.pos += velocity_;
+	trans.pos += waterVec;
 
 	// 寿命処理
 	lifeTimer -= 1.0f / 60.0f;
@@ -80,7 +80,7 @@ void PlayerWaterCollOperator::On(void)
 
 	float speed = 12.0f + ((float)rand() / RAND_MAX) * 3.0f;
 
-	velocity_ = dir * speed;
+	waterVec = dir * speed;
 
 	// タイマーリセット
 	lifeTimer = WATER_LIFETIME_MAX;

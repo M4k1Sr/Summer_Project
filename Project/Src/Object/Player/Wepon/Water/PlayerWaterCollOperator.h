@@ -55,7 +55,7 @@ private:
 	Vector3 front;
 
 	// 水滴ごとの移動速度ベクトル
-	Vector3 velocity_;
+	Vector3 waterVec;
 
 	// 更新処理
 	void SubUpdate(void)override;
