@@ -4,6 +4,8 @@
 
 #include "State/CactusWait.h"
 #include "State/CactusAttack.h"
+#include "State/CactusHit.h"
+#include "State/CactusDie.h"
 
 void Cactus::Load(void)
 {
@@ -34,11 +36,35 @@ void Cactus::Load(void)
 			[&]() {ChangeState(STATE::Attack); },
 			[&]() 
 			{
-			
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
 				//再生アニメーション
 				AnimePlay((int)ANIM::Hit, true); 
+			}
+		));
+
+	//HIT状態追加
+	AddState(
+		STATE::Hit,
+		new CactusHit(
+			trans.pos,
+			[&]()
+			{
+				//アニメーションずれ修正
+				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
+				//再生アニメーション
+				AnimePlay((int)ANIM::Hit, false);
+			},
+			[&]()
+			{
+				//アニメーションずれ修正
+				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
+				
+				//再生したアニメが終了したら遷移
+				if (IsAnimeEnd)
+				{
+					ChangeState(STATE::Wait);
+				}
 			}
 		));
 
@@ -57,6 +83,20 @@ void Cactus::Load(void)
 			},
 			trans.angle.y
 		));
+
+	AddState(
+		STATE::Die,
+		new CactusDie(
+			trans.pos,
+			[&]()
+			{
+				//アニメーションずれ修正
+				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
+				//再生アニメーション
+				AnimePlay((int)ANIM::Die, true);
+			}
+		));
+
 
 #pragma endregion
 }

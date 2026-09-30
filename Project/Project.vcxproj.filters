@@ -96,7 +96,7 @@
     <ClCompile Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.cpp" />
     <ClCompile Include="Src\Object\Enemy\Boss\Boss.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusDie.cpp" />
-    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusHIt.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusHit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -213,7 +213,7 @@
     <ClInclude Include="Src\Object\NPC\CharactorType\Bell\Bell.h" />
     <ClInclude Include="Src\Object\Enemy\Boss\Boss.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusDie.h" />
-    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusHIt.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusHit.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />

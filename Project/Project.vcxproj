@@ -138,7 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusHIt.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusHit.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusDie.cpp" />
     <ClCompile Include="Src\Object\Enemy\Boss\Boss.cpp" />
     <ClCompile Include="Src\Object\Enemy\EnemyBase.cpp" />
@@ -226,7 +226,7 @@
     <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusHIt.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusHit.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusDie.h" />
     <ClInclude Include="Src\Object\Enemy\Boss\Boss.h" />
     <ClInclude Include="Src\Object\Enemy\EnemyBase.h" />
