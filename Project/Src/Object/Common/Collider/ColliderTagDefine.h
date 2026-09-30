@@ -27,6 +27,8 @@ enum class COLLIDER_TAG
 
 	Stage,
 
+	Icicle,
+
 	DebugObject,
 
 	Absorb,

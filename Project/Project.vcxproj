@@ -138,6 +138,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="Src\Object\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\Cactus.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusAttack.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusWait.cpp" />
+    <ClCompile Include="Src\Object\Enemy\NormalSlime\NormalSlime.cpp" />
+    <ClCompile Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeDieState.cpp" />
+    <ClCompile Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeHItState.cpp" />
+    <ClCompile Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeMoveState.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornAttack.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornWait.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\Thorn.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\Wepon\Icicle.cpp" />
     <ClCompile Include="Src\Object\NPC\CharactorType\Bell\Bell.cpp" />
     <ClCompile Include="Src\Object\NPC\NpcBase.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerAbsorbState.cpp" />
@@ -210,6 +223,19 @@
     <ClCompile Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Enemy\EnemyBase.h" />
+    <ClInclude Include="Src\Object\Enemy\EnemyManager.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\Cactus.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusAttack.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusWait.h" />
+    <ClInclude Include="Src\Object\Enemy\NormalSlime\NormalSlime.h" />
+    <ClInclude Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeDieState.h" />
+    <ClInclude Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeHItState.h" />
+    <ClInclude Include="Src\Object\Enemy\NormalSlime\State\NormalSlimeMoveState.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornAttack.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornWait.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\Thorn.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\Wepon\Icicle.h" />
     <ClInclude Include="Src\Object\NPC\CharactorType\Bell\Bell.h" />
     <ClInclude Include="Src\Object\NPC\NpcBase.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerAbsorbState.h" />

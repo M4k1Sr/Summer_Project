@@ -61,13 +61,13 @@ void FirstStage::Load()
 			);
 
 			// CSV数値に応じてオブジェクトセットアップ
-			switch (tileType) {
-			case 11:	// 通常の道ステージ(11)
+			switch (static_cast<STAGE_BLOCK_TYPE>(tileType)) {
+			case STAGE_BLOCK_TYPE::GRASS:	// 通常の道ステージ(11)
 				{
 					stageBlocks[y][x] = new GrassBlock(tilePos,false,false,true);
 					break;
 				}
-				case 0:		// 土ステージ(0)
+				case STAGE_BLOCK_TYPE::DIRT:		// 土ステージ(0)
 				{
 					stageBlocks[y][x] = new DirtBlock(tilePos,false,false,true);
 					break;
