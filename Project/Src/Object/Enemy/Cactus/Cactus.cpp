@@ -38,7 +38,7 @@ void Cactus::Load(void)
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
 				//再生アニメーション
-				AnimePlay((int)ANIM::Wait, true); 
+				AnimePlay((int)ANIM::Hit, true); 
 			}
 		));
 
@@ -53,7 +53,7 @@ void Cactus::Load(void)
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -80.0f, 0.0f) * trans.scale;
 				//再生アニメーション
-				AnimePlay((int)ANIM::Attack, false); 
+				AnimePlay((int)ANIM::Die, false);
 			},
 			trans.angle.y
 		));

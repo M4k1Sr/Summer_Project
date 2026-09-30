@@ -12,7 +12,12 @@ public:
 
 		//‘Ò‹@ó‘Ô
 		Wait,
+		//UŒ‚
 		Attack,
+		//HIT
+		Hit,
+		//HP0
+		Die,
 
 		Max
 	};

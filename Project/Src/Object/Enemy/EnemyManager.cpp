@@ -35,7 +35,7 @@ void EnemyManager::Load(void)
 		if (!IsParameterExist("InitPos", parameterName)) { break; }
 
 		// ‘¶İ‚·‚é‚È‚ç‚ÎA‚»‚ÌÀ•W‚É‚»‚Ì“G‚ğ¶¬
-		AddChildActor(new NormalSlime(GetParameterToVector3("InitPos", parameterName)));
+		AddChildActor(new Cactus(GetParameterToVector3("InitPos", parameterName)));
 	}
 
 	// ‚Æ‚°¶¬
