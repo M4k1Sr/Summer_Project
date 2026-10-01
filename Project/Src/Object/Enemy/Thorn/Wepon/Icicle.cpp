@@ -4,6 +4,7 @@
 #include "../../../Common/Collider/CapsuleCollider.h"
 
 
+
 Icicle::Icicle(const Vector3*& playerPos)
 	:ActorBase(),
 	playerPos(playerPos)
@@ -51,7 +52,6 @@ void Icicle::SubUpdate(void)
 		if (trans.scale.MaxElementF() >= MODEL_SCALE) {
 			state = STATE::Wait;
 		}
-
 		break;
 	}
 
@@ -64,7 +64,6 @@ void Icicle::SubUpdate(void)
 
 			state = STATE::Fall;
 		}
-
 		break;
 	}
 
@@ -80,7 +79,6 @@ void Icicle::SubUpdate(void)
 
 			SetJudge(false);
 		}
-
 		break;
 	}
 
@@ -138,3 +136,4 @@ void Icicle::Start(void)
 	// èÛë‘Çê∂ê¨íÜÇ…Ç∑ÇÈ
 	state = STATE::Create;
 }
+

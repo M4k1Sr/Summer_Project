@@ -1,11 +1,12 @@
 #include "NormalSlimeMoveState.h"
 
-
-NormalSlimeMoveState::NormalSlimeMoveState(
-	const Vector3& normalSlimePos,
-	std::function<void(const Vector3& vec)> normalSlimeMoveAccel
-):
+NormalSlimeMoveState::NormalSlimeMoveState
+(const Vector3& normalSlimePos, 
+	const Vector3& initPos, 
+	std::function<void(const Vector3& vec)> normalSlimeMoveAccel)
+	:
 	normalSlimePos(normalSlimePos),
+	initPos(initPos),
 	normalSlimeMoveAccel(normalSlimeMoveAccel)
 {
 }

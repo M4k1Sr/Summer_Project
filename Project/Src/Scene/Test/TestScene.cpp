@@ -51,7 +51,7 @@ void TestScene::SubPostLoad(void)
 	//プレイヤー座標渡し
 	ActorSerch<EnemyManager>(actors)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
-	ObjAdd(new Boss(Vector3(200, 200, 0)));
+	//ObjAdd(new Boss(Vector3(200, 200, 0)));
 
 	BuildRail();
 

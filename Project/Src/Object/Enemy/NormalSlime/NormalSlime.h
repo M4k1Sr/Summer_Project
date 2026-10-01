@@ -39,10 +39,12 @@ public :
 	};
 
 	NormalSlime(
-		const Vector3& pos
+		const Vector3& pos,
+		const  int hp
 	) :
 		CharacterBase(),
-		INIT_POS(pos)
+		INIT_POS(pos),
+		hp(hp)
 	{
 		trans.pos = INIT_POS;
 		SetGravityFlg(true);
@@ -51,6 +53,15 @@ public :
 	void Load(void) override;
 
 private:
+
+#pragma region ó‚¯æ‚éQÆ
+
+
+	const int hp;
+
+#pragma endregion
+
+
 
 #pragma region ’è”
 

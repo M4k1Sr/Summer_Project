@@ -31,6 +31,7 @@ void NormalSlime::Load(void)
 		STATE::Move,
 		new NormalSlimeMoveState(
 			trans.pos,
+			INIT_POS,
 			std::bind(&NormalSlime::MoveAccel, this, std::placeholders::_1)
 			));
 

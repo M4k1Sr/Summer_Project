@@ -59,12 +59,13 @@ void Cactus::Load(void)
 			{
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
-				
+
 				//再生したアニメが終了したら遷移
-				if (IsAnimeEnd)
-				{
-					ChangeState(STATE::Wait);
-				}
+				//if (&IsAnimeEnd)
+				//{
+				//	ChangeState(STATE::Wait);
+				//}
+		
 			}
 		));
 
