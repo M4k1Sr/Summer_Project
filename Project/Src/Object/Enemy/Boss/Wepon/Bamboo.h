@@ -51,6 +51,11 @@ private:
 	// Waitó‘Ô‚Ì‘Ò‚¿ŠÔ
 	const unsigned short WAIT_TIME = 60;
 
+	//—‰º‚ÌÅ‘åYÀ•W
+	constexpr static float MAX_FALL_POS_Y = -200.0f;
+	//Šg‘å—Ê
+	constexpr static float SCALE_POW = 0.05f;
+
 #pragma endregion
 
 	//Œ»óó‘Ô

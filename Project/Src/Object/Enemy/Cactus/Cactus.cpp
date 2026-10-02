@@ -16,8 +16,10 @@ void Cactus::Load(void)
 	CreateAnimationController();
 	//アニメーション登録
 	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
-
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
+
+	//空間製薬の設定
+	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
 	// モデルの角度のズレを設定
 	trans.localAngle.y = Deg2Rad(180.0f);
 	//サイズ設定

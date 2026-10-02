@@ -43,10 +43,10 @@ public :
 		const  int hp
 	) :
 		CharacterBase(),
-		INIT_POS(pos),
+		initPos(pos),
 		hp(hp)
 	{
-		trans.pos = INIT_POS;
+		trans.pos = initPos;
 		SetGravityFlg(true);
 	}
 
@@ -79,7 +79,7 @@ private:
 
 
 	// 初期座標
-	const Vector3 INIT_POS;
+	const Vector3 initPos;
 
 	//アニメーションスピード
 	const float animationSpeedTabel_[(int)ANIM::MAX]
@@ -90,6 +90,6 @@ private:
 	void SubDraw(void) override;
 	void SubRelease(void) override;
 
-	void ResetPos(void) { trans.pos = INIT_POS; }
+	void ResetPos(void) { trans.pos = initPos; }
 };
 

@@ -18,6 +18,9 @@ void NormalSlime::Load(void)
 
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
 
+	//‹óŠÔ»–ò‚Ìİ’è
+	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
+
 	//ƒ‚ƒfƒ‹‚ÌŠp“x‚ÌƒYƒŒ‚ğİ’è
 	trans.localAngle.y = Deg2Rad(ADJUSTMENT_ANGLE);
 
@@ -31,7 +34,7 @@ void NormalSlime::Load(void)
 		STATE::Move,
 		new NormalSlimeMoveState(
 			trans.pos,
-			INIT_POS,
+			initPos,
 			std::bind(&NormalSlime::MoveAccel, this, std::placeholders::_1)
 			));
 

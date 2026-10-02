@@ -44,10 +44,10 @@ public:
 		const Vector3& pos
 	) :
 		CharacterBase(),
-		INIT_POS(pos),
+		initPos(pos),
 		playerPos_(nullptr)
 	{
-		trans.pos = INIT_POS;
+		trans.pos = initPos;
 		SetGravityFlg(true);
 	}
 
@@ -59,7 +59,7 @@ public:
 private:
 
 	// 初期座標
-	const Vector3 INIT_POS;
+	const Vector3 initPos;
 
 	//アニメーションスピード
 	const float animationSpeedTabel_[(int)ANIM::MAX] 
@@ -71,7 +71,7 @@ private:
 	void SubRelease(void) override;
 
 
-	void ResetPos(void) { trans.pos = INIT_POS; }
+	void ResetPos(void) { trans.pos = initPos; }
 
 	//座標参照
 	const Vector3 * playerPos_;
