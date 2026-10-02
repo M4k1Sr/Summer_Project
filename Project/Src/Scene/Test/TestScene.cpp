@@ -14,7 +14,7 @@
 
 #include "../../Object/Player/Player.h"
 
-#include "../../Object/Stage/MainStage/FirstStage.h"
+#include "../../Object/Stage/MainStage/StageFirst.h"
 
 TestScene::TestScene(void) :
 	WorldSceneBase(),
@@ -49,7 +49,7 @@ void TestScene::SubPostLoad(void)
 	BuildRail();
 
 	// テスト用ステージ
-	ObjAdd(new FirstStage());
+	ObjAdd(new StageFirst());
 }
 
 void TestScene::SubPostInit(void)

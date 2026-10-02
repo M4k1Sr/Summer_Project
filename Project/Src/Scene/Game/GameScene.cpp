@@ -19,7 +19,7 @@
 #include "../../Object/Common/DebugObject/MeshDebugObject.h"
 
 #include "../../Object/NPC/CharactorType/Bell/Bell.h"
-#include "../../Object/Stage/MainStage/FirstStage.h"
+#include "../../Object/Stage/MainStage/StageFirst.h"
 
 GameScene::GameScene() : WorldSceneBase()
 {
@@ -37,7 +37,7 @@ void GameScene::SubPostLoad(void)
 	ObjAdd(new Bell());
 
 	// ステージ1
-	ObjAdd(new FirstStage());
+	ObjAdd(new StageFirst());
 
 
 }

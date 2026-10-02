@@ -1,8 +1,8 @@
-#include "GrassBlock.h"
+#include "BlockGrass.h"
 
 #include "../../Common/Collider/BoxCollider.h"
 
-GrassBlock::GrassBlock(const Vector3& pos, 
+BlockGrass::BlockGrass(const Vector3& pos,
 	bool dynamicFlg,
 	bool isGravity,
 	bool isPushFlg
@@ -12,7 +12,7 @@ GrassBlock::GrassBlock(const Vector3& pos,
 	trans.pos = pos;
 }
 
-void GrassBlock::Load(void)
+void BlockGrass::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/Grass");
 

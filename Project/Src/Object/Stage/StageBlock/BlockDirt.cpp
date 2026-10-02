@@ -1,8 +1,8 @@
-#include "DirtBlock.h"
+#include "BlockDirt.h"
 
 #include "../../Common/Collider/BoxCollider.h"
 
-DirtBlock::DirtBlock(const Vector3& pos,
+BlockDirt::BlockDirt(const Vector3& pos,
 	bool dynamicFlg,
 	bool isGravity,
 	bool isPushFlg
@@ -12,7 +12,7 @@ DirtBlock::DirtBlock(const Vector3& pos,
 	trans.pos = pos;
 }
 
-void DirtBlock::Load(void)
+void BlockDirt::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/Dirt");
 
