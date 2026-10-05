@@ -61,14 +61,7 @@ private:
 	const float animationSpeedTabel_[(int)ANIM::MAX]
 		= { 1.0f,0.5f,1.0f,1.0f,1.0f };
 
-	// プレイヤーが抱える下位アクター格納配列
-	std::vector<ActorBase*> subObjects;
-
 	void SubInit(void) override;
-	void SubUpdate(void) override;
-	void SubDraw(void) override;
-	void SubRelease(void) override;
-
 
 	Vector3 GetMoveDirection(void) const;
 
@@ -80,6 +73,5 @@ private:
 	const Vector3* playerPos;
 
 #pragma endregion
-
 
 };
