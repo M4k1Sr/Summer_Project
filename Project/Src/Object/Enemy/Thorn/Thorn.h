@@ -40,7 +40,8 @@ public:
 		const Vector3& pos
 	) :
 		CharacterBase(),
-		INIT_POS(pos)
+		INIT_POS(pos),
+		playerPos(nullptr)
 	{
 		trans.pos = INIT_POS;
 		SetGravityFlg(true);

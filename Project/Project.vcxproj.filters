@@ -94,6 +94,12 @@
     <ClCompile Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.cpp" />
     <ClCompile Include="Src\Object\Player\State\PlayerAbsorbState.cpp" />
     <ClCompile Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Boss\Boss.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusDie.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusHit.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornHit.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornDie.cpp" />
+    <ClCompile Include="Src\Object\Enemy\Boss\Wepon\Bamboo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -208,6 +214,12 @@
     <ClInclude Include="Src\Object\NPC\NpcBase.h" />
     <ClInclude Include="Src\Object\NPC\CharactorType\Wokamoton\Wokamoton.h" />
     <ClInclude Include="Src\Object\NPC\CharactorType\Bell\Bell.h" />
+    <ClInclude Include="Src\Object\Enemy\Boss\Boss.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusDie.h" />
+    <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusHit.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornHit.h" />
+    <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornDie.h" />
+    <ClInclude Include="Src\Object\Enemy\Boss\Wepon\Bamboo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />

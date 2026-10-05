@@ -4,6 +4,8 @@
 
 #include "State/CactusWait.h"
 #include "State/CactusAttack.h"
+#include "State/CactusHit.h"
+#include "State/CactusDie.h"
 
 void Cactus::Load(void)
 {
@@ -14,8 +16,10 @@ void Cactus::Load(void)
 	CreateAnimationController();
 	//アニメーション登録
 	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
-
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
+
+	//空間製薬の設定
+	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
 	// モデルの角度のズレを設定
 	trans.localAngle.y = Deg2Rad(180.0f);
 	//サイズ設定
@@ -34,11 +38,36 @@ void Cactus::Load(void)
 			[&]() {ChangeState(STATE::Attack); },
 			[&]() 
 			{
-			
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
 				//再生アニメーション
-				AnimePlay((int)ANIM::Wait, true); 
+				AnimePlay((int)ANIM::Hit, true); 
+			}
+		));
+
+	//HIT状態追加
+	AddState(
+		STATE::Hit,
+		new CactusHit(
+			trans.pos,
+			[&]()
+			{
+				//アニメーションずれ修正
+				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
+				//再生アニメーション
+				AnimePlay((int)ANIM::Hit, false);
+			},
+			[&]()
+			{
+				//アニメーションずれ修正
+				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
+
+				//再生したアニメが終了したら遷移
+				//if (&IsAnimeEnd)
+				//{
+				//	ChangeState(STATE::Wait);
+				//}
+		
 			}
 		));
 
@@ -53,10 +82,24 @@ void Cactus::Load(void)
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -80.0f, 0.0f) * trans.scale;
 				//再生アニメーション
-				AnimePlay((int)ANIM::Attack, false); 
+				AnimePlay((int)ANIM::Die, false);
 			},
 			trans.angle.y
 		));
+
+	AddState(
+		STATE::Die,
+		new CactusDie(
+			trans.pos,
+			[&]()
+			{
+				//アニメーションずれ修正
+				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
+				//再生アニメーション
+				AnimePlay((int)ANIM::Die, true);
+			}
+		));
+
 
 #pragma endregion
 }

@@ -4,6 +4,7 @@
 #include "../../../Common/Collider/CapsuleCollider.h"
 
 
+
 Icicle::Icicle(const Vector3*& playerPos)
 	:ActorBase(),
 	playerPos(playerPos)
@@ -27,6 +28,9 @@ void Icicle::Load(void)
 	//初期ステート
 	state = STATE::None;
 
+	//空間製薬の設定
+	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
+
 	//描画オフ
 	SetIsDraw(false);
 	//判定オフ
@@ -36,53 +40,46 @@ void Icicle::Load(void)
 
 void Icicle::SubUpdate(void)
 {
-
-
 	//状態管理
 	switch (state)
 	{
-	case Icicle::STATE::None: { return; }
+		case Icicle::STATE::None: { return; }
 
-	case Icicle::STATE::Create: {
-
-		SetGravityFlg(false);
-
-		trans.scale += 0.05f;
-		if (trans.scale.MaxElementF() >= MODEL_SCALE) {
-			state = STATE::Wait;
-		}
-
-		break;
-	}
-
-	case Icicle::STATE::Wait: {
-
-		if(++waitCounter >= WAIT_TIME) 
+		case Icicle::STATE::Create:
 		{
+			SetGravityFlg(false);
 
-			SetGravityFlg(true);
-
-			state = STATE::Fall;
+			trans.scale += SCALE_POW;
+			if (trans.scale.MaxElementF() >= MODEL_SCALE) {
+				state = STATE::Wait;
+			}
+			break;
 		}
 
-		break;
-	}
+		case Icicle::STATE::Wait: {
 
-	case Icicle::STATE::Fall: 
-	{
+			if(++waitCounter >= WAIT_TIME) 
+			{
 
+				SetGravityFlg(true);
 
-		//画面外にでたら消す
-		if (trans.pos.y <= -200.0f) {
-			state = STATE::None;
-
-			SetIsDraw(false);
-
-			SetJudge(false);
+				state = STATE::Fall;
+			}
+			break;
 		}
 
-		break;
-	}
+		case Icicle::STATE::Fall: 
+		{
+			//画面外にでたら消す
+			if (trans.pos.y <= MAX_FALL_POS_Y) 
+			{
+				state = STATE::None;
+
+				SetIsDraw(false);
+				SetJudge(false);
+			}
+			break;
+		}
 
 	}
 }
@@ -138,3 +135,4 @@ void Icicle::Start(void)
 	// 状態を生成中にする
 	state = STATE::Create;
 }
+

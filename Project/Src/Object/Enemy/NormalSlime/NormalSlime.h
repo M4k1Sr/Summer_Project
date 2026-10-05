@@ -39,18 +39,29 @@ public :
 	};
 
 	NormalSlime(
-		const Vector3& pos
+		const Vector3& pos,
+		const  int hp
 	) :
 		CharacterBase(),
-		INIT_POS(pos)
+		initPos(pos),
+		hp(hp)
 	{
-		trans.pos = INIT_POS;
+		trans.pos = initPos;
 		SetGravityFlg(true);
 	}
 
 	void Load(void) override;
 
 private:
+
+#pragma region 受け取る参照
+
+
+	const int hp;
+
+#pragma endregion
+
+
 
 #pragma region 定数
 
@@ -68,7 +79,7 @@ private:
 
 
 	// 初期座標
-	const Vector3 INIT_POS;
+	const Vector3 initPos;
 
 	//アニメーションスピード
 	const float animationSpeedTabel_[(int)ANIM::MAX]
@@ -79,6 +90,6 @@ private:
 	void SubDraw(void) override;
 	void SubRelease(void) override;
 
-	void ResetPos(void) { trans.pos = INIT_POS; }
+	void ResetPos(void) { trans.pos = initPos; }
 };
 

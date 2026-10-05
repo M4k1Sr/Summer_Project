@@ -22,8 +22,18 @@ void EnemyManager::Load(void)
 		// そのパラメータが存在するかどうか
 		if (!IsParameterExist("InitPos", parameterName)) { break; }
 
+		// その回のパラメーター名
+		std::string parameterHp = "SlimeHp";
+		// そのパラメータが存在するかどうか
+		if (!IsParameterExist("States", parameterHp)) { break; }
+
+		//// その回のパラメーター名
+		//std::string parameterPower = "SlimePower";
+		//// そのパラメータが存在するかどうか
+		//if (!IsParameterExist("States", parameterPower)) { break; }
+
 		// 存在するならば、その座標にその敵を生成
-		AddChildActor(new NormalSlime(GetParameterToVector3("InitPos", parameterName)));
+		AddChildActor(new NormalSlime(GetParameterToVector3("InitPos", parameterName), GetParameterToInt("States", parameterHp)));
 	}
 
 	// サボテン生成
@@ -35,7 +45,7 @@ void EnemyManager::Load(void)
 		if (!IsParameterExist("InitPos", parameterName)) { break; }
 
 		// 存在するならば、その座標にその敵を生成
-		AddChildActor(new NormalSlime(GetParameterToVector3("InitPos", parameterName)));
+		AddChildActor(new Cactus(GetParameterToVector3("InitPos", parameterName)));
 	}
 
 	// とげ生成
