@@ -1,7 +1,6 @@
 #pragma once
 #include "../Common/Collider/AttackCollider.h"
 
-
 class ColliderOperator
 {
 public:
@@ -10,7 +9,6 @@ public:
 	~ColliderOperator() = default;
 
 	void Update(void);
-
 
 	/// <summary>
 	/// 攻撃判定の生成
@@ -26,7 +24,6 @@ public:
 	
 
 private:
-
 
 	std::function<void(ColliderBase* newClass)> ColliderCreate;
 

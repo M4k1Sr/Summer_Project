@@ -46,7 +46,7 @@ void Player::Load(void)
 	SetPushFlg(true);
 
 	// 押し出しだしによる重みを設定
-	SetPushWeight(50);
+	SetPushWeight(GetParameter("Init", "Weight"));
 
 #pragma endregion
 
@@ -60,10 +60,10 @@ void Player::Load(void)
 	trans.scale = 1;
 
 	// モデルの中心点のズレの補正
-	trans.centerDiff = Vector3(0.0f, -102.81f, 0.0f) * trans.scale;
+	trans.centerDiff = Vector3(0.0f, GetParameter("Init", "CenterOffset"), 0.0f) * trans.scale;
 
 	// モデルの角度のズレの補正
-	trans.localAngle = Vector3(0.0f, Deg2Rad(180.0f), 0.0f);
+	trans.localAngle = Vector3(0.0f, Deg2Rad(GetParameter("Init", "angle")), 0.0f);
 
 #pragma endregion
 
@@ -84,9 +84,9 @@ void Player::Load(void)
 	ColliderCreate(
 		new CapsuleCollider(
 			COLLIDER_TAG::Player,
-			Vector3::Yonly(60.0f) * trans.scale,
-			Vector3::Yonly(-60.0f) * trans.scale,
-			60.0f * trans.scale.MaxElementF()
+			Vector3::Yonly(GetParameter("Collider", "CollStart")) * trans.scale,
+			Vector3::Yonly(GetParameter("Collider", "CollEnd")) * trans.scale,
+			GetParameter("Collider", "Radius") * trans.scale.MaxElementF()
 		)
 	);
 
@@ -99,13 +99,17 @@ void Player::Load(void)
 
 	//吸収
 	PlayerAbsorbCollOperator* absorbCollOperator =
-		new PlayerAbsorbCollOperator(60.0f, Vector3(0, 0, 0), Vector3(0, 0, 100), Vector3(0, 100, 100), trans);
+		new PlayerAbsorbCollOperator(GetParameter("WeponCollider", "AbsorbCollRadius"),
+			GetParameterToVector3("WeponCollider", "AbsorbCollLocalPos"),
+			Vector3::Yonly(GetParameter("WeponCollider", "AbsorbCollStart")),
+			Vector3::Yonly(GetParameter("WeponCollider", "AbsorbCollEnd")), trans);
 
 	AddChildActor(absorbCollOperator);
 
 	//パンチ
 	PlayerPunchCollOperator* punchCollOperator =
-		new PlayerPunchCollOperator(60.0f, Vector3(0, 0, 100), trans);
+		new PlayerPunchCollOperator(GetParameter("WeponCollider", "PunchCollRadius"),
+			GetParameterToVector3("WeponCollider", "PunchCollLocalPos"), trans);
 
 	AddChildActor(punchCollOperator);
 
@@ -116,7 +120,9 @@ void Player::Load(void)
 	fireBallCollOperators.reserve(PlayerFireBallCollOperator::FireBall_COLL_NUM);
 
 	for (int i = 0; i < PlayerFireBallCollOperator::FireBall_COLL_NUM; ++i) {
-		auto* fireBallCollOperator = new PlayerFireBallCollOperator(40.0f, Vector3(0, 0, 100), trans);
+		auto* fireBallCollOperator = new PlayerFireBallCollOperator(
+			GetParameter("WeponCollider", "FireBallCollRadius"),
+			GetParameterToVector3("WeponCollider", "FireBallCollLocalPos"), trans);
 		AddChildActor(fireBallCollOperator);
 
 		fireBallCollOperators.push_back(fireBallCollOperator);
@@ -128,7 +134,9 @@ void Player::Load(void)
 	waterCollOperators.reserve(PlayerWaterCollOperator::WATER_COLL_NUM);
 
 	for (int i = 0; i < PlayerWaterCollOperator::WATER_COLL_NUM; ++i) {
-		auto* waterCollOperator = new PlayerWaterCollOperator(20.0f, Vector3(0, 0, 100), trans);
+		auto* waterCollOperator = new PlayerWaterCollOperator(
+			GetParameter("WeponCollider", "WaterCollRadius"),
+			GetParameterToVector3("WeponCollider", "WaterCollLocalPos"), trans);
 		AddChildActor(waterCollOperator);
 
 		waterCollOperators.push_back(waterCollOperator);
@@ -140,7 +148,9 @@ void Player::Load(void)
 	thunderCollOperators.reserve(PlayerThunderCollOperator::THUNDER_COLL_NUM);
 
 	for (int i = 0; i < PlayerThunderCollOperator::THUNDER_COLL_NUM; ++i) {
-		auto* thunderCollOperator = new PlayerThunderCollOperator(40.0f, Vector3(0, 0, 0), trans);
+		auto* thunderCollOperator = new PlayerThunderCollOperator(
+			GetParameter("WeponCollider", "ThunderCollRadius"),
+			GetParameterToVector3("WeponCollider", "ThunderCollLocalPos"), trans);
 		AddChildActor(thunderCollOperator);
 
 		thunderCollOperators.push_back(thunderCollOperator);
@@ -174,11 +184,12 @@ void Player::Load(void)
 		)
 	);
 
-	// 吸収
+	// 吸収 状態（持続）
 	AddState(
 		STATE::Absorb,
 		new PlayerAbsorbState(
-			GetParameter("Collider", "CollStart"), GetParameter("Collider", "CollEnd"),
+			GetParameter("WeponCollider", "SusActiveTime"),
+			GetParameter("WeponCollider", "SusActiveEnd"),
 			*absorbCollOperator,
 			[&]() { AnimePlay(ANIME_TYPE::Absorb_Start, false); },
 			[&]() { AnimePlay(ANIME_TYPE::Absorb_End, false); },
@@ -202,11 +213,12 @@ void Player::Load(void)
 	//	)
 	//);
 
-	// 攻撃（パンチ）状態
+	// 攻撃（パンチ）状態 (単発)
 	AddState(
 		STATE::Punch,
 		new PlayerPunchState(
-			GetParameter("Collider", "CollStart"), GetParameter("Collider", "CollEnd"),
+			GetParameter("WeponCollider", "ActiveTime"),
+			GetParameter("WeponCollider", "ActiveEnd"),
 			*punchCollOperator,
 			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
 			[&]() { return GetAnimeRatio(); },
@@ -214,11 +226,12 @@ void Player::Load(void)
 		)
 	);
 
-	// 攻撃（ファイアーボール）状態
+	// 攻撃（ファイアーボール）状態 （単発）
 	AddState(
 		STATE::FireBall,
 		new PlayerFireBallState(
-			GetParameter("Collider", "CollStart"), GetParameter("Collider", "CollEnd"),
+			GetParameter("WeponCollider", "ActiveTime"),
+			GetParameter("WeponCollider", "ActiveEnd"),
 			fireBallCollOperators,
 			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
@@ -226,11 +239,12 @@ void Player::Load(void)
 		)
 	);
 
-	// 攻撃（放水）状態
+	// 攻撃（放水）状態 (持続)
 	AddState(
 		STATE::Water,
 		new PlayerWaterState(
-			GetParameter("Collider", "SusCollStart"), GetParameter("Collider", "SusCollEnd"),
+			GetParameter("WeponCollider", "SusActiveTime"),
+			GetParameter("WeponCollider", "SusActiveEnd"),
 			waterCollOperators,
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
@@ -238,11 +252,12 @@ void Player::Load(void)
 		)
 	);
 
-	// 攻撃（サンダー）状態
+	// 攻撃（サンダー）状態 (持続)
 	AddState(
 		STATE::Thunder,
 		new PlayerThunderState(
-			GetParameter("Collider", "SusCollStart"), GetParameter("Collider", "SusCollEnd"),
+			GetParameter("WeponCollider", "SusActiveTime"),
+			GetParameter("WeponCollider", "SusActiveEnd"),
 			thunderCollOperators,
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
@@ -255,7 +270,7 @@ void Player::Load(void)
 	// 「移動状態」->「待機状態」の自動遷移登録
 	RegisterStateTransition(STATE::Move, STATE::Idle);
 
-	//// 「待機状態」->「吸収状態」の自動遷移登録
+	// 「待機状態」->「吸収状態」の自動遷移登録
 	//RegisterStateTransition(STATE::Idle, STATE::Absorb);
 	//// 「移動状態」->「吸収状態」の自動遷移登録
 	//RegisterStateTransition(STATE::Move, STATE::Absorb);
@@ -290,8 +305,6 @@ void Player::Load(void)
 
 // 初期化処理
 void Player::SubInit(void) {
-	// モデルの角度のズレを設定
-	//trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
 
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = GetParameter("Init", "Rate");

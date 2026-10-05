@@ -35,7 +35,7 @@ void PlayerThunderCollOperator::Load(void)
 
 	attackColl->SetJudgeFlg(false);
 
-	effect = LoadEffekseerEffect("Data/Effect/Thunder.efk");
+	//effect = LoadEffekseerEffect("Data/Effect/Thunder.efk");
 
 	// コライダーを追加
 	ColliderCreate(attackColl);

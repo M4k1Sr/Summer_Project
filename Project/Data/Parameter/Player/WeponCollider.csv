@@ -1,0 +1,16 @@
+ThunderCollLocalPos,0,0,0
+ThunderCollRadius,40
+PunchCollLocalPos,0,0,100
+PunchCollRadius,60
+FireBallCollLocalPos,0,0,100
+FireBallCollRadius,40
+AbsorbCollStart,-70
+AbsorbCollEnd,50
+AbsorbCollLocalPos,0,0,0
+AbsorbCollRadius,70
+SusActiveTime,0.7
+SusActiveEnd,0.9
+ActiveTime,0.4
+ActiveEnd,0.5
+WaterCollLocalPos,0,0,100
+WaterCollRadius,20

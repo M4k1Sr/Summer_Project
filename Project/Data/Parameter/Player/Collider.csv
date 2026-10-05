@@ -1,7 +1,3 @@
-EndPos,0,160,0
-StartPos,0,20,0
-Radius,30
-CollEnd,0.5
-CollStart,0.4
-SusCollEnd,0.9
-SusCollStart,0.7
+CollStart,-60
+CollEnd,60
+Radius,40
