@@ -8,17 +8,6 @@ class Player :
 {
 public:
 
-	Player();
-	~Player()override = default;
-
-	// 読み込み
-	void Load(void)override;
-
-	// 当たり判定の通知
-	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
-
-private:
-
 	// 状態定義
 	enum class STATE
 	{
@@ -29,6 +18,7 @@ private:
 		Absorb,
 		Jump,
 
+		//攻撃
 		Punch,
 		FireBall,
 		Water,
@@ -36,6 +26,20 @@ private:
 
 		Max
 	};
+
+	Player();
+	~Player()override = default;
+
+	// 読み込み
+	void Load(void)override;
+
+	// 当たり判定の通知
+	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
+
+	//　所持能力の確認
+	bool IsCurrentAbility(STATE state) const { return ability == state; }
+
+private:
 
 #pragma region アニメーション関係定義
 
@@ -92,6 +96,16 @@ private:
 
 	// 更新処理
 	void SubUpdate(void)override;
+
+	//デバッグ用能力切り替え
+	void NextAbility(void);
+
+#pragma region メンバ変数
+
+	//所持能力
+	STATE ability;
+
+#pragma endregion
 };
 
 

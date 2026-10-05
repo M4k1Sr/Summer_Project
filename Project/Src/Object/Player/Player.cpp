@@ -27,7 +27,8 @@
 
 
 Player::Player()
-	: CharacterBase("Data/Parameter/Player/")
+	: CharacterBase("Data/Parameter/Player/"),
+	ability(STATE::Punch)
 {
 }
 
@@ -220,6 +221,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "ActiveTime"),
 			GetParameter("WeponCollider", "ActiveEnd"),
 			*punchCollOperator,
+			[&]() {return IsCurrentAbility(STATE::Punch); },
 			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -233,6 +235,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "ActiveTime"),
 			GetParameter("WeponCollider", "ActiveEnd"),
 			fireBallCollOperators,
+			[&]() {return IsCurrentAbility(STATE::FireBall); },
 			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -246,6 +249,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "SusActiveTime"),
 			GetParameter("WeponCollider", "SusActiveEnd"),
 			waterCollOperators,
+			[&]() {return IsCurrentAbility(STATE::Water); },
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -259,6 +263,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "SusActiveTime"),
 			GetParameter("WeponCollider", "SusActiveEnd"),
 			thunderCollOperators,
+			[&]() {return IsCurrentAbility(STATE::Thunder); },
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -271,9 +276,9 @@ void Player::Load(void)
 	RegisterStateTransition(STATE::Move, STATE::Idle);
 
 	// u‘Ò‹@ó‘Ôv->u‹zŽûó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Idle, STATE::Absorb);
-	//// uˆÚ“®ó‘Ôv->u‹zŽûó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Move, STATE::Absorb);
+	RegisterStateTransition(STATE::Idle, STATE::Absorb);
+	// uˆÚ“®ó‘Ôv->u‹zŽûó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Move, STATE::Absorb);
 
 	//// u‘Ò‹@ó‘Ôv->uƒWƒƒƒ“ƒvó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	//RegisterStateTransition(STATE::Idle, STATE::Jump);
@@ -281,19 +286,19 @@ void Player::Load(void)
 	//RegisterStateTransition(STATE::Move, STATE::Jump);
 
 	// u‘Ò‹@ó‘Ôv->uUŒ‚iƒpƒ“ƒ`jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Idle, STATE::Punch);
-	//// uˆÚ“®ó‘Ôv->uUŒ‚iƒpƒ“ƒ`jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Move, STATE::Punch);
+	RegisterStateTransition(STATE::Idle, STATE::Punch);
+	// uˆÚ“®ó‘Ôv->uUŒ‚iƒpƒ“ƒ`jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Move, STATE::Punch);
 
 	// u‘Ò‹@ó‘Ôv->uUŒ‚iƒtƒ@ƒCƒA[ƒ{[ƒ‹jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Idle, STATE::FireBall);
-	//// uˆÚ“®ó‘Ôv->uUŒ‚iƒtƒ@ƒCƒA[ƒ{[ƒ‹jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Move, STATE::FireBall);
+	RegisterStateTransition(STATE::Idle, STATE::FireBall);
+	// uˆÚ“®ó‘Ôv->uUŒ‚iƒtƒ@ƒCƒA[ƒ{[ƒ‹jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Move, STATE::FireBall);
 
 	// u‘Ò‹@ó‘Ôv->uUŒ‚i•ú…jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Idle, STATE::Water);
-	//// uˆÚ“®ó‘Ôv->uUŒ‚i•ú…jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	//RegisterStateTransition(STATE::Move, STATE::Water);
+	RegisterStateTransition(STATE::Idle, STATE::Water);
+	// uˆÚ“®ó‘Ôv->uUŒ‚i•ú…jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Move, STATE::Water);
 
 	// u‘Ò‹@ó‘Ôv->uUŒ‚iƒTƒ“ƒ_[jó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Idle, STATE::Thunder);
@@ -315,6 +320,8 @@ void Player::SubInit(void) {
 	ChangeState(STATE::Move);
 	// ‘Ò‹@ó‘Ô‚É‘JˆÚ
 	ChangeState(STATE::Idle);
+	//‰Šú”\—Í‚ðÝ’è
+	ability = STATE::FireBall;
 }
 
 // XVˆ—
@@ -326,9 +333,25 @@ void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_C) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::Rail); }
 
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
+
+
+	if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) { NextAbility(); }
+
+
 }
 
 
 void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
+}
+
+void Player::NextAbility(void)
+{
+	const int FIRST = (int)STATE::Punch;
+	const int LAST = (int)STATE::Thunder;
+
+	int next = (int)ability + 1;
+	if (next > LAST) { next = FIRST; }
+
+	ability = (STATE)next;
 }

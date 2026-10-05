@@ -39,7 +39,7 @@ PlayerAbsorbState::PlayerAbsorbState(
 
 void PlayerAbsorbState::OwnStateConditionUpdate(void)
 {
-	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerAttack).down) {
+	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerAbsorb).down) {
 		OwnChangeState();
 	}
 }

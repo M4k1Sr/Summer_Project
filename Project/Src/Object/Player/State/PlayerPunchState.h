@@ -17,6 +17,8 @@ public:
 
 		PlayerPunchCollOperator& collOperator,
 
+		std::function<bool(void)> playerAbility,
+
 		std::function<void(void)> playAnimeAttack,
 		std::function<float(void)> getAnimeRatio,
 
@@ -63,6 +65,9 @@ private:
 
 	// 攻撃の当たり判定管理クラスの参照
 	PlayerPunchCollOperator& collOperator;
+
+	//プレイヤーの所持能力を確認する関数のポインタ
+	const std::function<bool(void)> playerAbility;
 
 	// 攻撃アニメーションの再生関数のポインタ
 	const std::function<void(void)> playAnimeAttack;

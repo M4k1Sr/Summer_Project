@@ -15,6 +15,8 @@ PlayerThunderState::PlayerThunderState(
 
 	const std::vector<PlayerThunderCollOperator*>& collOperators,
 
+	std::function<bool(void)> playerAbility,
+
 	std::function<void(void)> playAnimeAttack,
 	std::function<float(void)> getAnimeRatio,
 
@@ -24,6 +26,8 @@ PlayerThunderState::PlayerThunderState(
 	COLL_END_TIME(COLL_END_TIME),
 
 	collOperators(collOperators),
+
+	playerAbility(playerAbility),
 
 	playAnimeAttack(playAnimeAttack),
 	getAnimeRatio(getAnimeRatio),
@@ -37,6 +41,9 @@ PlayerThunderState::PlayerThunderState(
 
 void PlayerThunderState::OwnStateConditionUpdate(void)
 {
+	// サンダー能力を持っていなければ遷移しない
+	if (!playerAbility()) { return; }
+
 	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerAttack).down) {
 		OwnChangeState();
 	}

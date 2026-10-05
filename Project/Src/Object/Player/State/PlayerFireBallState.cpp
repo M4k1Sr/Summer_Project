@@ -13,6 +13,8 @@ PlayerFireBallState::PlayerFireBallState(
 
 	const std::vector<PlayerFireBallCollOperator*>& collOperators,
 
+	std::function<bool(void)> playerAbility,
+
 	std::function<void(void)> playAnimeAttack,
 	std::function<float(void)> getAnimeRatio,
 
@@ -22,6 +24,8 @@ PlayerFireBallState::PlayerFireBallState(
 	COLL_END_TIME(COLL_END_TIME),
 
 	collOperators(collOperators),
+
+	playerAbility(playerAbility),
 
 	playAnimeAttack(playAnimeAttack),
 	getAnimeRatio(getAnimeRatio),
@@ -35,6 +39,9 @@ PlayerFireBallState::PlayerFireBallState(
 
 void PlayerFireBallState::OwnStateConditionUpdate(void)
 {
+	// ファイアーボール能力を持っていなければ遷移しない
+	if (!playerAbility()) { return; }
+
 	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerAttack).down) {
 		OwnChangeState();
 	}

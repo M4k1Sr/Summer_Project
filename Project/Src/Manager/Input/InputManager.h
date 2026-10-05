@@ -67,6 +67,9 @@ public:
 		//	ƒ_ƒbƒVƒ…
 		PlayerDash,
 
+		//‹zû
+		PlayerAbsorb,
+
 		//UŒ‚
 		PlayerAttack,
 

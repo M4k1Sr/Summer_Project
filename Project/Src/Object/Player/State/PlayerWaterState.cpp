@@ -15,6 +15,8 @@ PlayerWaterState::PlayerWaterState(
 
 	const std::vector<PlayerWaterCollOperator*>& collOperators,
 
+	std::function<bool(void)> playerAbility,
+
 	std::function<void(void)> playAnimeAttack,
 	std::function<float(void)> getAnimeRatio,
 
@@ -24,6 +26,8 @@ PlayerWaterState::PlayerWaterState(
 	COLL_END_TIME(COLL_END_TIME),
 
 	collOperators(collOperators),
+
+	playerAbility(playerAbility),
 
 	playAnimeAttack(playAnimeAttack),
 	getAnimeRatio(getAnimeRatio),
@@ -37,6 +41,10 @@ PlayerWaterState::PlayerWaterState(
 
 void PlayerWaterState::OwnStateConditionUpdate(void)
 {
+
+	// •ú…”\—Í‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‘JˆÚ‚µ‚È‚¢
+	if (!playerAbility()) { return; }
+
 	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerAttack).down) {
 		OwnChangeState();
 	}
