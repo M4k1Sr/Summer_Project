@@ -57,6 +57,15 @@ private:
 	// 初期座標
 	const Vector3 INIT_POS;
 
+#pragma region 定数
+
+	//コライダーサイズ
+	static constexpr float COLL_SIZE = 80.0f;
+
+	static constexpr float HIT_BOX_SIZE = 80.0f;
+
+#pragma endregion
+
 	//アニメーションスピード
 	const float animationSpeedTabel_[(int)ANIM::MAX]
 		= { 1.0f,0.5f,1.0f,1.0f,1.0f };
@@ -66,6 +75,8 @@ private:
 	Vector3 GetMoveDirection(void) const;
 
 	void ResetPos(void) { trans.pos = INIT_POS; }
+
+
 
 #pragma region 受けとる参照
 

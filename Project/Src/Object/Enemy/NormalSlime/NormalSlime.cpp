@@ -16,7 +16,10 @@ void NormalSlime::Load(void)
 	//アニメーション登録
 	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
 
+	//ステージ・プレイヤー用コライダー
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
+	//攻撃判定用コライダー
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyHitBox, HIT_BOX_SIZE));
 
 	//空間製薬の設定
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);

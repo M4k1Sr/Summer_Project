@@ -19,7 +19,9 @@ void Thorn::Load(void)
 	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
 
 	//コライダー生成
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 60.0f));
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
+	//攻撃判定用コライダー
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyHitBox, HIT_BOX_SIZE));
 
 	//空間製薬の設定
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
