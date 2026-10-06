@@ -22,6 +22,12 @@ void Icicle::Load(void)
 			Vector3::Yonly(-40.0f),
 			40.0f));
 
+	ColliderCreate(
+		new CapsuleCollider(COLLIDER_TAG::EnemyAttackBox,
+			Vector3::Yonly(40.0f),
+			Vector3::Yonly(-40.0f),
+			40.0f));
+
 	//ÉTÉCÉYê›íË
 	trans.scale = 1.3f;
 
