@@ -21,6 +21,7 @@ void NormalSlime::Load(void)
 	//攻撃判定用コライダー
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyHitBox, HIT_BOX_SIZE));
 
+
 	//空間製薬の設定
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
 

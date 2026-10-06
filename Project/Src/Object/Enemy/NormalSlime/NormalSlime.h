@@ -56,7 +56,6 @@ private:
 
 #pragma region ó‚¯æ‚éQÆ
 
-
 	const int hp;
 
 #pragma endregion

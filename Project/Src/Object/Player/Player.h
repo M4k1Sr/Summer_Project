@@ -92,6 +92,8 @@ private:
 
 	// XVˆ—
 	void SubUpdate(void)override;
+
+	void SubDraw(void)override;
 };
 
 

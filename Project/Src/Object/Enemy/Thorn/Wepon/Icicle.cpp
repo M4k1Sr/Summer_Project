@@ -96,6 +96,10 @@ void Icicle::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const C
 		SetJudge(false);
 		break;
 	case COLLIDER_TAG::Enemy:
+		SetIsDraw(false);
+
+		SetJudge(false);
+
 		break;
 	case COLLIDER_TAG::Stage:
 		SetIsDraw(false);

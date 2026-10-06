@@ -306,6 +306,7 @@ void Player::SubInit(void) {
 
 // çXêVèàóù
 void Player::SubUpdate(void) {
+
 	if (CheckHitKey(KEY_INPUT_Z) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::StageDefault); }
 
 	if (CheckHitKey(KEY_INPUT_X) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane); }
@@ -313,6 +314,11 @@ void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_C) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::Rail); }
 
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
+}
+
+void Player::SubDraw(void)
+{
+	DrawFormatString(0, 500, GetColor(255, 255, 255), "Pos: %f,%f,%f", trans.pos.x, trans.pos.y, trans.pos.z);
 }
 
 
