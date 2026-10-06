@@ -48,7 +48,7 @@ void Cactus::Load(void)
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
 				//再生アニメーション
-				AnimePlay((int)ANIM::Hit, true); 
+				AnimePlay((int)ANIM::Wait, true); 
 			}
 		));
 
@@ -70,14 +70,14 @@ void Cactus::Load(void)
 				trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
 
 				//再生したアニメが終了したら遷移
-				//if (&IsAnimeEnd)
-				//{
-				//	ChangeState(STATE::Wait);
-				//}
+				if (IsAnimeEnd())
+				{
+					ChangeState(STATE::Wait);
+				}
 		
 			}
 		));
-
+	
 	AddState(
 		STATE::Attack,
 		new CactusAttack(
@@ -89,7 +89,7 @@ void Cactus::Load(void)
 				//アニメーションずれ修正
 				trans.centerDiff = Vector3(0.0f, -80.0f, 0.0f) * trans.scale;
 				//再生アニメーション
-				AnimePlay((int)ANIM::Die, false);
+				AnimePlay((int)ANIM::Attack, false);
 			},
 			trans.angle.y
 		));
