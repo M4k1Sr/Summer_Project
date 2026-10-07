@@ -62,7 +62,7 @@ private:
 	unsigned short waitCounter;
 
 	//プレイヤー座標参照
-	const Vector3* const& playerPos;
+	//const Vector3* const& playerPos;
 
 	void SubUpdate(void) override;
 };
