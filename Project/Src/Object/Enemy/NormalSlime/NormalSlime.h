@@ -56,7 +56,6 @@ private:
 
 #pragma region 受け取る参照
 
-
 	const int hp;
 
 #pragma endregion
@@ -67,6 +66,10 @@ private:
 
 	//コライダーサイズ
 	static constexpr float COLL_SIZE = 50.0f;
+	//コライダーサイズ
+	static constexpr float HIT_BOX_SIZE = 80.0f;
+
+
 	//初期調整角度
 	static constexpr float ADJUSTMENT_ANGLE = 180.0f;
 	//初期調整角度

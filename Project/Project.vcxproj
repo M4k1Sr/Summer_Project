@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Enemy\Cactus\Wepon\Panch.cpp" />
     <ClCompile Include="Src\Object\Enemy\Boss\Wepon\Bamboo.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusHit.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\State\CactusDie.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornHit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Enemy\Cactus\Wepon\Panch.h" />
     <ClInclude Include="Src\Object\Enemy\Boss\Wepon\Bamboo.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusHit.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\State\CactusDie.h" />

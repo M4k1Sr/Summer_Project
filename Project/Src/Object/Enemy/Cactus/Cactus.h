@@ -58,6 +58,15 @@ public:
 
 private:
 
+#pragma region 定数
+
+	//コライダーサイズ
+	static constexpr float COLL_SIZE = 50.0f;
+
+	static constexpr float HIT_BOX_SIZE = 80.0f;
+
+#pragma endregion
+
 	// 初期座標
 	const Vector3 initPos;
 

@@ -25,6 +25,10 @@ enum class COLLIDER_TAG
 
 	Enemy,
 
+	EnemyHitBox,
+
+	EnemyAttackBox,
+
 	Stage,
 
 	Icicle,

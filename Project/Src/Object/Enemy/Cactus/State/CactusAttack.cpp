@@ -24,7 +24,7 @@ void CactusAttack::Update(void)
 	vec.y = 0.0f;
 
 	//距離が遠くなったら場合ステートを切り替え
-	if (vec.Length() > 300.0f)
+	if (vec.Length() > CHANGE_STATE_DISTANCE)
 	{
 		changeStateWait();
 	}

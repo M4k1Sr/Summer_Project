@@ -28,6 +28,8 @@ private:
 	//最大クールタイム
 	static constexpr short ATTACK_COOLTIME_MAX = 80;
 
+	static constexpr float CHANGE_STATE_DISTANCE = 600.0f;
+
 #pragma endregion
 
 #pragma region 変数

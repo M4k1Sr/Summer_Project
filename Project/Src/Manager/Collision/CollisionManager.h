@@ -82,12 +82,16 @@ private:
 		{ COLLIDER_TAG::Stage,	COLLIDER_GROUP::Stage },
 
 		// プレイヤー系にだけ当たるコライダー
+		{ COLLIDER_TAG::EnemyAttackBox,	COLLIDER_GROUP::PlayerOnly },
 
 		// エネミー系にだけ当たるコライダー
+		{ COLLIDER_TAG::EnemyHitBox,	COLLIDER_GROUP::EnemyOnly },
 
 		// ステージ系にだけ当たるコライダー
 
 		{ COLLIDER_TAG::Icicle, COLLIDER_GROUP::Enemy },
+
+
 	};
 
 

@@ -22,6 +22,12 @@ void Icicle::Load(void)
 			Vector3::Yonly(-40.0f),
 			40.0f));
 
+	ColliderCreate(
+		new CapsuleCollider(COLLIDER_TAG::EnemyAttackBox,
+			Vector3::Yonly(40.0f),
+			Vector3::Yonly(-40.0f),
+			40.0f));
+
 	//ÉTÉCÉYê›íË
 	trans.scale = 1.3f;
 
@@ -96,6 +102,10 @@ void Icicle::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const C
 		SetJudge(false);
 		break;
 	case COLLIDER_TAG::Enemy:
+		SetIsDraw(false);
+
+		SetJudge(false);
+
 		break;
 	case COLLIDER_TAG::Stage:
 		SetIsDraw(false);

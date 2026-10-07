@@ -106,6 +106,9 @@ private:
 	STATE ability;
 
 #pragma endregion
+
+	void SubDraw(void)override;
+
 };
 
 
