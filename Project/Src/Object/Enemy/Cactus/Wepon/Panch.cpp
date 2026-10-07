@@ -2,12 +2,15 @@
 #include "../../../../Utility/Utility.h"
 #include "../../../Common/Collider/SphereCollider.h"
 
-Panch::Panch(const Vector3 cactusPos)
+Panch::Panch(const Vector3& cactusPos)
+	: ActorBase(),
+	cactusPos(cactusPos)
 {
 }
 
 void Panch::Load(void)
 {
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox,60.0f, trans.pos));
 }
 
 void Panch::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
@@ -15,14 +18,9 @@ void Panch::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const Co
 	switch (other.GetTag())
 	{
 	case COLLIDER_TAG::Player:
-		state = STATE::None;
-		
+
 		SetJudge(false);
 
-		break;
-	case COLLIDER_TAG::Enemy:
-		break;
-	case COLLIDER_TAG::Stage:
 		break;
 	default:
 		break;
@@ -32,8 +30,13 @@ void Panch::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const Co
 void Panch::Start(void)
 {
 	SetJudge(true);
+
+	//ç¿ïWê›íË
+	trans.pos = cactusPos + CREATE_LOCAL_POS;
 }
+
 
 void Panch::SubUpdate(void)
 {
+
 }
