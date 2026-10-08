@@ -37,7 +37,13 @@ public:
 	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
 
 	//　所持能力の確認
-	bool IsCurrentAbility(STATE state) const { return ability == state; }
+	bool IsCurrentAbility(COLLIDER_TAG state) const { return ability == state; }
+
+	//　所持能力の設定
+	void SetCurrentAbility(COLLIDER_TAG state) { ability = state; }
+
+	// アニメーション用モデル向き調整
+	void SetModelAngle(const float angle) { trans.angle.y = angle; }
 
 private:
 
@@ -103,7 +109,7 @@ private:
 #pragma region メンバ変数
 
 	//所持能力
-	STATE ability;
+	COLLIDER_TAG ability;
 
 #pragma endregion
 

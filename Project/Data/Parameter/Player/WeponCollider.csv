@@ -8,6 +8,8 @@ AbsorbCollStart,-70
 AbsorbCollEnd,50
 AbsorbCollLocalPos,0,0,0
 AbsorbCollRadius,70
+AbsorbActiveEnd,0.9
+AbsorbActive,0.1
 SusActiveTime,0.7
 SusActiveEnd,0.9
 ActiveTime,0.4

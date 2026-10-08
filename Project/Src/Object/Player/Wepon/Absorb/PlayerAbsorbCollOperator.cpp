@@ -1,8 +1,11 @@
 #include "PlayerAbsorbCollOperator.h"
 
 #include "../../../Common/Collider/CapsuleCollider.h"
+#include "../../../../Manager/Camera/CurrentCamera.h"
 
 PlayerAbsorbCollOperator::PlayerAbsorbCollOperator(
+	std::function<void(const COLLIDER_TAG& tag)> setAbility,
+	std::function<void(const float angle)> setAngle,
 	float COLL_RADIUS,
 
 	const Vector3& COLL_LOCAL_POS,
@@ -11,6 +14,10 @@ PlayerAbsorbCollOperator::PlayerAbsorbCollOperator(
 
 	const Transform& playerTrans
 ) :
+
+	setAbility(setAbility),
+	setAngle(setAngle),
+
 	COLL_LOCAL_POS(COLL_LOCAL_POS),
 
 	playerTrans(playerTrans),
@@ -57,14 +64,38 @@ void PlayerAbsorbCollOperator::On(void)
 	// プレイヤーの座標、プレイヤーの角度、攻撃判定の相対座標をつかい
 	// 判定の座標を割り出す
 	trans.pos = playerTrans.pos + COLL_LOCAL_POS.TransMat(MGetRotY(playerTrans.angle.y));
+
+	isAbsorbed = false;
 }
 
 void PlayerAbsorbCollOperator::Off(void)
 {
 	attackColl->SetJudgeFlg(false);
+
+	isAbsorbed = false;
 }
 
 void PlayerAbsorbCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
+	switch (other.GetTag())
+	{
+	case COLLIDER_TAG::Icicle:
+		if (isAbsorbed) { break; }
+		isAbsorbed = true;
+		setAbility(COLLIDER_TAG::Water);
+		setAngle(FaceCamera());
+		break;
+	default:
+		break;
+	}
+}
+
+float PlayerAbsorbCollOperator::FaceCamera(void)
+{
+	const Vector3 cam = CurrentCamera::Get().GetAngle();
+	const float dx = cam.y - trans.pos.y;
+	const float dz = cam.z - trans.pos.z;
+
+	return atan2f(dx, dz);
 
 }

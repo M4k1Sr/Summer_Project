@@ -13,7 +13,7 @@ PlayerThunderCollOperator::PlayerThunderCollOperator(
 
 	playerTrans(playerTrans),
 
-	attackColl(new SphereCollider(COLLIDER_TAG::Fire, COLL_RADIUS)),
+	attackColl(new SphereCollider(COLLIDER_TAG::Thunder, COLL_RADIUS)),
 	lifeTimer(0.0f)
 {
 }

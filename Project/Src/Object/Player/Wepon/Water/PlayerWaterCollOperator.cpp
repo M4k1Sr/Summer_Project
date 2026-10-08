@@ -13,7 +13,7 @@ PlayerWaterCollOperator::PlayerWaterCollOperator(
 
 	playerTrans(playerTrans),
 
-	attackColl(new SphereCollider(COLLIDER_TAG::Fire, COLL_RADIUS)),
+	attackColl(new SphereCollider(COLLIDER_TAG::Water, COLL_RADIUS)),
 	lifeTimer(0.0f)
 {
 }
