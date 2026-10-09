@@ -49,8 +49,9 @@ void PlayerAbsorbState::Enter(void)
 	// ステップを「前隙」へ
 	step = STEP::Startup;
 
-	// 攻撃アニメーション再生
+	// 吸収アニメーション再生
 	playAnimeAbsorbStart();
+
 }
 
 void PlayerAbsorbState::Update(void)
@@ -76,13 +77,24 @@ void PlayerAbsorbState::Update(void)
 		// 攻撃判定発生中
 
 		// 当たり判定を追従
+		bool ab = collOperators.IsAbsorbed();
+		if (ab)
+		{
+			collOperators.Off();
+			//吸収成功時のアニメーション再生
+			playAnimeAbsorbEnd();
 
-		if (COLL_END_TIME <= animeRatio) {
+			// ステップを「後隙」へ
+			step = STEP::Recovery;
+		}
+		else if (COLL_END_TIME <= animeRatio) {
 
+			collOperators.Off();
 			// ステップを「後隙」へ
 			step = STEP::Recovery;
 
 		}
+
 
 		break;
 	}
@@ -93,7 +105,6 @@ void PlayerAbsorbState::Update(void)
 		// アニメーション再生終了で強制的に待機状態へ
 		if (1.0f <= animeRatio) {
 
-			collOperators.Off();
 			// 待機状態へ遷移
 			changeStateIdle();
 
@@ -107,6 +118,6 @@ void PlayerAbsorbState::Update(void)
 
 void PlayerAbsorbState::Exit(void)
 {
-
+	collOperators.Off();
 }
 

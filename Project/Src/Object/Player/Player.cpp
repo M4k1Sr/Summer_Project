@@ -28,7 +28,7 @@
 
 Player::Player()
 	: CharacterBase("Data/Parameter/Player/"),
-	ability(STATE::Punch)
+	ability(COLLIDER_TAG::Punch)
 {
 }
 
@@ -100,7 +100,9 @@ void Player::Load(void)
 
 	//‹zŽû
 	PlayerAbsorbCollOperator* absorbCollOperator =
-		new PlayerAbsorbCollOperator(GetParameter("WeponCollider", "AbsorbCollRadius"),
+		new PlayerAbsorbCollOperator(std::bind(&Player::SetCurrentAbility, this, std::placeholders::_1),
+			std::bind(&Player::SetModelAngle, this, std::placeholders::_1),
+			GetParameter("WeponCollider", "AbsorbCollRadius"),
 			GetParameterToVector3("WeponCollider", "AbsorbCollLocalPos"),
 			Vector3::Yonly(GetParameter("WeponCollider", "AbsorbCollStart")),
 			Vector3::Yonly(GetParameter("WeponCollider", "AbsorbCollEnd")), trans);
@@ -189,8 +191,8 @@ void Player::Load(void)
 	AddState(
 		STATE::Absorb,
 		new PlayerAbsorbState(
-			GetParameter("WeponCollider", "SusActiveTime"),
-			GetParameter("WeponCollider", "SusActiveEnd"),
+			GetParameter("WeponCollider", "AbsorbActive"),
+			GetParameter("WeponCollider", "AbsorbActiveEnd"),
 			*absorbCollOperator,
 			[&]() { AnimePlay(ANIME_TYPE::Absorb_Start, false); },
 			[&]() { AnimePlay(ANIME_TYPE::Absorb_End, false); },
@@ -221,7 +223,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "ActiveTime"),
 			GetParameter("WeponCollider", "ActiveEnd"),
 			*punchCollOperator,
-			[&]() {return IsCurrentAbility(STATE::Punch); },
+			[&]() {return IsCurrentAbility(COLLIDER_TAG::Punch); },
 			[&]() { AnimePlay(ANIME_TYPE::Punch,false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -235,7 +237,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "ActiveTime"),
 			GetParameter("WeponCollider", "ActiveEnd"),
 			fireBallCollOperators,
-			[&]() {return IsCurrentAbility(STATE::FireBall); },
+			[&]() {return IsCurrentAbility(COLLIDER_TAG::FireBall); },
 			[&]() { AnimePlay(ANIME_TYPE::Punch, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -249,7 +251,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "SusActiveTime"),
 			GetParameter("WeponCollider", "SusActiveEnd"),
 			waterCollOperators,
-			[&]() {return IsCurrentAbility(STATE::Water); },
+			[&]() {return IsCurrentAbility(COLLIDER_TAG::Water); },
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -263,7 +265,7 @@ void Player::Load(void)
 			GetParameter("WeponCollider", "SusActiveTime"),
 			GetParameter("WeponCollider", "SusActiveEnd"),
 			thunderCollOperators,
-			[&]() {return IsCurrentAbility(STATE::Thunder); },
+			[&]() {return IsCurrentAbility(COLLIDER_TAG::Thunder); },
 			[&]() { AnimePlay(ANIME_TYPE::Water, false); },
 			[&]() { return GetAnimeRatio(); },
 			[&]() { ChangeState(STATE::Idle); }
@@ -321,7 +323,7 @@ void Player::SubInit(void) {
 	// ‘Ò‹@ó‘Ô‚É‘JˆÚ
 	ChangeState(STATE::Idle);
 	//‰Šú”\—Í‚ðÝ’è
-	ability = STATE::FireBall;
+	ability = COLLIDER_TAG::FireBall;
 }
 
 // XVˆ—
@@ -353,11 +355,11 @@ void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const C
 
 void Player::NextAbility(void)
 {
-	const int FIRST = (int)STATE::Punch;
-	const int LAST = (int)STATE::Thunder;
+	const int FIRST = (int)COLLIDER_TAG::Punch;
+	const int LAST = (int)COLLIDER_TAG::Thunder;
 
 	int next = (int)ability + 1;
 	if (next > LAST) { next = FIRST; }
 
-	ability = (STATE)next;
+	ability = (COLLIDER_TAG)next;
 }
