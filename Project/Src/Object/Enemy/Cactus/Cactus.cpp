@@ -1,6 +1,10 @@
 #include "Cactus.h"
+
 #include "../../../Utility//Utility.h"
+
 #include "../../Common/Collider/SphereCollider.h"
+
+#include "Wepon/Panch.h"
 
 #include "State/CactusWait.h"
 #include "State/CactusAttack.h"
@@ -19,8 +23,7 @@ void Cactus::Load(void)
 
 	//コライダー生成
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
-	//HIT判定用コライダー
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyHitBox, HIT_BOX_SIZE));
+
 	//攻撃判定用コライダー
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
 
@@ -33,6 +36,10 @@ void Cactus::Load(void)
 	trans.scale = 1.3f;
 	//アニメーションずれ修正
 	trans.centerDiff = Vector3(0.0f,- 60.0f,0.0f) * trans.scale;
+
+
+	Panch* panch = new Panch(trans.pos);
+	AddChildActor(panch);
 
 #pragma region 状態初期設定(ステートが追加されるたびに追加する)
 
@@ -91,7 +98,8 @@ void Cactus::Load(void)
 				//再生アニメーション
 				AnimePlay((int)ANIM::Attack, false);
 			},
-			trans.angle.y
+			trans.angle.y,
+			*panch
 		));
 
 	AddState(

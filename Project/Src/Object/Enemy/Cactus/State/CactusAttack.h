@@ -3,6 +3,8 @@
 
 #include "../../../../Common/Vector3.h"
 
+#include "../Wepon/Panch.h"
+
 #include <memory>
 
 class CactusAttack : public CharacterStateBase
@@ -14,7 +16,8 @@ public:
 		const Vector3*& playerPos,
 		std::function<void(void)> changeStateWait,
 		std::function<void(void)> playAnimationAttack,
-		float& cactusAngle_Y
+		float& cactusAngle_Y,
+		Panch& panch
 	);
 	~CactusAttack()override = default;
 
@@ -48,6 +51,9 @@ private:
 
 	//プレイヤー座標参照
 	const Vector3* const& playerPos;
+
+	//パンチ
+	Panch& panch_;
 
 	//サボテンの向き
 	float& cactusAngle_Y;

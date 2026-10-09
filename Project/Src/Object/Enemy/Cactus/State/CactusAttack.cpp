@@ -1,21 +1,26 @@
 #include "CactusAttack.h"
 
+#include "../Wepon/Panch.h"
 
-CactusAttack::CactusAttack
-(
-	const Vector3& cactusPos, 
-	const Vector3*& playerPos, 
-	std::function<void(void)> changeStateAttack,
-	std::function<void(void)> playAnimationWait,
-	float& cactusAngle_Y
-)
-	: cactusPos(cactusPos),
+
+CactusAttack::CactusAttack(
+	const Vector3& cactusPos,
+	const Vector3*& playerPos,
+	std::function<void(void)> changeStateWait,
+	std::function<void(void)> playAnimationAttack,
+	float& cactusAngle_Y, Panch& panch)
+	:
+	cactusPos(cactusPos),
 	playerPos(playerPos),
-	changeStateWait(changeStateAttack),
-	playAnimationAttack(playAnimationWait),
-	cactusAngle_Y(cactusAngle_Y)
+	changeStateWait(changeStateWait),
+	playAnimationAttack(playAnimationAttack),
+	cactusAngle_Y(cactusAngle_Y),
+	panch_(panch),
+	attackCoolTime(0),
+	isCoolTime(false)
 {
 }
+
 void CactusAttack::Update(void)
 {
 	//プレイヤーとのベクトルを取得
@@ -48,6 +53,7 @@ void CactusAttack::Update(void)
 	{
 		isCoolTime = true;
 		attackCoolTime = 0;
+
 	}
 	else
 	{
@@ -61,6 +67,8 @@ void CactusAttack::Update(void)
 			playAnimationAttack();
 			//クールタイムリセット
 			isCoolTime = false;
+
+			panch_.Start();
 		}
 	}
 

@@ -3,7 +3,8 @@
 
 
 
-ThornAttack::ThornAttack(
+ThornAttack::ThornAttack
+(
 	const Vector3& thornPos, 
 	const Vector3*& playerPos,
 	std::function<void(void)> createIcicle,
