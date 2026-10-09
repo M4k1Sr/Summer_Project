@@ -77,8 +77,8 @@ void StageFirst::Load()
 	}
 
 	// 生成したブロック全ての読み込み処理
-	for (auto& row : stageBlocks) {
-		for (auto& block : row.second) {
+	for (const auto& row : stageBlocks) {
+		for (const auto& block : row.second) {
 			block.second->Load();
 		}
 	}
@@ -87,8 +87,8 @@ void StageFirst::Load()
 void StageFirst::SubInit(void)
 {
 	// 生成したブロック全ての初期化処理
-	for (auto& row : stageBlocks) {
-		for (auto& block : row.second) {
+	for (const auto& row : stageBlocks) {
+		for (const auto& block : row.second) {
 			block.second->Init();
 		}
 	}
@@ -142,9 +142,9 @@ std::vector<ColliderBase*> StageFirst::GetColliders(void)const
 	std::vector<ColliderBase*> ret = {};
 
 	// 生成したブロック全てのコライダーを取得する仕様に
-	for(auto& row : stageBlocks) {
-		for(auto& block : row.second) {
-			for (auto& collider : block.second->GetColliders()) { ret.push_back(collider); }
+	for(const auto& row : stageBlocks) {
+		for(const auto& block : row.second) {
+			for (const auto& collider : block.second->GetColliders()) { ret.push_back(collider); }
 		}
 	}
 
