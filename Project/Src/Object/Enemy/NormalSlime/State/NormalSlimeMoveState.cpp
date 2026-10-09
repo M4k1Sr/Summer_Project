@@ -9,6 +9,12 @@ NormalSlimeMoveState::NormalSlimeMoveState
 	initPos(initPos),
 	normalSlimeMoveAccel(normalSlimeMoveAccel)
 {
+    //初期座標を基準に、X軸方向の2点を往復する
+    movePointList =
+    {
+        initPos + Vector3(MOVE_RANGE, 0.0f, 0.0f),
+        initPos + Vector3(-MOVE_RANGE, 0.0f, 0.0f)
+    };
 }
 
 void NormalSlimeMoveState::OwnStateConditionUpdate(void)
@@ -17,25 +23,22 @@ void NormalSlimeMoveState::OwnStateConditionUpdate(void)
 
 void NormalSlimeMoveState::Update(void)
 {
-	//巡回目標座標までのベクトルを取得
-	Vector3 vec
-		= MOVE_POINT_LIST[nowMovePoint] - normalSlimePos;
-	//Y軸方向は移動しない
-	vec.y = 0.0f;
+    //巡回目標座標までのベクトルを取得
+    Vector3 vec = movePointList[nowMovePoint] - normalSlimePos;
+    //Y軸方向は移動しない
+    vec.y = 0.0f;
 
-	//巡回目標座標までの距離が近い場合
-	if (vec.Length() < 10.0f)
-	{
-		//巡回番号を更新
-		nowMovePoint++;
-		if (nowMovePoint >= MOVE_POINT_LIST.size())
-		{ nowMovePoint = 0; }
-	}
-	else
-	{
-		//巡回目標座標までのベクトルを正規化して加速移動する
-		vec.Normalize();
-		normalSlimeMoveAccel(vec);
-	}
+    //巡回目標座標までの距離が近い場合
+    if (vec.Length() < ARRIVE_DIST)
+    {
+        //巡回番号を更新(次の目標へ)
+        nowMovePoint = (nowMovePoint + 1) % movePointList.size();
+    }
+    else
+    {
+        //巡回目標座標までのベクトルを正規化して加速移動する
+        vec.Normalize();
+        normalSlimeMoveAccel(vec);
+    }
 
 }

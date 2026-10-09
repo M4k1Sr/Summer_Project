@@ -18,8 +18,6 @@ void NormalSlime::Load(void)
 
 	//ステージ・プレイヤー用コライダー
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
-	//HIT判定用コライダー
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyHitBox, HIT_BOX_SIZE));
 	//攻撃判定用コライダー
 	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
 
@@ -82,7 +80,7 @@ void NormalSlime::SubInit(void)
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = 3.0f;
 	// 加速最大値を設定
-	ACCEL_MAX = 7.0f;
+	ACCEL_MAX = 5.0f;
 }
 
 void NormalSlime::SubUpdate(void)

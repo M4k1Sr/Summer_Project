@@ -22,18 +22,19 @@ public:
 private:
 
 	//初期座標からの+最大距離
-	static constexpr int MOVE_POINT_MAX = 200;
-	static constexpr int MOVE_POINT_MIN = -200;
+	static constexpr float MOVE_RANGE = 200;
+
+	//到達判定距離
+	static constexpr float ARRIVE_DIST = 20.0f;
+
+	////現在の巡回番号
+	//unsigned char nowMovePoint = 0;
 
 	//現在の巡回番号
-	unsigned char nowMovePoint = 0;
+	size_t nowMovePoint = 0;
 
-	//巡回座標リスト
-	const std::vector<Vector3> MOVE_POINT_LIST =
-	{
-		Vector3(MOVE_POINT_MAX,0,0),
-		Vector3(MOVE_POINT_MIN,0,0)
-	};
+	//巡回座標リスト(initPosを基準に生成)
+	std::vector<Vector3> movePointList;
 	
 
 #pragma region 受け取る参照

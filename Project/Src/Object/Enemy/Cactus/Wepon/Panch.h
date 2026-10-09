@@ -47,8 +47,6 @@ private:
 
 #pragma endregion
 
-
-
 	void SubUpdate(void) override;
 };
 
