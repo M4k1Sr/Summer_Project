@@ -79,8 +79,8 @@ void EnemyManager::Load(void)
 		// そのパラメータが存在するかどうか
 		if (!IsParameterExist("States", parameterPower)) { break; }
 
-		// 存在するならば、その座標にその敵を生成
-		AddChildActor(new Boss(GetParameterToVector3("InitPos", parameterName), GetParameterToInt("States", parameterHp)));
+		//// 存在するならば、その座標にその敵を生成
+		//AddChildActor(new Boss(GetParameterToVector3("InitPos", parameterName), GetParameterToInt("States", parameterHp)));
 	}
 
 }
