@@ -45,23 +45,9 @@ void TitleScene::SubPreUpdate(void)
 		break;
 	case TitleState::Movie:
 	{
-		//タイトルロゴの座標を右下に移動させる
-		int targetX = App::SCREEN_SIZE_X - TITLE_LOGO_WIDTH_HALF;
-		int targetY = App::SCREEN_SIZE_Y - TITLE_LOGO_HEIGHT_HALF;
-		float dx = (float)(targetX - pos_.x);
-		float dy = (float)(targetY - pos_.y);
-
-		float length = std::sqrt(dx * dx + dy * dy);
-
-		if (length <= 2.0f)
+		if (MoveLogoToCorner())
 		{
-			pos_.x = targetX;
-			pos_.y = targetY;
-		}
-		else
-		{
-			pos_.x += Round(dx / length * 2.0f);
-			pos_.y += Round(dy / length * 2.0f);
+			state_ = TitleState::MoveToDemo;
 		}
 
 		break;
@@ -106,4 +92,25 @@ void TitleScene::SubUiDraw(void)
 
 	//タイトルロゴ
 	DrawRotaGraph(pos_.x, pos_.y, 1.0f, 0.0f, titleLogoHandle_, TRUE);
+}
+
+bool TitleScene::MoveLogoToCorner()
+{
+	const int targetX = App::SCREEN_SIZE_X - TITLE_LOGO_WIDTH_HALF;
+	const int targetY = App::SCREEN_SIZE_Y - TITLE_LOGO_HEIGHT_HALF;
+
+	const float dx = static_cast<float>(targetX - pos_.x);
+	const float dy = static_cast<float>(targetY - pos_.y);
+	const float distance = std::sqrt(dx * dx + dy * dy);
+
+	if (distance <= LOGO_MOVE_SPEED)
+	{
+		pos_.x = targetX;
+		pos_.y = targetY;
+		return true;
+	}
+
+	pos_.x += Round(dx / distance * LOGO_MOVE_SPEED);
+	pos_.y += Round(dy / distance * LOGO_MOVE_SPEED);
+	return false;
 }
