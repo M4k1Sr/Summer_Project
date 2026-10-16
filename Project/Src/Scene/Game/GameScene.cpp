@@ -19,7 +19,9 @@
 #include "../../Object/Common/DebugObject/MeshDebugObject.h"
 
 #include "../../Object/NPC/CharactorType/Bell/Bell.h"
+
 #include "../../Object/Player/Player.h"
+
 #include "../../Object/Enemy/EnemyManager.h"
 
 #include "../../Object/Stage/MainStage/StageFirst.h"
