@@ -5,12 +5,22 @@
 #include "../../Manager/Input/InputManager.h"
 #include "../SceneManager.h"
 
+#include "../ActorUseDefine.h"
+
 #include "../../Manager/Camera/GameSpaceFollow/GameSpaceFollowCamera.h"
 
 #include "../../Object/Common/DebugObject/SphereDebugObject.h"
 #include "../../Object/Common/DebugObject/BoxDebugObject.h"
 #include "../../Object/Common/DebugObject/CapsuleDebugObject.h"
 #include "../../Object/Common/DebugObject/FeatureDebugMesh.h"
+
+#include "../../Object/Enemy/NormalSlime/NormalSlime.h"
+#include "../../Object/Enemy/Cactus/Cactus.h"
+#include "../../Object/Enemy/Thorn/Thorn.h"
+#include "../../Object/Enemy/Thorn/Wepon/Icicle.h"
+#include "../../Object/Enemy/Boss/Boss.h"
+
+#include "../../Object/Enemy/EnemyManager.h"
 
 #include "../../Object/Player/Player.h"
 
@@ -25,26 +35,23 @@ TestScene::TestScene(void) :
 
 void TestScene::SubPostLoad(void)
 {
-	// 操作対象
-	//operatorObject = new SphereDebugObject(75, Vector3(0, 180, 0), true, true, true, 100, true);
-	//ObjAdd(operatorObject);
-
 	// 操作対象（モデルあり）
 	operatorObject = new Player();
 	ObjAdd(operatorObject);
 
 	// 通常Box床
-	ObjAdd(new BoxDebugObject(Vector3(1800, 100, 1000), Vector3(0, -50, 0), false));
-
-	// 形状別の押し出し確認用オブジェクト
-	ObjAdd(new SphereDebugObject(90, Vector3(-350, 90, 0)));
-
-	ObjAdd(new CapsuleDebugObject(Vector3::Yonly(-80), Vector3::Yonly(80), 50.0f, Vector3(-100, 90, 0)));
-
-	//ObjAdd(new BoxDebugObject(Vector3(180, 180, 180), Vector3(320, 90, -120)));
+	ObjAdd(new BoxDebugObject(Vector3(3000, 100, 1500), Vector3(0, -50, 0), false));
 
 	// MeshCollider・BVH・坂の接地確認用
 	ObjAdd(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
+
+
+	//敵の生成
+	ObjAdd(new EnemyManager);
+	//プレイヤー座標渡し
+	ActorSerch<EnemyManager>(actors)->SetPlayerPos(&operatorObject->GetTrans().pos);
+
+	//ObjAdd(new Boss(Vector3(200, 200, 0)));
 
 	BuildRail();
 

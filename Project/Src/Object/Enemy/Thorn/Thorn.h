@@ -1,0 +1,88 @@
+#pragma once
+#include "../../Common/CharacterBase/CharacterBase.h"
+class Thorn
+	:public CharacterBase
+{
+
+public:
+
+	enum class STATE
+	{
+		None = -1,
+
+		//攻撃状態
+		Attack,
+
+		//待機状態
+		Wait,
+		Max
+	};
+
+	//アニメーション
+	enum class ANIM
+	{
+		//待機
+		Wait,
+		//攻撃
+		Attack,
+		//移動
+		Move,
+		//HIT
+		Hit,
+		//死亡
+		Die,
+
+		MAX
+
+	};
+
+	Thorn(
+		const Vector3& pos
+	) :
+		CharacterBase(),
+		INIT_POS(pos),
+		playerPos(nullptr)
+	{
+		trans.pos = INIT_POS;
+		SetGravityFlg(true);
+	}
+
+	void Load(void) override;
+
+	//座標渡し
+	void SetPlayerPos(const Vector3* pos) { playerPos = pos; }
+
+private:
+
+	// 初期座標
+	const Vector3 INIT_POS;
+
+#pragma region 定数
+
+	//コライダーサイズ
+	static constexpr float COLL_SIZE = 80.0f;
+
+	static constexpr float HIT_BOX_SIZE = 80.0f;
+
+#pragma endregion
+
+	//アニメーションスピード
+	const float animationSpeedTabel_[(int)ANIM::MAX]
+		= { 1.0f,0.5f,1.0f,1.0f,1.0f };
+
+	void SubInit(void) override;
+
+	Vector3 GetMoveDirection(void) const;
+
+	void ResetPos(void) { trans.pos = INIT_POS; }
+
+
+
+#pragma region 受けとる参照
+
+	//座標参照
+	const Vector3* playerPos;
+
+#pragma endregion
+
+};

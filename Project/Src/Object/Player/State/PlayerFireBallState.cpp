@@ -7,13 +7,13 @@
 #include "../../Common/Transform/Transform.h"
 
 
-
-
 PlayerFireBallState::PlayerFireBallState(
 	float COLL_START_TIME,
 	float COLL_END_TIME,
 
 	const std::vector<PlayerFireBallCollOperator*>& collOperators,
+
+	std::function<bool(void)> playerAbility,
 
 	std::function<void(void)> playAnimeAttack,
 	std::function<float(void)> getAnimeRatio,
@@ -25,18 +25,23 @@ PlayerFireBallState::PlayerFireBallState(
 
 	collOperators(collOperators),
 
+	playerAbility(playerAbility),
+
 	playAnimeAttack(playAnimeAttack),
 	getAnimeRatio(getAnimeRatio),
 
 	changeStateIdle(changeStateIdle),
 
-	step()
+	step(STEP::Startup)
 {
 }
 
 
 void PlayerFireBallState::OwnStateConditionUpdate(void)
 {
+	// ƒtƒ@ƒCƒA[ƒ{[ƒ‹”\—Í‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‘JˆÚ‚µ‚È‚¢
+	if (!playerAbility()) { return; }
+
 	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerAttack).down) {
 		OwnChangeState();
 	}
@@ -99,7 +104,6 @@ void PlayerFireBallState::Update(void)
 				// ‚»‚Ì•ûŒü‚Ås‚­‚È‚çˆê•Ï”(serch)‚²‚ÆÁ‚µ‚Ä‘åä•v
 
 				// ``````````````````````````ƒpƒ^[ƒ“1
-
 
 				// ƒpƒ^[ƒ“2```````````````````````````````````````````
 

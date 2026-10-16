@@ -50,8 +50,25 @@ public:
 		// ジャンプ
 		PlayerJump,
 
+		//　弱攻撃
+		PlayerDefaultAttack,
+
+		//　強攻撃
+		PlayerPowerAttack,
+
+		// 回避
+		PlayerEvasion,
+
+		//ロックオン
+		PlayerLockOn,
+		
+
+
 		//	ダッシュ
 		PlayerDash,
+
+		//吸収
+		PlayerAbsorb,
 
 		//攻撃
 		PlayerAttack,

@@ -32,6 +32,9 @@ public:
 
 	float GetLifeTimer(void)const { return lifeTimer; }
 
+	//ファイアーボールコライダーの数
+	static constexpr int FireBall_COLL_NUM = 2;
+
 private:
 
 	// 攻撃の判定を発生させる座標（プレイヤー座標からの相対座標）

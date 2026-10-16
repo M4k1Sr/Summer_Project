@@ -11,20 +11,13 @@ class PlayerPunchState : public CharacterStateBase
 {
 public:
 
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	/// <param name="COLL_START_TIME"></param>
-	/// <param name="COLL_END_TIME"></param>
-	/// <param name="collOperator"></param>
-	/// <param name="playAnimeAttack"></param>
-	/// <param name="getAnimeRatio"></param>
-	/// <param name="changeStateIdle"></param>
 	PlayerPunchState(
 		float COLL_START_TIME,
 		float COLL_END_TIME,
 
 		PlayerPunchCollOperator& collOperator,
+
+		std::function<bool(void)> playerAbility,
 
 		std::function<void(void)> playAnimeAttack,
 		std::function<float(void)> getAnimeRatio,
@@ -72,6 +65,9 @@ private:
 
 	// 攻撃の当たり判定管理クラスの参照
 	PlayerPunchCollOperator& collOperator;
+
+	//プレイヤーの所持能力を確認する関数のポインタ
+	const std::function<bool(void)> playerAbility;
 
 	// 攻撃アニメーションの再生関数のポインタ
 	const std::function<void(void)> playAnimeAttack;

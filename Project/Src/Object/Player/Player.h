@@ -8,6 +8,25 @@ class Player :
 {
 public:
 
+	// 状態定義
+	enum class STATE
+	{
+		None = -1,
+
+		Idle,
+		Move,
+		Absorb,
+		Jump,
+
+		//攻撃
+		Punch,
+		FireBall,
+		Water,
+		Thunder,
+
+		Max
+	};
+
 	Player();
 	~Player()override = default;
 
@@ -17,23 +36,16 @@ public:
 	// 当たり判定の通知
 	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
 
+	//　所持能力の確認
+	bool IsCurrentAbility(COLLIDER_TAG state) const { return ability == state; }
+
+	//　所持能力の設定
+	void SetCurrentAbility(COLLIDER_TAG state) { ability = state; }
+
+	// アニメーション用モデル向き調整
+	void SetModelAngle(const float angle) { trans.angle.y = angle; }
+
 private:
-
-	// 状態定義
-	enum class STATE
-	{
-		None = -1,
-
-		Idle,
-		Move,
-		Jump,
-
-		Punch,
-		FireBall,
-		Water,
-
-		Max
-	};
 
 #pragma region アニメーション関係定義
 
@@ -50,6 +62,12 @@ private:
 
 		Punch,
 
+		Water,
+
+		Absorb_Start,
+
+		Absorb_End,
+
 		Max
 	};
 
@@ -60,6 +78,9 @@ private:
 		0.5f,
 		0.5f,
 		0.75f,
+		1.0f,
+		1.0f,
+		1.0f,
 	};
 
 	// アニメーションループ再生フラグテーブル
@@ -68,6 +89,9 @@ private:
 		true,
 		true,
 		true,
+		false,
+		false,
+		false,
 		false,
 	};
 
@@ -78,6 +102,19 @@ private:
 
 	// 更新処理
 	void SubUpdate(void)override;
+
+	//デバッグ用能力切り替え
+	void NextAbility(void);
+
+#pragma region メンバ変数
+
+	//所持能力
+	COLLIDER_TAG ability;
+
+#pragma endregion
+
+	void SubDraw(void)override;
+
 };
 
 

@@ -15,6 +15,8 @@ PlayerPunchState::PlayerPunchState(
 
 	PlayerPunchCollOperator& collOperator,
 
+	std::function<bool(void)> playerAbility,
+
 	std::function<void(void)> playAnimeAttack,
 	std::function<float(void)> getAnimeRatio,
 
@@ -24,6 +26,8 @@ PlayerPunchState::PlayerPunchState(
 	COLL_END_TIME(COLL_END_TIME),
 
 	collOperator(collOperator),
+
+	playerAbility(playerAbility),
 
 	playAnimeAttack(playAnimeAttack),
 	getAnimeRatio(getAnimeRatio),
@@ -37,6 +41,10 @@ PlayerPunchState::PlayerPunchState(
 
 void PlayerPunchState::OwnStateConditionUpdate(void)
 {
+
+	// パンチ能力を持っていなければ遷移しない
+	if (!playerAbility()) { return; }
+
 	if (Input::GetIns().GetInfo(KEY_TYPE::PlayerAttack).down) {
 		OwnChangeState();
 	}

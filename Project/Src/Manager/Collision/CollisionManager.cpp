@@ -424,6 +424,9 @@ void CollisionManager::Check(void)
 	// ③プレイヤー系 × エネミー系
 	Matching(COLLIDER_GROUP::Player, COLLIDER_GROUP::Enemy);
 
+	// エネミー系 × エネミー系
+	Matching(COLLIDER_GROUP::Enemy, COLLIDER_GROUP::Enemy);
+
 
 	// ④プレイヤー系 × プレイヤー系にだけ当たるコライダー
 	Matching(COLLIDER_GROUP::Player, COLLIDER_GROUP::PlayerOnly);
@@ -619,9 +622,9 @@ bool CollisionManager::IsHit(ColliderBase* a, ColliderBase* b, CollisionResult& 
 	if (aShape == COLLIDER_SHAPE::None || bShape == COLLIDER_SHAPE::None) { return false; }
 
 	// 同一グループに属する同一タグ同士は判定しない
-	if (a->GetTag() == b->GetTag()) {
-		if (TAG_TO_GROUP_LIST.contains(a->GetTag())) { return false; }
-	}
+	//if (a->GetTag() == b->GetTag()) {
+	//	if (TAG_TO_GROUP_LIST.contains(a->GetTag())) { return false; }
+	//}
 
 	// AABBによる雑な判定
 	const ColliderBase::AABB aAABB = a->GetAABB();

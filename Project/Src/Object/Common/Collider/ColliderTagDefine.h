@@ -25,11 +25,29 @@ enum class COLLIDER_TAG
 
 	Enemy,
 
+	EnemyHitBox,
+
+	EnemyAttackBox,
+
 	Stage,
+
+	//EnemyAbility
+	Icicle,
+	//-----------------
 
 	DebugObject,
 
+	// PlayerAbility
+	Absorb,
+
 	Punch,
 
-	Fire,
+	FireBall,
+
+	Water,
+
+	Thunder,
+
+	FrostBlade,
+	//----------------
 };
