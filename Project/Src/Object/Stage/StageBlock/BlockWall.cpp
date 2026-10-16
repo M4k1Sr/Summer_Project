@@ -1,8 +1,8 @@
-#include "WallBlock.h"
+#include "BlockWall.h"
 
 #include "../../Common/Collider/BoxCollider.h"
 
-WallBlock::WallBlock(const Vector3& pos,
+BlockWall::BlockWall(const Vector3& pos,
 	bool dynamicFlg, 
 	bool isGravity, 
 	bool isPushFlg) :
@@ -11,7 +11,7 @@ WallBlock::WallBlock(const Vector3& pos,
 	trans.pos = pos;
 }
 
-void WallBlock::Load(void)
+void BlockWall::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/WallBlock");
 

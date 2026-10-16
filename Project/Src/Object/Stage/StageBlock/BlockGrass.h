@@ -2,16 +2,16 @@
 #include "./StageBlockBase.h"
 #include "../../Common/ActorBase/ActorBase.h"
 
-class WallBlock : public StageBlockBase
+class BlockGrass : public StageBlockBase
 {
 public:
-	WallBlock(const Vector3& pos,
+	BlockGrass(const Vector3& pos,
 		bool dynamicFlg,
 		bool isGravity,
 		bool isPushFlg
 	);
-	~WallBlock()override = default;
-
+	~BlockGrass()override = default;
+	
 	void Load(void)override;
 
 private:

@@ -2,23 +2,23 @@
 #include <sstream>
 #include <string>
 
-#include "FirstStage.h"
+#include "StageFirst.h"
 
-#include "../StageBlock/GrassBlock.h"
-#include "../StageBlock/DirtBlock.h"
-#include "../StageBlock/WallBlock.h"
+#include "../StageBlock/BlockGrass.h"
+#include "../StageBlock/BlockDirt.h"
+#include "../StageBlock/BlockWall.h"
 
 #include "../StageBlock/StageBlockBase.h"
 
 #include "../../../Manager/Camera/CurrentCamera.h"
 
-FirstStage::FirstStage()
+StageFirst::StageFirst()
 	: 
 	stageBlockType(STAGE_BLOCK_TYPE::NONE)
 {
 }
 
-void FirstStage::Load()
+void StageFirst::Load()
 {
 	// CSV読み取り
 	std::ifstream file("Data/Model/Stage/StageCSV/FirstStage.csv");
@@ -64,12 +64,12 @@ void FirstStage::Load()
 			switch (static_cast<STAGE_BLOCK_TYPE>(tileType)) {
 			case STAGE_BLOCK_TYPE::GRASS:	// 通常の道ステージ(11)
 				{
-					stageBlocks[y][x] = new GrassBlock(tilePos,false,false,true);
+					stageBlocks[y][x] = new BlockGrass(tilePos,false,false,true);
 					break;
 				}
 				case STAGE_BLOCK_TYPE::DIRT:		// 土ステージ(0)
 				{
-					stageBlocks[y][x] = new DirtBlock(tilePos,false,false,true);
+					stageBlocks[y][x] = new BlockDirt(tilePos,false,false,true);
 					break;
 				}
 			}
@@ -77,24 +77,24 @@ void FirstStage::Load()
 	}
 
 	// 生成したブロック全ての読み込み処理
-	for (auto& row : stageBlocks) {
-		for (auto& block : row.second) {
+	for (const auto& row : stageBlocks) {
+		for (const auto& block : row.second) {
 			block.second->Load();
 		}
 	}
 }
 
-void FirstStage::SubInit(void)
+void StageFirst::SubInit(void)
 {
 	// 生成したブロック全ての初期化処理
-	for (auto& row : stageBlocks) {
-		for (auto& block : row.second) {
+	for (const auto& row : stageBlocks) {
+		for (const auto& block : row.second) {
 			block.second->Init();
 		}
 	}
 }
 
-void FirstStage::SubDraw(void)
+void StageFirst::SubDraw(void)
 {
 	// カメラ座標を取得
 	const Vector3& camPos = CurrentCamera::Get().GetPos();
@@ -123,7 +123,7 @@ void FirstStage::SubDraw(void)
 	}
 }
 
-void FirstStage::SubRelease(void)
+void StageFirst::SubRelease(void)
 {
 	// 生成したブロック全ての解放処理
 	for(auto& row : stageBlocks) {
@@ -137,14 +137,14 @@ void FirstStage::SubRelease(void)
 	stageBlocks.clear();
 }
 
-std::vector<ColliderBase*> FirstStage::GetColliders(void)const
+std::vector<ColliderBase*> StageFirst::GetColliders(void)const
 {
 	std::vector<ColliderBase*> ret = {};
 
 	// 生成したブロック全てのコライダーを取得する仕様に
-	for(auto& row : stageBlocks) {
-		for(auto& block : row.second) {
-			for (auto& collider : block.second->GetColliders()) { ret.push_back(collider); }
+	for(const auto& row : stageBlocks) {
+		for(const auto& block : row.second) {
+			for (const auto& collider : block.second->GetColliders()) { ret.push_back(collider); }
 		}
 	}
 

@@ -2,15 +2,15 @@
 #include "./StageBlockBase.h"
 #include "../../Common/ActorBase/ActorBase.h"
 
-class DirtBlock : public StageBlockBase
+class BlockDirt : public StageBlockBase
 {
 public:
-	DirtBlock(const Vector3& pos,
+	BlockDirt(const Vector3& pos,
 		bool dynamicFlg,
 		bool isGravity,
 		bool isPushFlg
 	);
-	~DirtBlock()override = default;
+	~BlockDirt()override = default;
 
 	void Load(void)override;
 

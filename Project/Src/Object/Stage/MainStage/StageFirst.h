@@ -6,7 +6,7 @@
 
 class StageBlockBase;
 
-class FirstStage
+class StageFirst
 	: public ActorBase
 {
 public:
@@ -34,10 +34,10 @@ public:
 	static constexpr int VIEW_RANGE_Y = 6;
 
 	// コンストラクタ
-	FirstStage();
+	StageFirst();
 
 	// デストラクタ
-	~FirstStage()override = default;
+	~StageFirst()override = default;
 
 	// 読み込み処理
 	void Load(void)override;

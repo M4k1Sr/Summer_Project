@@ -23,6 +23,7 @@
 #include "../../Object/Enemy/EnemyManager.h"
 
 #include "../../Object/Stage/MainStage/FirstStage.h"
+#include "../../Object/Stage/MainStage/StageFirst.h"
 
 GameScene::GameScene() : WorldSceneBase()
 {
@@ -36,7 +37,7 @@ void GameScene::SubPostLoad(void)
 	ObjAdd(new Bell());
 
 	// ステージ1
-	ObjAdd(new FirstStage());
+	ObjAdd(new StageFirst());
 
 	// 操作対象（モデルあり）
 	operatorObject = new Player();
