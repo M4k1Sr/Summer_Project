@@ -22,7 +22,6 @@
 #include "../../Object/Player/Player.h"
 #include "../../Object/Enemy/EnemyManager.h"
 
-#include "../../Object/Stage/MainStage/FirstStage.h"
 #include "../../Object/Stage/MainStage/StageFirst.h"
 
 GameScene::GameScene() : WorldSceneBase()
