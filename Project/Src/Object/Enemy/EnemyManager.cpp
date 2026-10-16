@@ -63,7 +63,7 @@ void EnemyManager::Load(void)
 	// ボス生成
 	for (int i = 1; ; i++) {
 		// その回のパラメーター名
-		std::string parameterName = "Boss" + std::to_string(i);
+		std::string parameterName = "BossPos" + std::to_string(i);
 
 		// そのパラメータが存在するかどうか
 		if (!IsParameterExist("InitPos", parameterName)) { break; }

@@ -1,8 +1,7 @@
 #pragma once
 #include "../../Common/CharacterBase/CharacterBase.h"
-
 class Boss :
-public CharacterBase
+	public CharacterBase
 {
 
 public:
@@ -11,24 +10,33 @@ public:
 	{
 		None = -1,
 
-		//待機状態
-		Wait,
-		Attack,
+		//移動状態
+		Move,
+
+		//ダメージHIT
+		Hit,
+
+		//死亡時
+		Die,
 
 		Max
 	};
 
-	//ボスアニメーション
+	//アニメーション
 	enum class ANIM
 	{
 		//待機
-		Wait,
+		Idle,
+
 		//攻撃
 		Attack,
+
 		//移動
 		Move,
+
 		//HIT
 		Hit,
+
 		//死亡
 		Die,
 
@@ -38,21 +46,17 @@ public:
 
 	Boss(
 		const Vector3& pos,
-		const int hp
-
+		const  int hp
 	) :
 		CharacterBase(),
-		INIT_POS(pos),
+		initPos(pos),
 		hp(hp)
 	{
-		trans.pos = INIT_POS;
+		trans.pos = initPos;
 		SetGravityFlg(true);
 	}
 
 	void Load(void) override;
-
-	//座標渡し
-	void SetPlayerPos(const Vector3* pos) { playerPos_ = pos; }
 
 private:
 
@@ -62,26 +66,41 @@ private:
 
 #pragma endregion
 
-	// 初期座標
-	const Vector3 INIT_POS;
 
-	// プレイヤーが抱える下位アクター格納配列
-	std::vector<ActorBase*> subObjects;
+
+#pragma region 定数
+
+	//コライダーサイズ
+	static constexpr float COLL_SIZE = 300.0f;
+	//コライダーサイズ
+	static constexpr float HIT_BOX_SIZE = 80.0f;
+
+	// 初期調整座標Z値
+	static constexpr float ADJUSTMENT_POS_Z = 100.0f;
+
+	//初期調整角度
+	static constexpr float ADJUSTMENT_ANGLE = 45.0f;
+	//初期調整角度
+	static constexpr float ADJUSTMENT_SIZE = 3.0f;
+
+	//スライム加速最大スピード
+	const float SLIME_ACCEL_MAX = 7.0f;
+
+#pragma endregion
+
+
+	// 初期座標
+	const Vector3 initPos;
 
 	//アニメーションスピード
 	const float animationSpeedTabel_[(int)ANIM::MAX]
-		= { 1.0f,0.5f,1.0f,1.0f,1.0f };
+		= { 1.0f,1.0f,1.0f,1.0f,1.0f };
 
 	void SubInit(void) override;
 	void SubUpdate(void) override;
 	void SubDraw(void) override;
 	void SubRelease(void) override;
 
-
-	void ResetPos(void) { trans.pos = INIT_POS; }
-
-	//座標参照
-	const Vector3* playerPos_;
+	void ResetPos(void) { trans.pos = initPos; }
 };
-
 

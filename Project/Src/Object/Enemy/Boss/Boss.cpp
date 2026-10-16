@@ -1,46 +1,94 @@
 #include "Boss.h"
 #include "../../../Utility//Utility.h"
-#include "../../Common/Collider/CapsuleCollider.h"
+#include "../../Common/Collider/SphereCollider.h"
 
 void Boss::Load(void)
 {
 	// モデルをロード
 	trans.LoadModel("Enemy/Boss/Boss");
 
-	//ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
+	//アニメーション追加
+	CreateAnimationController();
+	//アニメーション登録
+	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
+
+	//ステージ・プレイヤー用コライダー
+	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
+	////攻撃判定用コライダー
+	//ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
+
+	// モデルの中心点のズレの補正
+	trans.centerDiff = Vector3(0.0f, -220.0f, 0.0f) * trans.scale;
+
+	// モデルの初期座標ズレを設定
+	trans.pos.z = trans.pos.z + ADJUSTMENT_POS_Z;
+	
+	//モデルの角度のズレを設定
+	trans.localAngle.y = Deg2Rad(ADJUSTMENT_ANGLE);
 
 	//サイズ設定
-	trans.scale = 3.0f;
-	//アニメーションずれ修正
-	trans.centerDiff = Vector3(0.0f, -60.0f, 0.0f) * trans.scale;
+	trans.scale = ADJUSTMENT_SIZE;
 
-	SetGravityFlg(false);
+#pragma region 状態初期設定(ステートが追加されるたびに追加する)
 
-	for (ActorBase* subObject : subObjects) { subObject->Load(); }
+	//// 移動状態を追加
+	//AddState(
+	//	STATE::Move,
+	//	new NormalSlimeMoveState(
+	//		trans.pos,
+	//		initPos,
+	//		std::bind(&NormalSlime::MoveAccel, this, std::placeholders::_1)
+	//	));
+
+	//// 移動状態を追加
+	//AddState(
+	//	STATE::Hit,
+	//	new NormalSlimeHItState(
+	//		trans.pos,
+	//		[&]()
+	//		{
+	//			//再生アニメーション
+	//			AnimePlay((int)ANIM::Hit, false);
+	//		}
+	//	));
+
+	//// 移動状態を追加
+	//AddState(
+	//	STATE::Die,
+	//	new NormalSlimeDieState(
+	//		trans.pos,
+	//		[&]()
+	//		{
+	//			//再生アニメーション
+	//			AnimePlay((int)ANIM::Die, false);
+	//		}
+	//	));
+
+#pragma endregion
 }
 
 void Boss::SubInit(void)
 {
-	for (ActorBase* subObject : subObjects) { subObject->Init(); }
+	//初期ステート
+	ChangeState(STATE::Move);
+
+	//初期再生アニメーション
+	AnimePlay((int)ANIM::Idle, true);
+
+	// 加減速度を設定
+	ACCEL_RATE = DECEL_RATE = 3.0f;
+	// 加速最大値を設定
+	ACCEL_MAX = 5.0f;
 }
 
 void Boss::SubUpdate(void)
 {
-	for (ActorBase* subObject : subObjects) { subObject->Update(); }
 }
 
 void Boss::SubDraw(void)
 {
-	for (ActorBase* subObject : subObjects) { subObject->Draw(); }
 }
 
 void Boss::SubRelease(void)
 {
-	// 抱える下位アクター全ての解放処理
-	for (ActorBase*& subObject : subObjects) {
-		subObject->Release();
-		delete subObject;
-		subObject = nullptr;
-	}
-	subObjects.clear();
 }
