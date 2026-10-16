@@ -16,13 +16,13 @@ void Icicle::Load(void)
 	// モデルをロード
 	trans.LoadModel("Icicle/Icicle");
 
-	ColliderCreate(
+	AddCollider(
 		new CapsuleCollider(COLLIDER_TAG::Icicle,
 			Vector3::Yonly(40.0f),
 			Vector3::Yonly(-40.0f),
 			40.0f));
 
-	ColliderCreate(
+	AddCollider(
 		new CapsuleCollider(COLLIDER_TAG::EnemyAttackBox,
 			Vector3::Yonly(40.0f),
 			Vector3::Yonly(-40.0f),
@@ -40,7 +40,7 @@ void Icicle::Load(void)
 	//描画オフ
 	SetIsDraw(false);
 	//判定オフ
-	SetJudge(false);
+	SetJudgeFlg(false);
 }
 
 
@@ -82,7 +82,7 @@ void Icicle::SubUpdate(void)
 				state = STATE::None;
 
 				SetIsDraw(false);
-				SetJudge(false);
+				SetJudgeFlg(false);
 			}
 			break;
 		}
@@ -99,18 +99,18 @@ void Icicle::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const C
 
 		SetIsDraw(false);
 
-		SetJudge(false);
+		SetJudgeFlg(false);
 		break;
 	case COLLIDER_TAG::Enemy:
 		SetIsDraw(false);
 
-		SetJudge(false);
+		SetJudgeFlg(false);
 
 		break;
 	case COLLIDER_TAG::Stage:
 		SetIsDraw(false);
 
-		SetJudge(false);
+		SetJudgeFlg(false);
 		break;
 	case COLLIDER_TAG::Icicle:
 		break;
@@ -125,7 +125,7 @@ void Icicle::Start(void)
 	SetIsDraw(true);
 
 	// 当たり判定を有効にする
-	SetJudge(true);
+	SetJudgeFlg(true);
 
 	// スケールを0にする
 	trans.scale = 0.0f;

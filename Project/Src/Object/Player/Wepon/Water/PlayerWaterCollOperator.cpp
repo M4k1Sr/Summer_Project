@@ -36,7 +36,7 @@ void PlayerWaterCollOperator::Load(void)
 	attackColl->SetJudgeFlg(false);
 
 	// コライダーを追加
-	ColliderCreate(attackColl);
+	AddCollider(attackColl);
 }
 
 
@@ -61,13 +61,9 @@ void PlayerWaterCollOperator::On(void)
 	attackColl->SetJudgeFlg(true);
 
 	// プレイヤーの座標と回転から初期位置を設定
-	trans.pos = playerTrans.pos + COLL_LOCAL_POS.TransMat(MGetRotY(playerTrans.angle.y));
+	trans.pos = playerTrans.pos + playerTrans.rotation.Rotate(COLL_LOCAL_POS);
 
-	Vector3 baseFront = Vector3(
-		sinf(playerTrans.angle.y),
-		0.0f,
-		cosf(playerTrans.angle.y)
-	);
+	Vector3 baseFront = playerTrans.rotation.Rotate(Vector3(0.0f, 0.0f, 1.0f));
 
 	Vector3 launchDir = baseFront;
 	launchDir.y = 2.0f;

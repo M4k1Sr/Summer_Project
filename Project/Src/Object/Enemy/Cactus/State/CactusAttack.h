@@ -16,7 +16,7 @@ public:
 		const Vector3*& playerPos,
 		std::function<void(void)> changeStateWait,
 		std::function<void(void)> playAnimationAttack,
-		float& cactusAngle_Y,
+		Quaternion& cactusRotation,
 		Panch& panch
 	);
 	~CactusAttack()override = default;
@@ -56,7 +56,7 @@ private:
 	Panch& panch_;
 
 	//サボテンの向き
-	float& cactusAngle_Y;
+	Quaternion& cactusRotation;;
 
 	//待機状態に遷移する
 	std::function<void(void)> changeStateWait;

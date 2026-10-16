@@ -7,7 +7,7 @@ void Boss::Load(void)
 	// モデルをロード
 	trans.LoadModel("Enemy/Boss/Boss");
 
-	//ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
+	//AddCollider(new SphereCollider(COLLIDER_TAG::Enemy, 80.0f));
 
 	//サイズ設定
 	trans.scale = 3.0f;

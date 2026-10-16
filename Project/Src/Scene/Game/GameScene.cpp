@@ -33,17 +33,17 @@ void GameScene::SubPostLoad(void)
 	Snd::GetIns().ChangeScene("Game");
 
 	// ベル
-	ObjAdd(new Bell());
+	AddActor(new Bell());
 
 	// ステージ1
-	ObjAdd(new StageFirst());
+	AddActor(new StageFirst());
 
 	// 操作対象（モデルあり）
 	operatorObject = new Player();
-	ObjAdd(operatorObject);
+	AddActor(operatorObject);
 
 	//敵の生成
-	ObjAdd(new EnemyManager);
+	AddActor(new EnemyManager);
 	//プレイヤー座標渡し
 	ActorSerch<EnemyManager>(actors)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
