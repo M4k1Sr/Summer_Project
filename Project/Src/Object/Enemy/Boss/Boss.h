@@ -18,7 +18,7 @@ public:
 		Max
 	};
 
-	//サボテンアニメーション
+	//ボスアニメーション
 	enum class ANIM
 	{
 		//待機
@@ -37,10 +37,13 @@ public:
 	};
 
 	Boss(
-		const Vector3& pos
+		const Vector3& pos,
+		const int hp
+
 	) :
 		CharacterBase(),
-		INIT_POS(pos)
+		INIT_POS(pos),
+		hp(hp)
 	{
 		trans.pos = INIT_POS;
 		SetGravityFlg(true);
@@ -52,6 +55,12 @@ public:
 	void SetPlayerPos(const Vector3* pos) { playerPos_ = pos; }
 
 private:
+
+#pragma region 受け取る参照
+
+	const int hp;
+
+#pragma endregion
 
 	// 初期座標
 	const Vector3 INIT_POS;
