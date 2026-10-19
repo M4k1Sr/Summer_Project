@@ -5,7 +5,7 @@
 void Boss::Load(void)
 {
 	// モデルをロード
-	trans.LoadModel("Enemy/Boss/Boss");
+	trans.LoadModel("Enemy/Enemy/GobKing");
 
 	//アニメーション追加
 	CreateAnimationController();

@@ -72,7 +72,7 @@ private:
 #pragma region 定数
 
 	//コライダーサイズ
-	static constexpr float COLL_SIZE = 300.0f;
+	static constexpr float COLL_SIZE = 100.0f;
 	//コライダーサイズ
 	static constexpr float HIT_BOX_SIZE = 80.0f;
 
