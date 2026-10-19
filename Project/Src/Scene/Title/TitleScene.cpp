@@ -80,7 +80,7 @@ void TitleScene::SubPostUpdate(void)
 	}
 
 	// タイトルロゴのアニメーション
-	animTime_ -= 1.0f / 60.0f;	//仮のやつ
+	animTime_ -= DELTA_TIME;	//仮のやつ
 
 
 }

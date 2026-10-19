@@ -2,6 +2,7 @@
 #include <cstdlib>
 
 #include "../../../Common/Collider/SphereCollider.h"
+#include "../../../../Utility/Utility.h"
 
 PlayerThunderCollOperator::PlayerThunderCollOperator(
 	float COLL_RADIUS,
@@ -46,7 +47,7 @@ void PlayerThunderCollOperator::SubUpdate(void)
 {
 	if (!attackColl->GetJudgeFlg()) { return; }
 	// õ–½ˆ—
-	lifeTimer -= 1.0f / 60.0f;
+	lifeTimer -= DELTA_TIME;
 	if (lifeTimer <= 0.0f) {
 		Off();
 	}

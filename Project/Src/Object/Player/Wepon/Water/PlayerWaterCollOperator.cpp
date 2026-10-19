@@ -2,6 +2,7 @@
 #include <cstdlib>
 
 #include "../../../Common/Collider/SphereCollider.h"
+#include "../../../../Utility/Utility.h"
 
 PlayerWaterCollOperator::PlayerWaterCollOperator(
 	float COLL_RADIUS,
@@ -50,7 +51,7 @@ void PlayerWaterCollOperator::SubUpdate(void)
 	trans.pos += waterVec;
 
 	// éıñΩèàóù
-	lifeTimer -= 1.0f / 60.0f;
+	lifeTimer -= DELTA_TIME;
 	if (lifeTimer <= 0.0f) {
 		Off();
 	}

@@ -1,6 +1,7 @@
 #include "PlayerFireBallCollOperator.h"
 
 #include "../../../Common/Collider/SphereCollider.h"
+#include "../../../../Utility/Utility.h"
 
 PlayerFireBallCollOperator::PlayerFireBallCollOperator(
 	float COLL_RADIUS,
@@ -45,10 +46,10 @@ void PlayerFireBallCollOperator::SubUpdate(void)
 	if (!attackColl->GetJudgeFlg()) { return; }
 
 	// 前方に転がり続ける
-	trans.pos += front * 10;
+	trans.pos += front * SPEED;
 
 	// 寿命のカウントダウン(リトルフラワー)（計算方法は仮）
-	lifeTimer -= 1.0f / 60.0f;
+	lifeTimer -= DELTA_TIME;
 	if (lifeTimer <= 0.0f) {
 		Off();
 	}
@@ -79,7 +80,7 @@ void PlayerFireBallCollOperator::Off(void)
 
 void PlayerFireBallCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
 {
-	velocity.y = (velocity.y < 0.0f) ? 5.0f : velocity.y;
+	velocity.y = (velocity.y < 0.0f) ? BOUNCE_POWER : velocity.y;
 }
 
 void PlayerFireBallCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
