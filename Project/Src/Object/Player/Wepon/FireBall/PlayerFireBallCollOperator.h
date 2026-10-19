@@ -32,15 +32,13 @@ public:
 
 	float GetLifeTimer(void)const { return lifeTimer; }
 
-
+	//ファイアーボールコライダーの数
+	static constexpr int FIREBALL_COLL_NUM = 2;
 
 private:
 
 	// 攻撃の判定を発生させる座標（プレイヤー座標からの相対座標）
 	const Vector3 COLL_LOCAL_POS;
-
-	//ファイアーボールコライダーの数
-	static constexpr int FIREBALL_COLL_NUM = 2;
 
 	// 飛翔時間（秒）
 	static constexpr float FIREBALL_LIFETIME_MAX = 2.0f; 

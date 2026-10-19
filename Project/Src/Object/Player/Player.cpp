@@ -120,9 +120,9 @@ void Player::Load(void)
 	//ファイアーボール
 	std::vector<PlayerFireBallCollOperator*> fireBallCollOperators;
 
-	fireBallCollOperators.reserve(PlayerFireBallCollOperator::FireBall_COLL_NUM);
+	fireBallCollOperators.reserve(PlayerFireBallCollOperator::FIREBALL_COLL_NUM);
 
-	for (int i = 0; i < PlayerFireBallCollOperator::FireBall_COLL_NUM; ++i) {
+	for (int i = 0; i < PlayerFireBallCollOperator::FIREBALL_COLL_NUM; ++i) {
 		auto* fireBallCollOperator = new PlayerFireBallCollOperator(
 			GetParameter("WeponCollider", "FireBallCollRadius"),
 			GetParameterToVector3("WeponCollider", "FireBallCollLocalPos"), trans);
