@@ -16,7 +16,7 @@ public:
 		const Vector3*& playerPos,
 		std::function<void(void)> createIcicle,
 		std::function<void(void)> changeStateWait,
-		float& cactusAngle_Y,
+		Quaternion& cactusRotation,
 		Icicle& icicle
 	);
 	~ThornAttack()override = default;
@@ -53,7 +53,7 @@ private:
 	const Vector3* const& playerPos;
 
 	//ÉAÉìÉOÉãí≤êÆ
-	float& cactusAngle_Y;
+	Quaternion& cactusRotation;
 
 	Icicle& icicle_;
 

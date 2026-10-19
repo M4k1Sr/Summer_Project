@@ -16,5 +16,5 @@ void BlockGrass::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/Grass");
 
-	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 600.0f)));
+	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 600.0f)));
 }

@@ -2,18 +2,20 @@
 
 #include <stdexcept>
 
+#include "../../../Application/Application.h"
+
 #include "../../../Common/Vector2.h"
 #include "../../../Common/Vector2I.h"
-
-#include "../../../Application/Application.h"
 
 #include "../../../Manager/TimeScale/TimeScale.h"
 
 #include "../Collider/ColliderBase.h"
 
-#include "../DataLoad/ParameterLoad.h"
-#include "../../../Scene/Common/GameSpace/GameSpaceController.h"
+#include "../Shader/ShaderBase.h"
 
+#include "../DataLoad/ParameterLoad.h"
+
+#include "../../../Scene/Common/GameSpace/GameSpaceController.h"
 
 ActorBase::ActorBase() :
 	trans(),
@@ -30,7 +32,9 @@ ActorBase::ActorBase() :
 	isGroundMaster(false),
 
 	isDraw(true),
-	drawType(ACTOR_DRAW_TYPE::Normal),
+	drawType(ACTOR_DRAW_TYPE::Default),
+
+	shader(nullptr),
 
 	parameter(nullptr),
 
@@ -56,12 +60,11 @@ ActorBase::ActorBase(const std::string& parameterPath) :
 	isGroundMaster(false),
 
 	isDraw(true),
-	drawType(ACTOR_DRAW_TYPE::Normal),
+	drawType(ACTOR_DRAW_TYPE::Default),
+
+	shader(nullptr),
 
 	parameter(new ParameterLoad(parameterPath)),
-
-	gameSpace(nullptr),
-	spaceConstraint(SPACE_CONSTRAINT::StageDefault),
 
 	childActors()
 {
@@ -78,7 +81,11 @@ void ActorBase::Init(void)
 	// 子アクターの初期化
 	for (ActorBase* child : childActors) { child->Init(); }
 
+	// モデル制御情報の適用
 	trans.Attach();
+
+	// コライダーの初期化
+	for (ColliderBase* collider : colliders) { collider->Init(); }
 	
 	// パラメータの解放
 	if (parameter != nullptr) {
@@ -111,12 +118,18 @@ void ActorBase::Update(void)
 
 	// 子アクターの更新
 	for (ActorBase* child : childActors) { child->Update(); }
+
+	// シェーダーの更新
+	if (shader != nullptr) { shader->Update(); }
 }
 
 void ActorBase::Draw(void)
 {
 	// 描画判定
 	if (!isDraw) { return; }
+
+	// シェーダーの適用
+	if (shader != nullptr) { shader->Apply(); }
 
 	// 最終派生固有
 	SubDraw();
@@ -126,6 +139,9 @@ void ActorBase::Draw(void)
 
 	// モデルの描画
 	trans.Draw();
+
+	// シェーダーのリセット
+	if (shader != nullptr) { shader->ResetApply(); }
 }
 
 void ActorBase::Release(void)
@@ -137,12 +153,15 @@ void ActorBase::Release(void)
 	BaseRelease();
 
 	// 子アクターの解放
-	for (ActorBase*& child : childActors) {
+	for(ActorBase*& child : childActors) {
 		if (!child) { continue; }
 		child->Release();
 		delete child;
 		child = nullptr;
 	}
+
+	// シェーダーの解放
+	ResetShader();
 
 	// パラメータの解放
 	if (parameter != nullptr) {
@@ -152,10 +171,10 @@ void ActorBase::Release(void)
 	}
 
 	// 当たり判定情報を解放
-	for (ColliderBase*& c : colliders) {
-		if (!c) { continue; }
-		delete c;
-		c = nullptr;
+	for (ColliderBase*& collider : colliders) {
+		if (!collider) { continue; }
+		delete collider;
+		collider = nullptr;
 	}
 	colliders.clear();
 
@@ -163,13 +182,13 @@ void ActorBase::Release(void)
 	trans.Release();
 }
 
-std::vector<ColliderBase*> ActorBase::GetColliders(void)const
+std::vector<ColliderBase*> ActorBase::GetColliders(void) const
 {
 	std::vector<ColliderBase*> ret = {};
 
 	for (ColliderBase* collider : colliders) { ret.emplace_back(collider); }
 
-	for(ActorBase* child : childActors) {
+	for (ActorBase* child : childActors) {
 		for (ColliderBase* collider : child->GetColliders()) { ret.emplace_back(collider); }
 	}
 
@@ -179,17 +198,8 @@ std::vector<ColliderBase*> ActorBase::GetColliders(void)const
 void ActorBase::DrawColliderDebug(void) const
 {
 	for (ColliderBase* collider : GetColliders()) {
-		if (collider->GetJudgeFlg()) collider->DrawDebug();
+		if (collider->GetJudgeFlg()) collider->DrawDebug(); 
 	}
-}
-
-bool ActorBase::GetJudgeFlg(void)
-{
-	for (ColliderBase*& c : colliders) {
-		if (!c) { continue; }
-		if (c->GetJudgeFlg()) { return true; }
-	}
-	return false;
 }
 
 void ActorBase::Gravity(void)
@@ -240,34 +250,34 @@ void ActorBase::VelocityUpdate(bool	deceleration)
 	if (velocity != 0.0f) { trans.pos += velocity * TimeScale::Get(); }
 }
 
-void ActorBase::ColliderCreate(ColliderBase* newClass)
+void ActorBase::AddCollider(ColliderBase* newCollider)
 {
-	colliders.emplace_back(newClass);
-	colliders.back()->SetTransformPtr(&trans);
-	colliders.back()->SetDynamicFlgPtr(&dynamicFlg);
-	colliders.back()->SetPushFlgPtr(&pushFlg);
-	colliders.back()->SetPushWeightPtr(&pushWeight);
-	colliders.back()->SetGameSpaceControllerPtr(gameSpace);
-	colliders.back()->SetSpaceConstraintPtr(&spaceConstraint);
-	colliders.back()->SetOnCollisionFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result) { this->OnCollision(ownTag, other, result); });
-	colliders.back()->SetOnGroundedFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other) { this->OnGrounded(ownTag, other); });
+	newCollider->SetActorPtr(this);
+	newCollider->SetOnCollisionFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result) { this->OnCollision(ownTag, other, result); });
+	newCollider->SetOnGroundedFunc([this](COLLIDER_TAG ownTag, const ColliderBase& other) { this->OnGrounded(ownTag, other); });
+	colliders.emplace_back(newCollider);
 }
 
-void ActorBase::SetDynamicFlg(bool flg)
+void ActorBase::CreateShader(ShaderBase* newShader)
 {
-	dynamicFlg = flg;
-	trans.dynamicFlg = flg;
+	// 既に生成されている場合、破棄
+	ResetShader();
+
+	// 新規シェーダーをこのアクターに適用
+	shader = newShader;
+	// 初期化
+	shader->Init();
 }
 
-void ActorBase::SetPushFlg(bool flg)
+void ActorBase::ResetShader()
 {
-	pushFlg = flg;
+	if (shader != nullptr) {
+		shader->Release();
+		delete shader;
+		shader = nullptr;
+	}
 }
 
-void ActorBase::SetPushWeight(unsigned char weight)
-{
-	pushWeight = weight;
-}
 #pragma region パラメーター外部ファイル管理に関する関数
 
 bool ActorBase::IsParameterExist(const std::string& fileName, const std::string& parameterName)const
@@ -314,22 +324,26 @@ Vector2I ActorBase::GetParameterToVector2I(const std::string& fileName, const st
 
 #pragma endregion
 
-void ActorBase::SetJudge(bool flg)
+bool ActorBase::GetJudgeFlg(void)
 {
-	for (ColliderBase*& c : colliders) {
-		if (!c) { continue; }
-		c->SetJudgeFlg(flg);
+	for (ColliderBase* collider : colliders) {
+		if (!collider) { continue; }
+		if (collider->GetJudgeFlg()) { return true; }
+	}
+	return false;
+}
+
+void ActorBase::SetJudgeFlg(bool flg)
+{
+	for (ColliderBase* collider : colliders) {
+		if (!collider) { continue; }
+		collider->SetJudgeFlg(flg);
 	}
 }
 
 void ActorBase::SetGameSpaceController(const GameSpaceController* controller)
 {
 	gameSpace = controller;
-	for (ColliderBase* coll : colliders) {
-		if (coll == nullptr) { continue; }
-		coll->SetGameSpaceControllerPtr(gameSpace);
-		coll->SetSpaceConstraintPtr(&spaceConstraint);
-	}
 }
 
 Vector3 ActorBase::RestrictSpaceDirection(const Vector3& direction)const
@@ -349,19 +363,21 @@ void ActorBase::MoveAccel(const Vector3& vec)
 {
 	if (vec == 0.0f) { return; }
 
-	// 加速
+	// 入力量に応じて加速
 	velocity += (vec * ACCEL_RATE) * TimeScale::Get();
 
-	// 目標角度
-	float targetAngle = atan2f(vec.x, vec.z);
+	// 移動方向から目標のY軸回転を取得
+	const float targetAngle = atan2f(vec.x, vec.z);
 
-	// 現在角度から目標角度までの角度差
-	float diffAngle = targetAngle - trans.angle.y;
+	// 目標回転
+	const Quaternion targetRotation = Quaternion::FromRotationY(targetAngle);
 
-	// -π ～ +π に正規化して最短方向を求める
-	while (diffAngle > DX_PI_F) { diffAngle -= DX_TWO_PI_F; }
-	while (diffAngle < -DX_PI_F) { diffAngle += DX_TWO_PI_F; }
-
-	// 最短方向に補間
-	trans.angle.y += (diffAngle * 0.5f) * TimeScale::Get();
+	// 現在の回転から目標回転へ補間
+	trans.SetRotation(
+		Quaternion::Slerp(
+			trans.rotation,
+			targetRotation,
+			0.25f * TimeScale::Get()
+		)
+	);
 }

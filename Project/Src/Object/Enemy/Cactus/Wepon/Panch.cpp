@@ -10,7 +10,7 @@ Panch::Panch(const Vector3& cactusPos)
 
 void Panch::Load(void)
 {
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox,60.0f, trans.pos));
+	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox,60.0f, trans.pos));
 }
 
 void Panch::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
@@ -19,7 +19,7 @@ void Panch::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const Co
 	{
 	case COLLIDER_TAG::Player:
 
-		SetJudge(false);
+		SetJudgeFlg(false);
 
 		break;
 	default:
@@ -29,7 +29,7 @@ void Panch::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const Co
 
 void Panch::Start(void)
 {
-	SetJudge(true);
+	SetJudgeFlg(true);
 
 	//ç¿ïWê›íË
 	trans.pos = cactusPos + CREATE_LOCAL_POS;

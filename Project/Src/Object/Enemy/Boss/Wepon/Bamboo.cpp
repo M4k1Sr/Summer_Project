@@ -12,7 +12,7 @@ void Bamboo::Load(void)
 	// モデルをロード
 	trans.LoadModel("Bamboo/Bamboo");
 
-	ColliderCreate(
+	AddCollider(
 		new CapsuleCollider(COLLIDER_TAG::Icicle,
 			Vector3::Yonly(40.0f),
 			Vector3::Yonly(-40.0f),
@@ -27,7 +27,7 @@ void Bamboo::Load(void)
 	//描画オフ
 	SetIsDraw(true);
 	//判定オフ
-	SetJudge(false);
+	SetJudgeFlg(false);
 }
 
 void Bamboo::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
@@ -39,14 +39,14 @@ void Bamboo::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const C
 
 		SetIsDraw(false);
 
-		SetJudge(false);
+		SetJudgeFlg(false);
 		break;
 	case COLLIDER_TAG::Enemy:
 		break;
 	case COLLIDER_TAG::Stage:
 		SetIsDraw(false);
 
-		SetJudge(false);
+		SetJudgeFlg(false);
 		break;
 	case COLLIDER_TAG::Icicle:
 		break;
@@ -92,7 +92,7 @@ void Bamboo::SubUpdate(void)
 			state = STATE::None;
 
 			SetIsDraw(false);
-			SetJudge(false);
+			SetJudgeFlg(false);
 		}
 		break;
 	}
@@ -106,7 +106,7 @@ void Bamboo::Start(void)
 	SetIsDraw(true);
 
 	// 当たり判定を有効にする
-	SetJudge(true);
+	SetJudgeFlg(true);
 
 	// スケールを0にする
 	trans.scale = 0.0f;

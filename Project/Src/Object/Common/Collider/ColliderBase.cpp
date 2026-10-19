@@ -2,7 +2,9 @@
 
 #include <cassert>
 
-#include "../../../Utility/Utility.h"
+#include "../ActorBase/ActorBase.h"
+
+#include "../../../Scene/Common/GameSpace/GameSpaceController.h"
 
 CollisionResult::CollisionResult(void) :
 	point(),
@@ -11,117 +13,153 @@ CollisionResult::CollisionResult(void) :
 {
 }
 
-ColliderBase::ColliderBase(COLLIDER_TAG type, const Vector3& pos, const Vector3& angle) :
-	trans(nullptr),
-	dynamicFlg(nullptr),
-	pushFlg(nullptr),
-	pushWeight(nullptr),
-	gameSpace(nullptr),
-	spaceConstraint(nullptr),
+
+ColliderBase::ColliderBase(COLLIDER_TAG type, const Vector3& pos, const Quaternion& rotation) :
+	owner(nullptr),
+
 	pos(pos),
-	angle(angle),
+	rotation(rotation.Normalized()),
+
 	judgeFlg(true),
+
 	tag(type),
 	shape(COLLIDER_SHAPE::None),
+
 	OnCollision(nullptr),
 	OnGrounded(nullptr)
 {
 }
 
-void ColliderBase::SetTransformPtr(Transform* ptr) { trans = ptr; }
 
-void ColliderBase::SetDynamicFlgPtr(const bool* ptr) { dynamicFlg = ptr; }
-
-void ColliderBase::SetPushFlgPtr(const bool* ptr) { pushFlg = ptr; }
-
-void ColliderBase::SetPushWeightPtr(const unsigned char* ptr) { pushWeight = ptr; }
-
-void ColliderBase::SetGameSpaceControllerPtr(const GameSpaceController* ptr) { gameSpace = ptr; }
-
-void ColliderBase::SetSpaceConstraintPtr(const SPACE_CONSTRAINT* ptr) { spaceConstraint = ptr; }
-
-void ColliderBase::SetOnCollisionFunc(std::function<void(COLLIDER_TAG, const ColliderBase&, const CollisionResult&)> OnCollisionFunc) { OnCollision = std::move(OnCollisionFunc); }
-
-void ColliderBase::SetOnGroundedFunc(std::function<void(COLLIDER_TAG, const ColliderBase&)> OnGroundedFunc) { OnGrounded = std::move(OnGroundedFunc); }
-
-Vector3 ColliderBase::GetPos(void)const
+void ColliderBase::SetActorPtr(ActorBase* ptr)
 {
-	assert(trans != nullptr);
-	return trans->pos + trans->VTrans(pos);
+	owner = ptr;
 }
 
-Vector3 ColliderBase::GetPrevPos(void)const
+void ColliderBase::SetOnCollisionFunc(std::function<void(COLLIDER_TAG, const ColliderBase&, const CollisionResult&)> OnCollisionFunc)
 {
-	assert(trans != nullptr);
-	return trans->prevPos + trans->VTrans(pos);
+	OnCollision = std::move(OnCollisionFunc);
 }
 
-Vector3 ColliderBase::GetAngle(void)const
+
+void ColliderBase::SetOnGroundedFunc(std::function<void(COLLIDER_TAG, const ColliderBase&)> OnGroundedFunc)
 {
-	assert(trans != nullptr);
-	return trans->angle + angle;
+	OnGrounded = std::move(OnGroundedFunc);
 }
 
-MATRIX ColliderBase::GetAngleMat(void)const
+
+Vector3 ColliderBase::GetPos(void) const
 {
-	assert(trans != nullptr);
-	return MatrixAllMultXZY({ trans->angle,angle });
+	assert(owner != nullptr);
+
+	/*
+		相対座標posはTransform本体の回転のみを受ける。
+
+		Collider自身のrotationは、
+		Colliderの形状を回転させるためのものなので
+		相対座標には適用しない。
+	*/
+	return owner->GetTrans().pos + owner->GetTrans().VTrans(pos);
 }
 
-Vector3 ColliderBase::VTrans(const Vector3& v)const
+
+Vector3 ColliderBase::GetPrevPos(void) const
 {
-	return (v != 0.0f) ? Vector3(VTransform(v.ToVECTOR(), GetAngleMat())) : Vector3();
+	assert(owner != nullptr);
+
+	return owner->GetTrans().prevPos + owner->GetTrans().VTrans(pos);
 }
 
-const Transform& ColliderBase::GetTransform(void)const
+
+Quaternion ColliderBase::GetRotation(void) const
 {
-	assert(trans != nullptr);
-	return *trans;
+	assert(owner != nullptr);
+
+	/*
+		Transform本体の回転
+			↓
+		Collider固有の相対回転
+
+		の順番で合成する。
+
+		現段階では既存ActionBaseの行列規約を
+		確実に維持するため、DxLibの行列で合成してから
+		Quaternionへ変換する。
+	*/
+	return Quaternion::FromMatrix(GetRotationMat());
 }
 
-const GameSpaceController* ColliderBase::GetGameSpaceController(void)const { return gameSpace; }
 
-SPACE_CONSTRAINT ColliderBase::GetSpaceConstraint(void)const
+MATRIX ColliderBase::GetRotationMat(void) const
 {
-	return (spaceConstraint != nullptr) ? *spaceConstraint : SPACE_CONSTRAINT::None;
+	assert(owner != nullptr);
+
+	return MMult(owner->GetTrans().RotationMat(), rotation.ToMatrix());
 }
 
-bool ColliderBase::GetDynamicFlg(void)const { return (dynamicFlg != nullptr) ? *dynamicFlg : true; }
 
-bool ColliderBase::GetJudgeFlg(void)const { return judgeFlg; }
+Vector3 ColliderBase::VTrans(const Vector3& v) const
+{
+	if (v == 0.0f) { return Vector3(); }
 
-bool ColliderBase::GetPushFlg(void)const { return (pushFlg != nullptr) ? *pushFlg : true; }
+	return Vector3(VTransform(v.ToVECTOR(), GetRotationMat()));
+}
 
-unsigned char ColliderBase::GetPushWeight(void)const { return (pushWeight != nullptr) ? *pushWeight : 0; }
+bool ColliderBase::GetJudgeFlg(void) const
+{
+	return judgeFlg;
+}
 
-COLLIDER_TAG ColliderBase::GetTag(void)const { return tag; }
+COLLIDER_TAG ColliderBase::GetTag(void) const
+{
+	return tag;
+}
 
-COLLIDER_SHAPE ColliderBase::GetShape(void)const { return shape; }
+
+COLLIDER_SHAPE ColliderBase::GetShape(void) const
+{
+	return shape;
+}
 
 void ColliderBase::CallOnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
 	if (!OnCollision) { return; }
+
 	OnCollision(ownTag, other, result);
 }
+
 
 void ColliderBase::CallOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)
 {
 	if (!OnGrounded) { return; }
+
 	OnGrounded(ownTag, other);
 }
 
+
 void ColliderBase::SetTransformPos(const Vector3& pos)
 {
-	assert(trans != nullptr);
-	trans->pos = pos;
+	assert(owner != nullptr);
+
+	owner->SetPos(pos);
 }
+
 
 void ColliderBase::SetTransformPosAdd(const Vector3& vec)
 {
-	assert(trans != nullptr);
-	trans->pos += vec;
+	assert(owner != nullptr);
+
+	owner->SetPos(owner->GetTrans().pos + vec);
 }
 
-void ColliderBase::SetJudgeFlg(bool flg) { judgeFlg = flg; }
 
-void ColliderBase::SetShape(COLLIDER_SHAPE s) { shape = s; }
+void ColliderBase::SetJudgeFlg(bool flg)
+{
+	judgeFlg = flg;
+}
+
+
+void ColliderBase::SetShape(COLLIDER_SHAPE s)
+{
+	shape = s;
+}

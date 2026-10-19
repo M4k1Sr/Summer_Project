@@ -38,7 +38,7 @@ public:
 	~CapsuleDebugObject()override = default;
 
 	void Load(void)override {
-		ColliderCreate(new CapsuleCollider(COLLIDER_TAG::DebugObject, startPos, endPos, radius));
+		AddCollider(new CapsuleCollider(COLLIDER_TAG::DebugObject, startPos, endPos, radius));
 	}
 
 private:
@@ -46,7 +46,7 @@ private:
 	float radius;
 
 	void SubDraw(void)override {
-		MATRIX angleMat = MatrixAllMultXZY({ trans.angle });
+		MATRIX angleMat = trans.rotation.ToMatrix();
 		DrawCapsule3D(
 			(trans.pos + startPos.TransMat(angleMat)).ToVECTOR(),
 			(trans.pos + endPos.TransMat(angleMat)).ToVECTOR(),

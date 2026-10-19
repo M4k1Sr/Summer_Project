@@ -5,17 +5,18 @@
 
 ThornAttack::ThornAttack
 (
-	const Vector3& thornPos, 
+	const Vector3& thornPos,
 	const Vector3*& playerPos,
 	std::function<void(void)> createIcicle,
 	std::function<void(void)> changeStateWait,
-	float& cactusAngle_Y, Icicle& icicle)
-	:
+	Quaternion& cactusRotation,
+	Icicle& icicle
+) :
 	thornPos(thornPos),
 	playerPos(playerPos),
 	createIcicle(createIcicle),
 	changeStateWait(changeStateWait),
-	cactusAngle_Y(cactusAngle_Y),
+	cactusRotation(cactusRotation),
 	icicle_(icicle)
 {
 }
@@ -37,17 +38,11 @@ void ThornAttack::Update(void)
 	//–Ú•WŠp“x
 	float goalAngle_y = atan2f(vec.x, vec.z);
 
-	// Œ»ÝŠp“x‚©‚ç–Ú•WŠp“x‚Ü‚Å‚ÌŠp“x·
-	float diffAngle = goalAngle_y - cactusAngle_Y;
-
-	// -ƒÎ ` +ƒÎ ‚É³‹K‰»‚µ‚ÄÅ’Z•ûŒü‚ð‹‚ß‚é
-	while (diffAngle > DX_PI_F) { diffAngle -= DX_TWO_PI_F; }
-	while (diffAngle < -DX_PI_F) { diffAngle += DX_TWO_PI_F; }
+	// –Ú•WŠp“x‚ÌQuaternion‚ð¶¬
+	const Quaternion goalRotation = Quaternion::FromRotationY(goalAngle_y);
 
 	// Å’Z•ûŒü‚É•âŠÔ
-	cactusAngle_Y += diffAngle * 0.15f;
-
-
+	cactusRotation = Quaternion::Slerp(cactusRotation, goalRotation, 0.15f);
 
 	//ƒAƒCƒVƒNƒ‹‚Ìó‘Ô‚ªNone‚É‚È‚Á‚½Žž‚ÉV‚½‚É¶¬
 	if (icicle_.Getstate() == Icicle::STATE::None)

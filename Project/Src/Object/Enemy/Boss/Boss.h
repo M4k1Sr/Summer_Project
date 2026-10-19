@@ -66,7 +66,8 @@ private:
 
 #pragma endregion
 
-
+	// ‰ŠúÀ•W
+	const Vector3 INIT_POS;
 
 #pragma region ’è”
 

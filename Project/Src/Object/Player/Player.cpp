@@ -64,7 +64,7 @@ void Player::Load(void)
 	trans.centerDiff = Vector3(0.0f, GetParameter("Init", "CenterOffset"), 0.0f) * trans.scale;
 
 	// モデルの角度のズレの補正
-	trans.localAngle = Vector3(0.0f, Deg2Rad(GetParameter("Init", "angle")), 0.0f);
+	trans.localRotation = Quaternion::FromEulerXZY(Vector3(0.0f, Deg2Rad(GetParameter("Init", "angle")), 0.0f));
 
 #pragma endregion
 
@@ -82,7 +82,7 @@ void Player::Load(void)
 
 #pragma region コライダーの生成
 
-	ColliderCreate(
+	AddCollider(
 		new CapsuleCollider(
 			COLLIDER_TAG::Player,
 			Vector3::Yonly(GetParameter("Collider", "CollStart")) * trans.scale,
@@ -176,7 +176,7 @@ void Player::Load(void)
 	AddState(
 		STATE::Move,
 		new PlayerMoveState(
-			GetGameSpaceController(),
+			*GetGameSpaceController(),
 			GetSpaceConstraint(),
 			trans.pos,
 			std::bind(&Player::MoveAccel, this, std::placeholders::_1),

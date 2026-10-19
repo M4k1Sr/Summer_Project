@@ -1,7 +1,7 @@
 #pragma once
+
 #include "../Common/CharacterBase/CharacterBase.h"
 #include "../ColliderOperator/ColliderOperator.h"
-
 
 class Player :
 	public CharacterBase
@@ -43,7 +43,15 @@ public:
 	void SetCurrentAbility(COLLIDER_TAG state) { ability = state; }
 
 	// アニメーション用モデル向き調整
-	void SetModelAngle(const float angle) { trans.angle.y = angle; }
+	void SetModelAngle(const float angle) {
+		Vector3 euler = trans.rotation.ToEulerXZY();
+
+		// Y軸回転のみ上書き
+		euler.y = angle;
+
+		// Quaternionへ戻す
+		trans.rotation = Quaternion::FromEulerXZY(euler);
+	}
 
 private:
 

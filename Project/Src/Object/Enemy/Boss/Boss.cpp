@@ -13,18 +13,16 @@ void Boss::Load(void)
 	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
 
 	//ステージ・プレイヤー用コライダー
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
-	////攻撃判定用コライダー
-	//ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
+	AddCollider(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
+	//攻撃判定用コライダー
+	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
 
-	// モデルの中心点のズレの補正
-	trans.centerDiff = Vector3(0.0f, -220.0f, 0.0f) * trans.scale;
 
-	// モデルの初期座標ズレを設定
-	trans.pos.z = trans.pos.z + ADJUSTMENT_POS_Z;
-	
+	//空間制約の設定
+	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
+
 	//モデルの角度のズレを設定
-	trans.localAngle.y = Deg2Rad(ADJUSTMENT_ANGLE);
+	trans.localRotation = Quaternion::FromRotationY(Deg2Rad(ADJUSTMENT_ANGLE));
 
 	//サイズ設定
 	trans.scale = ADJUSTMENT_SIZE;
