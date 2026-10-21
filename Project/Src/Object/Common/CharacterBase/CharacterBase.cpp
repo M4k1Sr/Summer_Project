@@ -28,6 +28,12 @@ CharacterBase::CharacterBase(const std::string& parameterPath):
 {
 }
 
+void CharacterBase::TakeDamage(int damage)
+{
+	if (!GetJudgeFlg()) { return; }
+
+}
+
 void CharacterBase::BaseUpdate(void)
 {
 	// ステート更新

@@ -20,6 +20,9 @@ public:
 	// ステートのゲット関数
 	int GetState(void)const { return state; }
 
+	//ダメージ処理
+	void TakeDamage(int damage);
+
 private:
 
 	// アニメーションコントローラーのインスタンス
@@ -49,6 +52,12 @@ protected:
 
 	// ステート管理用変数
 	int state;
+
+	//体力
+	int hp;
+
+	//被弾後の無敵時間
+	float invincibleTimer;
 
 #pragma region ステート管理関数
 
