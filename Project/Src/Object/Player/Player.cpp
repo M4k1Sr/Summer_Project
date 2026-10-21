@@ -47,7 +47,7 @@ void Player::Load(void)
 	SetPushFlg(true);
 
 	// ‰Ÿ‚µo‚µ‚¾‚µ‚É‚æ‚éd‚İ‚ğİ’è
-	SetPushWeight(GetParameter("Init", "Weight"));
+	SetPushWeight(static_cast<unsigned char>(GetParameter("Init", "Weight")));
 
 #pragma endregion
 
