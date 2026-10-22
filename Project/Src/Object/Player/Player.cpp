@@ -313,10 +313,17 @@ void Player::Load(void)
 // 初期化処理
 void Player::SubInit(void) {
 
+#pragma region ステータス設定
+
 	// 加減速度を設定
 	ACCEL_RATE = DECEL_RATE = GetParameter("Init", "Rate");
 	// 加速最大値を設定
 	ACCEL_MAX = GetParameter("Init", "AccelMax");
+
+	//最大体力を設定
+	SetMaxHp(GetParameterToInt("Init", "MaxHp"));
+
+#pragma endregion
 
 	// 初期状態を設定
 	ChangeState(STATE::Move);
@@ -351,6 +358,13 @@ void Player::SubDraw(void)
 
 void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
+	//敵以外の接触ははじく
+	if (other.GetTag() != COLLIDER_TAG::Enemy) { return; };
+
+	//敵とぶつかった際はお互いにダメージを与える
+	TakeDamage(1);
+	other.GetActor()->TakeDamage(1);
+
 }
 
 void Player::NextAbility(void)

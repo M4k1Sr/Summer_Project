@@ -2,7 +2,10 @@
 #include <cstdlib>
 
 #include "../../../Common/Collider/SphereCollider.h"
+
 #include "../../../../Utility/Utility.h"
+
+#include "../../../../Manager/TimeScale/TimeScale.h"
 
 PlayerWaterCollOperator::PlayerWaterCollOperator(
 	float COLL_RADIUS,
@@ -51,7 +54,7 @@ void PlayerWaterCollOperator::SubUpdate(void)
 	trans.pos += waterVec;
 
 	// éıñΩèàóù
-	lifeTimer -= DELTA_TIME;
+	lifeTimer -= DELTA_TIME * TimeScale::Get();
 	if (lifeTimer <= 0.0f) {
 		Off();
 	}
@@ -95,6 +98,7 @@ void PlayerWaterCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderB
 
 void PlayerWaterCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
-
+	//Off();
+	other.GetActor()->TakeDamage(1);
 }
 

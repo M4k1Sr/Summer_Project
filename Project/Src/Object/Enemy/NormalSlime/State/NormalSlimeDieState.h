@@ -9,7 +9,8 @@ public:
 
 	NormalSlimeDieState(
 		const Vector3& normalSlimePos,
-		std::function<void(void)> playAnimationDie
+		std::function<void(void)> playAnimationDie,
+		std::function<bool(void)> isDead
 	);
 	~NormalSlimeDieState()override = default;
 
@@ -27,6 +28,9 @@ private:
 
 	//アニメーション再生
 	std::function<void(void)> playAnimationDie;
+
+	//死亡判定
+	std::function<bool(void)> isDead;
 
 #pragma endregion
 };

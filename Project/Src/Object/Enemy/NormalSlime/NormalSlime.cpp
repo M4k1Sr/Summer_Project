@@ -6,6 +6,18 @@
 #include "State/NormalSlimeHItState.h"
 #include "State/NormalSlimeDieState.h"
 
+NormalSlime::NormalSlime(const Vector3& pos, int hp)
+	:
+	CharacterBase(),
+	initPos(pos)
+{
+	SetMaxHp(hp);
+	trans.pos = initPos;
+	SetGravityFlg(true);
+	//SetPushFlg(false);
+	//SetIsDraw(true);
+}
+
 void NormalSlime::Load(void)
 {
 	// モデルをロード
@@ -19,10 +31,9 @@ void NormalSlime::Load(void)
 	//ステージ・プレイヤー用コライダー
 	AddCollider(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
 	//攻撃判定用コライダー
-	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
+//	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
 
-
-	//空間製薬の設定
+	//空間制約の設定
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
 
 	//モデルの角度のズレを設定
@@ -30,6 +41,9 @@ void NormalSlime::Load(void)
 
 	//サイズ設定
 	trans.scale = ADJUSTMENT_SIZE;
+
+	// モデルの中心点のズレの補正
+	trans.centerDiff = Vector3(0.0f, -50.0f, 0.0f) * trans.scale;
 
 #pragma region 状態初期設定(ステートが追加されるたびに追加する)
 
@@ -54,19 +68,24 @@ void NormalSlime::Load(void)
 			}
 		));
 
-	// 移動状態を追加
+	// 死亡状態を追加
 	AddState(
 		STATE::Die,
 		new NormalSlimeDieState(
 			trans.pos,
-			[&]()
-			{
-				//再生アニメーション
-				AnimePlay((int)ANIM::Die, false);
-			}
+			[&]() {AnimePlay((int)ANIM::Die, false); },
+			[&]() {return GetAlive(); }
 		));
 
+	// 「移動状態」->「死亡状態」の自動遷移登録
+	RegisterStateTransition(STATE::Move, STATE::Die);
+
 #pragma endregion
+}
+
+void NormalSlime::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
+{
+
 }
 
 void NormalSlime::SubInit(void)

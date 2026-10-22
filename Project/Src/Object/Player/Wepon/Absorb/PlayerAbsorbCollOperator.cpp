@@ -79,6 +79,12 @@ void PlayerAbsorbCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBa
 {
 	switch (other.GetTag())
 	{
+	case COLLIDER_TAG::Enemy:
+		if (isAbsorbed) { break; }
+		isAbsorbed = true;
+		setAbility(COLLIDER_TAG::Punch);
+		setAngle(FaceCamera());
+		break;
 	case COLLIDER_TAG::Icicle:
 		if (isAbsorbed) { break; }
 		isAbsorbed = true;

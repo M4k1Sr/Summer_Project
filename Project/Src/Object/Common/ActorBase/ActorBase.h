@@ -89,6 +89,9 @@ public:
 	// 押し出しを行う際の重さ（0 ～ 100 で設定）
 	unsigned char GetPushWeight(void)const { return pushWeight; }
 
+	//ダメージ窓口・デフォルトはダメージを受けない
+	virtual bool TakeDamage(int damage) { return false; };
+
 #pragma region ゲーム空間制約
 	/// ゲーム空間制約を管理するコントローラーを設定する
 	void SetGameSpaceController(const GameSpaceController* controller);

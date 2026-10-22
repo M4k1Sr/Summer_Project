@@ -38,29 +38,15 @@ public :
 
 	};
 
-	NormalSlime(
-		const Vector3& pos,
-		const  int hp
-	) :
-		CharacterBase(),
-		initPos(pos),
-		hp(hp)
-	{
-		trans.pos = initPos;
-		SetGravityFlg(true);
-	}
+	NormalSlime(const Vector3& pos, int hp);
+
+	~NormalSlime()override = default;
 
 	void Load(void) override;
 
+	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
+
 private:
-
-#pragma region ó‚¯æ‚éQÆ
-
-	const int hp;
-
-#pragma endregion
-
-
 
 #pragma region ’è”
 

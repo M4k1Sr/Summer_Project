@@ -20,8 +20,21 @@ public:
 	// ステートのゲット関数
 	int GetState(void)const { return state; }
 
+#pragma region 体力関連
+
 	//ダメージ処理
-	void TakeDamage(int damage);
+	bool TakeDamage(int damage)override;
+
+	//MAXHPの設定
+	void SetMaxHp(int HP) { hp = HP; };
+
+	//現在体力の取得
+	int GetHp(void) const { return hp; };
+
+	//死亡判定の取得
+	bool GetAlive(void) const { return hp <= 0; };
+
+#pragma endregion
 
 private:
 

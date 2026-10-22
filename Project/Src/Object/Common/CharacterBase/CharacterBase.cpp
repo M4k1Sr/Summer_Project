@@ -28,10 +28,11 @@ CharacterBase::CharacterBase(const std::string& parameterPath):
 {
 }
 
-void CharacterBase::TakeDamage(int damage)
+bool CharacterBase::TakeDamage(int damage)
 {
-	if (!GetJudgeFlg()) { return; }
-
+	if (!GetJudgeFlg()) { return false; }
+	hp -= damage;
+	return true;
 }
 
 void CharacterBase::BaseUpdate(void)
