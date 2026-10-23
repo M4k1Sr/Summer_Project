@@ -5,7 +5,7 @@
 #include "NormalSlime/NormalSlime.h"
 #include "Cactus/Cactus.h"
 #include "Thorn/Thorn.h"
-#include "Boss/Boss.h"
+#include "GobKing/GobKing.h"
 
 EnemyManager::EnemyManager() :
 	ActorBase("Data/Parameter/Enemy/")
@@ -80,7 +80,7 @@ void EnemyManager::Load(void)
 		if (!IsParameterExist("States", parameterPower)) { break; }
 
 		// ë∂ç›Ç∑ÇÈÇ»ÇÁÇŒÅAÇªÇÃç¿ïWÇ…ÇªÇÃìGÇê∂ê¨
-		AddChildActor(new Boss(GetParameterToVector3("InitPos", parameterName), GetParameterToInt("States", parameterHp)));
+		AddChildActor(new GobKing(GetParameterToVector3("InitPos", parameterName), GetParameterToInt("States", parameterHp)));
 	}
 
 }
@@ -98,6 +98,13 @@ void EnemyManager::SetPlayerPos(const Vector3* pos)
 		if (Cactus* cactus = dynamic_cast<Cactus*>(child)) {
 
 			cactus->SetPlayerPos(pos);
+
+			continue;
+		}
+
+		if (GobKing* gobKing = dynamic_cast<GobKing*>(child)) {
+
+			gobKing->SetPlayerPos(pos);
 
 			continue;
 		}

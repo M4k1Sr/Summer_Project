@@ -50,6 +50,9 @@ protected:
 	// ステート管理用変数
 	int state;
 
+	// 持ちHp
+	int hp;
+
 #pragma region ステート管理関数
 
 	// ステートの追加

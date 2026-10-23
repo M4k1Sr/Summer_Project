@@ -18,7 +18,7 @@
 #include "../../Object/Enemy/Cactus/Cactus.h"
 #include "../../Object/Enemy/Thorn/Thorn.h"
 #include "../../Object/Enemy/Thorn/Wepon/Icicle.h"
-#include "../../Object/Enemy/Boss/Boss.h"
+#include "../../Object/Enemy/GobKing/GobKing.h"
 
 #include "../../Object/Enemy/EnemyManager.h"
 
