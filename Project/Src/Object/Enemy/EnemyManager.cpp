@@ -5,7 +5,7 @@
 #include "NormalSlime/NormalSlime.h"
 #include "Cactus/Cactus.h"
 #include "Thorn/Thorn.h"
-#include "Boss/Boss.h"
+#include "GobKing/GobKing.h"
 
 EnemyManager::EnemyManager() :
 	ActorBase("Data/Parameter/Enemy/")
@@ -63,7 +63,7 @@ void EnemyManager::Load(void)
 	// ボス生成
 	for (int i = 1; ; i++) {
 		// その回のパラメーター名
-		std::string parameterName = "Boss" + std::to_string(i);
+		std::string parameterName = "BossPos" + std::to_string(i);
 
 		// そのパラメータが存在するかどうか
 		if (!IsParameterExist("InitPos", parameterName)) { break; }
@@ -79,8 +79,8 @@ void EnemyManager::Load(void)
 		// そのパラメータが存在するかどうか
 		if (!IsParameterExist("States", parameterPower)) { break; }
 
-		//// 存在するならば、その座標にその敵を生成
-		//AddChildActor(new Boss(GetParameterToVector3("InitPos", parameterName), GetParameterToInt("States", parameterHp)));
+		// 存在するならば、その座標にその敵を生成
+		AddChildActor(new GobKing(GetParameterToVector3("InitPos", parameterName), GetParameterToInt("States", parameterHp)));
 	}
 
 }
@@ -98,6 +98,13 @@ void EnemyManager::SetPlayerPos(const Vector3* pos)
 		if (Cactus* cactus = dynamic_cast<Cactus*>(child)) {
 
 			cactus->SetPlayerPos(pos);
+
+			continue;
+		}
+
+		if (GobKing* gobKing = dynamic_cast<GobKing*>(child)) {
+
+			gobKing->SetPlayerPos(pos);
 
 			continue;
 		}

@@ -29,6 +29,8 @@ enum class COLLIDER_TAG
 
 	EnemyAttackBox,
 
+	GobKingSwing,
+
 	Stage,
 	StageObject,
 
