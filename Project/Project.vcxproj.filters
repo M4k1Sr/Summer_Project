@@ -101,6 +101,8 @@
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornDie.cpp" />
     <ClCompile Include="Src\Object\Enemy\Boss\Wepon\Bamboo.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\Wepon\Panch.cpp" />
+    <ClCompile Include="Src\Object\Stage\BossStage\BossStage.cpp" />
+    <ClCompile Include="Src\Object\Stage\StageObject\StageObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -222,6 +224,8 @@
     <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornDie.h" />
     <ClInclude Include="Src\Object\Enemy\Boss\Wepon\Bamboo.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\Wepon\Panch.h" />
+    <ClInclude Include="Src\Object\Stage\BossStage\BossStage.h" />
+    <ClInclude Include="Src\Object\Stage\StageObject\StageObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />

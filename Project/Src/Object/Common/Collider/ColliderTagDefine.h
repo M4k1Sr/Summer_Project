@@ -30,6 +30,7 @@ enum class COLLIDER_TAG
 	EnemyAttackBox,
 
 	Stage,
+	StageObject,
 
 	//EnemyAbility
 	Icicle,

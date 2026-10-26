@@ -26,6 +26,8 @@
 
 #include "../../Object/Enemy/EnemyManager.h"
 
+#include "../../Object/Stage/StageObject/StageObject.h"
+
 GameScene::GameScene() : WorldSceneBase()
 {
 }
@@ -49,6 +51,8 @@ void GameScene::SubPostLoad(void)
 	//プレイヤー座標渡し
 	ActorSerch<EnemyManager>(actors)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
+	// ステージオブジェクト
+	ObjAdd(new StageObject());
 }
 
 void GameScene::SubWorldPostUpdate(void)
