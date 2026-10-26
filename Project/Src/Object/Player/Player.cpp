@@ -10,6 +10,8 @@
 #include "../Common/Collider/CapsuleCollider.h"
 #include "../Common/Collider/AttackCollider.h"
 
+#include "../Common/Shader/DamegeFlashShader.h"
+
 #include "State/PlayerIdleState.h"
 #include "State/PlayerMoveState.h"
 #include "State/PlayerAbsorbState.h"
@@ -79,7 +81,6 @@ void Player::Load(void)
 
 #pragma endregion
 
-
 #pragma region コライダーの生成
 
 	AddCollider(
@@ -92,7 +93,6 @@ void Player::Load(void)
 	);
 
 #pragma endregion
-
 
 #pragma region 下位アクターの生成
 
@@ -364,7 +364,8 @@ void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const C
 	//敵とぶつかった際はお互いにダメージを与える
 	TakeDamage(1);
 	other.GetActor()->TakeDamage(1);
-
+	//無敵判定の付与
+	CreateShader(new DamegeFlashShader());
 }
 
 void Player::NextAbility(void)

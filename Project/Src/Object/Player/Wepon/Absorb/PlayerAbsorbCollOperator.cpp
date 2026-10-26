@@ -1,6 +1,7 @@
 #include "PlayerAbsorbCollOperator.h"
 
 #include "../../../Common/Collider/CapsuleCollider.h"
+
 #include "../../../../Manager/Camera/CurrentCamera.h"
 
 PlayerAbsorbCollOperator::PlayerAbsorbCollOperator(
@@ -22,7 +23,9 @@ PlayerAbsorbCollOperator::PlayerAbsorbCollOperator(
 
 	playerTrans(playerTrans),
 
-	attackColl(new CapsuleCollider(COLLIDER_TAG::Absorb, COLL_START_POS, COLL_END_POS, COLL_RADIUS))
+	attackColl(new CapsuleCollider(COLLIDER_TAG::Absorb, COLL_START_POS, COLL_END_POS, COLL_RADIUS)),
+
+	isAbsorbed(false)
 {
 }
 
@@ -81,12 +84,14 @@ void PlayerAbsorbCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBa
 	{
 	case COLLIDER_TAG::Enemy:
 		if (isAbsorbed) { break; }
+		//”\—Í‚Ì‹zŽû
 		isAbsorbed = true;
 		setAbility(COLLIDER_TAG::Punch);
 		setAngle(FaceCamera());
 		break;
 	case COLLIDER_TAG::Icicle:
 		if (isAbsorbed) { break; }
+		//”\—Í‚Ì‹zŽû
 		isAbsorbed = true;
 		setAbility(COLLIDER_TAG::Water);
 		setAngle(FaceCamera());

@@ -118,6 +118,7 @@
     <ClCompile Include="Src\Scene\Common\PostEffect\UnderWaterPostEffect\UnderWaterPostEffect.cpp" />
     <ClCompile Include="Src\Scene\Common\PostEffect\PostEffectBase.cpp" />
     <ClCompile Include="Src\Manager\Collision\CurrentCollisionManager.cpp" />
+    <ClCompile Include="Src\Object\Common\Shader\DamegeFlashShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Src\Scene\Common\PostEffect\PurpleFlamePostEffect\PurpleFlamePostEffect.h" />
     <ClInclude Include="Src\Scene\Common\PostEffect\UnderWaterPostEffect\UnderWaterPostEffect.h" />
     <ClInclude Include="Src\Manager\Collision\CurrentCollisionManager.h" />
+    <ClInclude Include="Src\Object\Common\Shader\DamegeFlashShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />
@@ -353,5 +355,6 @@
     <FxCompile Include="Src\Shader\PostEffect\Bloom\CompositePS.hlsl" />
     <FxCompile Include="Src\Shader\PostEffect\Bloom\GaussianBlurHPS.hlsl" />
     <FxCompile Include="Src\Shader\PostEffect\Bloom\GaussianBlurVPS.hlsl" />
+    <FxCompile Include="Src\Shader\Damage\DamagePS.hlsl" />
   </ItemGroup>
 </Project>

@@ -162,6 +162,12 @@ private:
 			"WaterPS"
 		},
 
+		// ダメージ
+		{
+			PIXEL_SHADER_TYPE::Damage,
+			"DamagePS"
+		},
+
 	#pragma region ポストエフェクト
 
 		// ブラウン管

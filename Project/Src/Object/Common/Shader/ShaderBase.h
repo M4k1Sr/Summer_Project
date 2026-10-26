@@ -14,6 +14,9 @@ public:
     // シェーダーの更新
     virtual void Update(void) {}
 
+    // 一時的な演出シェーダーの終了判定
+    virtual bool IsEnd(void)const { return false; }
+
     // シェーダーを描画に適用
     virtual void Apply(void);
 

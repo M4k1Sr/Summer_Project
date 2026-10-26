@@ -39,6 +39,9 @@ enum class PIXEL_SHADER_TYPE
     // 水面
     Water,
 
+    // ダメージ点滅
+    Damage,
+
 #pragma region ポストエフェクト
 
 	// グレースケールポストエフェクト

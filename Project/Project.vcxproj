@@ -154,6 +154,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Common\Shader\DamegeFlashShader.cpp" />
     <ClCompile Include="Src\Common\Quaternion.cpp" />
     <ClCompile Include="Src\Manager\Collision\CurrentCollisionManager.cpp" />
     <ClCompile Include="Src\Manager\Shader\ShaderResourceManager.cpp" />
@@ -263,6 +264,7 @@
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornHit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Common\Shader\DamegeFlashShader.h" />
     <ClInclude Include="Src\Common\Quaternion.h" />
     <ClInclude Include="Src\Manager\Collision\CurrentCollisionManager.h" />
     <ClInclude Include="Src\Manager\Shader\ShaderResourceManager.h" />
@@ -419,6 +421,12 @@
     <Image Include="..\Doctor\Doctor.png" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Src\Shader\Damage\DamagePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="Src\Shader\Default\DefaultPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>

@@ -120,7 +120,10 @@ void ActorBase::Update(void)
 	for (ActorBase* child : childActors) { child->Update(); }
 
 	// シェーダーの更新
-	if (shader != nullptr) { shader->Update(); }
+	if (shader != nullptr) {
+		shader->Update();
+		if (shader->IsEnd()) { ResetShader(); }
+	}
 }
 
 void ActorBase::Draw(void)
