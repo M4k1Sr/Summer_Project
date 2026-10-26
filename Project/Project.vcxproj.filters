@@ -119,6 +119,7 @@
     <ClCompile Include="Src\Scene\Common\PostEffect\PostEffectBase.cpp" />
     <ClCompile Include="Src\Manager\Collision\CurrentCollisionManager.cpp" />
     <ClCompile Include="Src\Object\Common\Shader\DamegeFlashShader.cpp" />
+    <ClCompile Include="Src\Object\Player\UI\HP\HP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Src\Scene\Common\PostEffect\UnderWaterPostEffect\UnderWaterPostEffect.h" />
     <ClInclude Include="Src\Manager\Collision\CurrentCollisionManager.h" />
     <ClInclude Include="Src\Object\Common\Shader\DamegeFlashShader.h" />
+    <ClInclude Include="Src\Object\Player\UI\HP\HP.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />

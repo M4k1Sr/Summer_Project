@@ -4,6 +4,8 @@
 
 #include "../../../../Manager/Camera/CurrentCamera.h"
 
+#include "../../../Enemy/NormalSlime/NormalSlime.h"
+
 PlayerAbsorbCollOperator::PlayerAbsorbCollOperator(
 	std::function<void(const COLLIDER_TAG& tag)> setAbility,
 	std::function<void(const float angle)> setAngle,
@@ -82,7 +84,7 @@ void PlayerAbsorbCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBa
 {
 	switch (other.GetTag())
 	{
-	case COLLIDER_TAG::Enemy:
+	case COLLIDER_TAG::EnemyAttackBox:
 		if (isAbsorbed) { break; }
 		//”\—Í‚Ì‹zŽû
 		isAbsorbed = true;
@@ -104,9 +106,7 @@ void PlayerAbsorbCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBa
 float PlayerAbsorbCollOperator::FaceCamera(void)
 {
 	const Vector3 cam = CurrentCamera::Get().GetAngle();
-	const float dx = cam.y - trans.pos.y;
-	const float dz = cam.z - trans.pos.z;
 
-	return atan2f(dx, dz);
+	return cam.z;
 
 }

@@ -26,6 +26,8 @@
 #include "Wepon/Thunder/PlayerThunderCollOperator.h"
 #include "Wepon/Absorb/PlayerAbsorbCollOperator.h"
 
+#include "UI/HP/HP.h"
+
 
 
 Player::Player()
@@ -159,6 +161,8 @@ void Player::Load(void)
 		thunderCollOperators.push_back(thunderCollOperator);
 	}
 
+	//UI
+//AddChildActor(new HP());
 
 
 #pragma endregion
@@ -345,27 +349,25 @@ void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
 
 
-	if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) { NextAbility(); }
+	//if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) { NextAbility(); }
 
 
 }
 
 void Player::SubDraw(void)
 {
-	DrawFormatString(0, 500, GetColor(255, 255, 255), "Pos: %f,%f,%f", trans.pos.x, trans.pos.y, trans.pos.z);
+	//DrawFormatString(0, 500, GetColor(255, 255, 255), "Pos: %f,%f,%f", trans.pos.x, trans.pos.y, trans.pos.z);
 }
 
 
 void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
 	//“GˆÈŠO‚ÌÚG‚Í‚Í‚¶‚­
-	if (other.GetTag() != COLLIDER_TAG::Enemy) { return; };
+	if (other.GetTag() != COLLIDER_TAG::EnemyAttackBox) { return; };
 
 	//“G‚Æ‚Ô‚Â‚©‚Á‚½Û‚Í‚¨ŒÝ‚¢‚Éƒ_ƒ[ƒW‚ð—^‚¦‚é
 	TakeDamage(1);
 	other.GetActor()->TakeDamage(1);
-	//–³“G”»’è‚Ì•t—^
-	CreateShader(new DamegeFlashShader());
 }
 
 void Player::NextAbility(void)

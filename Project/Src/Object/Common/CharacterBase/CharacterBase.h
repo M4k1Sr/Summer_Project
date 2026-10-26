@@ -36,6 +36,18 @@ public:
 
 #pragma endregion
 
+#pragma region 無敵関連
+
+	//無敵カウント
+	//無敵中だとTRUE
+	bool GetInvincible(void);
+
+	//無敵カウントの設定
+	void SetInvincibleTime(float time) { invincibleTimer = time; }
+
+
+#pragma endregion
+
 private:
 
 	// アニメーションコントローラーのインスタンス

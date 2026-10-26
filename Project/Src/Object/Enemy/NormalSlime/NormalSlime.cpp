@@ -31,7 +31,7 @@ void NormalSlime::Load(void)
 	//ステージ・プレイヤー用コライダー
 	AddCollider(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
 	//攻撃判定用コライダー
-//	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
+	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
 
 	//空間制約の設定
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);

@@ -27,12 +27,13 @@ enum class COLLIDER_TAG
 
 	EnemyHitBox,
 
-	EnemyAttackBox,
-
 	Stage,
 
 	//EnemyAbility
 	Icicle,
+
+	EnemyAttackBox,
+
 	//-----------------
 
 	DebugObject,

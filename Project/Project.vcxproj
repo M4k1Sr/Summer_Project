@@ -154,6 +154,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Player\UI\HP\HP.cpp" />
     <ClCompile Include="Src\Object\Common\Shader\DamegeFlashShader.cpp" />
     <ClCompile Include="Src\Common\Quaternion.cpp" />
     <ClCompile Include="Src\Manager\Collision\CurrentCollisionManager.cpp" />
@@ -264,6 +265,7 @@
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornHit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Player\UI\HP\HP.h" />
     <ClInclude Include="Src\Object\Common\Shader\DamegeFlashShader.h" />
     <ClInclude Include="Src\Common\Quaternion.h" />
     <ClInclude Include="Src\Manager\Collision\CurrentCollisionManager.h" />

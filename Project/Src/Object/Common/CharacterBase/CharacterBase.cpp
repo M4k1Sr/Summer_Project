@@ -8,6 +8,10 @@
 
 #include "../AnimationController/AnimationController.h"
 
+#include "../../../Manager/TimeScale/TimeScale.h"
+
+#include "../../../Utility/Utility.h"
+
 CharacterBase::CharacterBase() :
 	ActorBase(),
 
@@ -48,6 +52,10 @@ void CharacterBase::BaseUpdate(void)
 
 	// アニメーション更新
 	if (anime) { anime->Update(); }
+
+	//無敵タイマー更新
+	if (!GetInvincible()) { return; }
+
 }
 
 void CharacterBase::BaseRelease(void)
@@ -69,6 +77,12 @@ void CharacterBase::BaseRelease(void)
 void CharacterBase::RegisterStateTransition(int beforeState, int afterState)
 {
 	GetStateIns(beforeState).AddOtherStateCondition([this, afterState]() { GetStateIns(afterState).OwnStateConditionUpdate(); });
+}
+
+bool CharacterBase::GetInvincible(void)
+{
+	invincibleTimer -= DELTA_TIME * TimeScale::Get();
+	return invincibleTimer >= 0.0f;
 }
 
 void CharacterBase::AddState(int stateNum, CharacterStateBase* stateIns)
