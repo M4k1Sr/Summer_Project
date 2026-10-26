@@ -13,17 +13,13 @@ GameSpaceFollowCamera::GameSpaceFollowCamera(
 	const GameSpaceController& gameSpace,
 	const GameSpaceCameraParameter& parameter
 ) :
-	CameraBase(
-		Vector3(),
-		Vector3(0.0f, followAt.angle.y, 0.0f),
-		parameter.fov
-	),
+	CameraBase(Vector3(), Vector3::Yonly(followAt.rotation.ToEulerXZY().y), parameter.fov),
 	followAt(&followAt),
 	gameSpace(&gameSpace),
 	parameter(parameter),
 	lookAtPos(),
 	cameraUp(Vector3::Yonly(1.0f)),
-	controlAngle(0.0f, followAt.angle.y, 0.0f)
+	controlAngle(Vector3::Yonly(followAt.rotation.ToEulerXZY().y))
 {
 	this->parameter.smooth = std::clamp(this->parameter.smooth, 0.001f, 1.0f);
 

@@ -33,7 +33,7 @@ public:
 	float GetLifeTimer(void)const { return lifeTimer; }
 
 	//ファイアーボールコライダーの数
-	static constexpr int FireBall_COLL_NUM = 2;
+	static constexpr int FIREBALL_COLL_NUM = 2;
 
 private:
 
@@ -42,6 +42,13 @@ private:
 
 	// 飛翔時間（秒）
 	static constexpr float FIREBALL_LIFETIME_MAX = 2.0f; 
+
+	//移動速度
+	static constexpr float SPEED = 10.0f;
+
+	//バウンドの強さ
+	static constexpr float BOUNCE_POWER = 5.0f;
+
 	// 生存タイマー
 	float lifeTimer;                             
 

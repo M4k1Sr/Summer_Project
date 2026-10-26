@@ -20,13 +20,13 @@
 
 #include "../../Object/NPC/CharactorType/Bell/Bell.h"
 
-#include "../../Object/Stage/MainStage/StageFirst.h"
-
 #include "../../Object/Player/Player.h"
 
 #include "../../Object/Enemy/EnemyManager.h"
 
 #include "../../Object/Stage/StageObject/StageObject.h"
+
+#include "../../Object/Stage/MainStage/StageFirst.h"
 
 GameScene::GameScene() : WorldSceneBase()
 {
@@ -37,22 +37,22 @@ void GameScene::SubPostLoad(void)
 	Snd::GetIns().ChangeScene("Game");
 
 	// ベル
-	ObjAdd(new Bell());
+	AddActor(new Bell());
 
 	// ステージ1
-	ObjAdd(new StageFirst());
+	AddActor(new StageFirst());
 
 	// 操作対象（モデルあり）
 	operatorObject = new Player();
-	ObjAdd(operatorObject);
+	AddActor(operatorObject);
 
 	//敵の生成
-	ObjAdd(new EnemyManager);
+	AddActor(new EnemyManager);
 	//プレイヤー座標渡し
 	ActorSerch<EnemyManager>(actors)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
 	// ステージオブジェクト
-	ObjAdd(new StageObject());
+	AddActor(new StageObject());
 }
 
 void GameScene::SubWorldPostUpdate(void)

@@ -12,8 +12,8 @@ public:
 
     AttackCollider(
         COLLIDER_TAG type,
-        float radius, const Vector3& pos = Vector3(), const Vector3& angle = Vector3())
-        : ColliderBase(type, pos, angle), radius(radius)
+        float radius, const Vector3& pos = Vector3(), const Quaternion& rotation = Quaternion())
+        : ColliderBase(type, pos, rotation), radius(radius)
     {
         SetShape(COLLIDER_SHAPE::AttackSphere);
     }

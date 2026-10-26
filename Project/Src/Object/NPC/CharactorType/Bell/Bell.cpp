@@ -46,7 +46,7 @@ void Bell::Load(void)
 	trans.centerDiff = Vector3(0.0f, -102.81f, 0.0f) * trans.scale;
 
 	// モデルの角度のズレの補正
-	trans.localAngle = Vector3(0.0f, Deg2Rad(180.0f), 0.0f);
+	trans.localRotation = Quaternion::FromRotationY(Deg2Rad(180.0f));
 
 #pragma endregion
 
@@ -64,7 +64,7 @@ void Bell::Load(void)
 
 #pragma region コライダーの生成
 
-	ColliderCreate(
+	AddCollider(
 		new CapsuleCollider(
 			COLLIDER_TAG::Npc,
 			Vector3::Yonly(-45.0f) * trans.scale,
@@ -83,7 +83,7 @@ void Bell::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const Col
 
 void Bell::SubInit(void)
 {
-	trans.localAngle.y = Deg2Rad(GetParameter("Init", "angle"));
+	trans.localRotation = Quaternion::FromRotationY(Deg2Rad(GetParameter("Init", "angle")));
 	trans.pos = Vector3(GetParameter("Init", "pos"));
 
 	AnimePlay((int)ANIME_TYPE::Idle);

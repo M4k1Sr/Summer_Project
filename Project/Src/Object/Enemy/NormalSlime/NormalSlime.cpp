@@ -17,16 +17,16 @@ void NormalSlime::Load(void)
 	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
 
 	//ステージ・プレイヤー用コライダー
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
+	AddCollider(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
 	//攻撃判定用コライダー
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
+	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
 
 
 	//空間製薬の設定
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
 
 	//モデルの角度のズレを設定
-	trans.localAngle.y = Deg2Rad(ADJUSTMENT_ANGLE);
+	trans.localRotation = Quaternion::FromRotationY(Deg2Rad(ADJUSTMENT_ANGLE));
 
 	//サイズ設定
 	trans.scale = ADJUSTMENT_SIZE;

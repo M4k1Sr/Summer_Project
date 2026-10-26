@@ -22,16 +22,16 @@ void Cactus::Load(void)
 	AddInFbxAnimation((int)ANIM::MAX, animationSpeedTabel_);
 
 	//コライダー生成
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
+	AddCollider(new SphereCollider(COLLIDER_TAG::Enemy, COLL_SIZE));
 
 	//攻撃判定用コライダー
-	ColliderCreate(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
+	AddCollider(new SphereCollider(COLLIDER_TAG::EnemyAttackBox, HIT_BOX_SIZE));
 
 
 	//空間製薬の設定
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
 	// モデルの角度のズレを設定
-	trans.localAngle.y = Deg2Rad(180.0f);
+	trans.localRotation = Quaternion::FromRotationY(Deg2Rad(180.0f));
 	//サイズ設定
 	trans.scale = 1.3f;
 	//アニメーションずれ修正
@@ -98,7 +98,7 @@ void Cactus::Load(void)
 				//再生アニメーション
 				AnimePlay((int)ANIM::Attack, false);
 			},
-			trans.angle.y,
+			trans.rotation,
 			*panch
 		));
 

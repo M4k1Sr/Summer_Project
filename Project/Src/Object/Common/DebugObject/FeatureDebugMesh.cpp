@@ -48,7 +48,7 @@ void FeatureDebugMesh::Load(void)
 
 	meshCollider->Setup(vertices, indices);
 
-	ColliderCreate(meshCollider);
+	AddCollider(meshCollider);
 }
 
 void FeatureDebugMesh::SubDraw(void)

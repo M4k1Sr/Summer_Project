@@ -101,8 +101,28 @@
     <ClCompile Include="Src\Object\Enemy\Thorn\State\ThornDie.cpp" />
     <ClCompile Include="Src\Object\Enemy\Boss\Wepon\Bamboo.cpp" />
     <ClCompile Include="Src\Object\Enemy\Cactus\Wepon\Panch.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Src\Object\Stage\BossStage\BossStage.cpp" />
     <ClCompile Include="Src\Object\Stage\StageObject\StageObject.cpp" />
+=======
+    <ClCompile Include="Src\Common\Quaternion.cpp" />
+    <ClCompile Include="Src\Object\Common\Shader\DefaultShader.cpp" />
+    <ClCompile Include="Src\Object\Common\Shader\RimLightShader.cpp" />
+    <ClCompile Include="Src\Object\Common\Shader\ShaderBase.cpp" />
+    <ClCompile Include="Src\Object\Common\Shader\TestShader.cpp" />
+    <ClCompile Include="Src\Object\Common\Shader\WaterShader.cpp" />
+    <ClCompile Include="Src\Manager\Shader\ShaderResourceManager.cpp" />
+    <ClCompile Include="Src\Object\Common\SkyBox\SkyBox.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\CRTPostEffect\CRTPostEffect.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\DamageFlashPostEffect\DamageFlashPostEffect.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\FocusLinesPostEffect\FocusLinesPostEffect.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\GrayScalePostEffect\GrayScalePostEffect.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\MenacingPostEffect\MenacingPostEffect.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\PurpleFlamePostEffect\PurpleFlamePostEffect.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\UnderWaterPostEffect\UnderWaterPostEffect.cpp" />
+    <ClCompile Include="Src\Scene\Common\PostEffect\PostEffectBase.cpp" />
+    <ClCompile Include="Src\Manager\Collision\CurrentCollisionManager.cpp" />
+>>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Player\State\PlayerWaterState.h" />
@@ -224,11 +244,48 @@
     <ClInclude Include="Src\Object\Enemy\Thorn\State\ThornDie.h" />
     <ClInclude Include="Src\Object\Enemy\Boss\Wepon\Bamboo.h" />
     <ClInclude Include="Src\Object\Enemy\Cactus\Wepon\Panch.h" />
+<<<<<<< HEAD
     <ClInclude Include="Src\Object\Stage\BossStage\BossStage.h" />
     <ClInclude Include="Src\Object\Stage\StageObject\StageObject.h" />
+=======
+    <ClInclude Include="Src\Common\Quaternion.h" />
+    <ClInclude Include="Src\Object\Common\Shader\DefaultShader.h" />
+    <ClInclude Include="Src\Object\Common\Shader\RimLightShader.h" />
+    <ClInclude Include="Src\Object\Common\Shader\ShaderBase.h" />
+    <ClInclude Include="Src\Object\Common\Shader\TestShader.h" />
+    <ClInclude Include="Src\Object\Common\Shader\WaterShader.h" />
+    <ClInclude Include="Src\Manager\Shader\ShaderTypeDefine.h" />
+    <ClInclude Include="Src\Manager\Shader\ShaderResourceManager.h" />
+    <ClInclude Include="Src\Object\Common\SkyBox\SkyBox.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\PostEffectBase.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\CRTPostEffect\CRTPostEffect.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\DamageFlashPostEffect\DamageFlashPostEffect.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\FocusLinesPostEffect\FocusLinesPostEffect.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\GrayScalePostEffect\GrayScalePostEffect.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\MenacingPostEffect\MenacingPostEffect.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\PurpleFlamePostEffect\PurpleFlamePostEffect.h" />
+    <ClInclude Include="Src\Scene\Common\PostEffect\UnderWaterPostEffect\UnderWaterPostEffect.h" />
+    <ClInclude Include="Src\Manager\Collision\CurrentCollisionManager.h" />
+>>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Doctor\Doctor.mv1" />
+    <None Include="Src\Shader\Common\Pixel\ModelFog.hlsli" />
+    <None Include="Src\Shader\Common\Pixel\ModelLighting.hlsli" />
+    <None Include="Src\Shader\Common\Pixel\ModelPixelCommon.hlsli" />
+    <None Include="Src\Shader\Common\Pixel\PixelShader3DHeader.hlsli" />
+    <None Include="Src\Shader\Common\Vertex\CommonShader3DHeader.hlsli" />
+    <None Include="Src\Shader\Common\Vertex\ModelVertexTransform.hlsli" />
+    <None Include="Src\Shader\Common\Vertex\VertexInput.hlsli" />
+    <None Include="Src\Shader\Common\Vertex\VertexInputType.hlsli" />
+    <None Include="Src\Shader\Common\Vertex\VertexShader3DHeader.hlsli" />
+    <None Include="Src\Shader\Common\VertexToPixelHeader.hlsli" />
+    <None Include="Src\Shader\Default\DefaultVSBody.hlsli" />
+    <None Include="Src\Shader\Depth\DepthVSBody.hlsli" />
+    <None Include="Src\Shader\PostEffect\PostEffectHeader.hlsli" />
+    <None Include="Src\Shader\RimLight\RimLightVSBody.hlsli" />
+    <None Include="Src\Shader\Shadow\ShadowVSBody.hlsli" />
+    <None Include="Src\Shader\Shadow\ShadowVSOutput.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Doctor\Doctor.png" />
@@ -251,5 +308,60 @@
     <ClInclude Include="Src\Object\Player\Wepon\FrostBlade\PlayerFrostBlade.h" />
     <ClInclude Include="Src\Object\Player\State\PlayerAbsorbState.h" />
     <ClInclude Include="Src\Object\Player\Wepon\Absorb\PlayerAbsorbCollOperator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Src\Shader\Water\WaterVS.hlsl" />
+    <FxCompile Include="Src\Shader\Default\DefaultPS.hlsl" />
+    <FxCompile Include="Src\Shader\Default\DefaultVS_1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Default\DefaultVS_4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Default\DefaultVS_8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Default\DefaultVS_NMap1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Default\DefaultVS_NMap4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Default\DefaultVS_NMap8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Depth\DepthPS.hlsl" />
+    <FxCompile Include="Src\Shader\Depth\DepthVS_1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Depth\DepthVS_4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Depth\DepthVS_8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Depth\DepthVS_NMap1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Depth\DepthVS_NMap4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Depth\DepthVS_NMap8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\ChromaticAberrationPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\CopyPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\CRT_PS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\DamageFlashPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\FocusLinesPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\GrayScalePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\MenacingPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\NegativePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\OldFilmPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\PixelatePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\PosterizePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\PurpleFlamePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\ScanNoisePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\SepiaPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\UnderWaterPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\VignettePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\WavePS.hlsl" />
+    <FxCompile Include="Src\Shader\RimLight\RimLightPS.hlsl" />
+    <FxCompile Include="Src\Shader\RimLight\RimLightVS_1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\RimLight\RimLightVS_4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\RimLight\RimLightVS_8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\RimLight\RimLightVS_NMap1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\RimLight\RimLightVS_NMap4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\RimLight\RimLightVS_NMap8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Shadow\ShadowPS.hlsl" />
+    <FxCompile Include="Src\Shader\Shadow\ShadowVS_1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Shadow\ShadowVS_4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Shadow\ShadowVS_8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Shadow\ShadowVS_NMap1Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Shadow\ShadowVS_NMap4Frame.hlsl" />
+    <FxCompile Include="Src\Shader\Shadow\ShadowVS_NMap8Frame.hlsl" />
+    <FxCompile Include="Src\Shader\SkyBox\SkyBoxPS.hlsl" />
+    <FxCompile Include="Src\Shader\SkyBox\SkyBoxVS.hlsl" />
+    <FxCompile Include="Src\Shader\Water\WaterPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Bloom\BrightPassPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Bloom\CompositePS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Bloom\GaussianBlurHPS.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Bloom\GaussianBlurVPS.hlsl" />
   </ItemGroup>
 </Project>

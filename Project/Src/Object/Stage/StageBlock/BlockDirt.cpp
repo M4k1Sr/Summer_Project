@@ -16,5 +16,5 @@ void BlockDirt::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/Dirt");
 
-	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 200.0f)));
+	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 200.0f)));
 }

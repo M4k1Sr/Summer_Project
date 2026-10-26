@@ -50,7 +50,7 @@ void BossStage::Load(void)
 
 #pragma region コライダーの生成
 
-	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(20000, 0, 20000), Vector3::Yonly(-648.0f)));
+	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, Vector3(20000, 0, 20000), Vector3::Yonly(-648.0f)));
 
 #pragma endregion
 

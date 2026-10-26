@@ -74,7 +74,7 @@ private:
 	}
 
 	Vector3 GetMoveDirection(void)const {
-		const GameSpaceController& gameSpace = GetGameSpaceController();
+		const GameSpaceController& gameSpace = *GetGameSpaceController();
 
 		if (gameSpace.IsStopInput()) { return Vector3(); }
 

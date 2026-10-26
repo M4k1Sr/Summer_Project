@@ -37,26 +37,26 @@ void TestScene::SubPostLoad(void)
 {
 	// 操作対象（モデルあり）
 	operatorObject = new Player();
-	ObjAdd(operatorObject);
+	AddActor(operatorObject);
 
 	// 通常Box床
-	ObjAdd(new BoxDebugObject(Vector3(3000, 100, 1500), Vector3(0, -50, 0), false));
+	AddActor(new BoxDebugObject(Vector3(3000, 100, 1500), Vector3(0, -50, 0), false));
 
 	// MeshCollider・BVH・坂の接地確認用
-	ObjAdd(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
+	AddActor(new FeatureDebugMesh(Vector3(500.0f, 0.0f, 350.0f)));
 
 
 	//敵の生成
-	ObjAdd(new EnemyManager);
+	AddActor(new EnemyManager);
 	//プレイヤー座標渡し
 	ActorSerch<EnemyManager>(actors)->SetPlayerPos(&operatorObject->GetTrans().pos);
 
-	//ObjAdd(new Boss(Vector3(200, 200, 0)));
+	//AddActor(new Boss(Vector3(200, 200, 0)));
 
 	BuildRail();
 
 	// テスト用ステージ
-	ObjAdd(new StageFirst());
+	AddActor(new StageFirst());
 }
 
 void TestScene::SubPostInit(void)

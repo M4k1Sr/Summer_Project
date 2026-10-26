@@ -51,7 +51,7 @@ void StageObject::Load(void)
 
 #pragma region コライダーの生成
 
-	ColliderCreate(new BoxCollider(COLLIDER_TAG::Stage, Vector3(100, 100, 100)));
+	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, Vector3(100, 100, 100)));
 
 #pragma endregion
 

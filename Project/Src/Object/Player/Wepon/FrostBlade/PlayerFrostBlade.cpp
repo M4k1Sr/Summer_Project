@@ -36,7 +36,7 @@ void PlayerFrostBlade::Load(void)
 	attackColl->SetJudgeFlg(false);
 
 	// コライダーを追加
-	ColliderCreate(attackColl);
+	AddCollider(attackColl);
 }
 
 
@@ -53,15 +53,10 @@ void PlayerFrostBlade::On(void)
 
 	// プレイヤーの座標、プレイヤーの角度、攻撃判定の相対座標をつかい
 	// 判定の座標を割り出す
-	trans.pos = playerTrans.pos + COLL_LOCAL_POS.TransMat(MGetRotY(playerTrans.angle.y));
+	trans.pos = playerTrans.pos + playerTrans.rotation.Rotate(COLL_LOCAL_POS);
 
 	//進む方向を取得
-	front = Vector3(sinf(playerTrans.angle.y),
-		0.0f,
-		cosf(playerTrans.angle.y)
-	);
-
-	
+	front = playerTrans.rotation.Rotate(Vector3(0.0f, 0.0f, 1.0f));
 }
 
 void PlayerFrostBlade::Off(void)
