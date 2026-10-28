@@ -20,9 +20,6 @@ private:
 
 #pragma region 定数
 
-	// 押し出しによる重み
-	const int PUSH_WEIGHT = 100;
-
 	// モデルスケール
 	const float SCALE = 1.0f;
 

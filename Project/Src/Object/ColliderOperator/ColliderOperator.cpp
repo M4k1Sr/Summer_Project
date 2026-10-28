@@ -20,6 +20,5 @@ AttackCollider* ColliderOperator::CreateAttackCollider(COLLIDER_TAG type, float 
     // 所持者ののコライダーリストへ追加
 	ColliderCreate(attackCollider);
 
-
     return attackCollider;
 }

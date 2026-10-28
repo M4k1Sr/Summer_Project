@@ -21,9 +21,6 @@ void StageObject::Load(void)
 	// 当たり判定による押し出しを有効にする
 	SetPushFlg(true);
 
-	// 押し出しによる重さ
-	SetPushWeight(PUSH_WEIGHT);
-
 #pragma endregion
 
 
