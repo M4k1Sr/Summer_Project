@@ -62,10 +62,10 @@ void GameScene::SubWorldPostUpdate(void)
 		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::Title);
 	}
 
-	// Œˆ’è
-	if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
-		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
-	}
+	//// Œˆ’è
+	//if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) {
+	//	SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
+	//}
 }
 
 void GameScene::SubUiDraw(void)

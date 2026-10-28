@@ -58,6 +58,9 @@ void GobKing::Load(void)
 	// モデルの中心点のズレの補正
 	trans.centerDiff = Vector3(CENTER_DIFF) * trans.scale;
 
+	// 初期座標
+	trans.pos = Vector3(INIT_POS);
+
 	// モデルの角度のズレの補正
 	trans.SetLocalRotation(Quaternion::FromRotationY(Deg2Rad(ROT_DIFF)));
 

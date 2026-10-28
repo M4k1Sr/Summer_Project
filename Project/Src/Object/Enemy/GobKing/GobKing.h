@@ -57,6 +57,9 @@ private:
 	// ズレの修正(角度)
 	const float ROT_DIFF = 180.0f;
 
+	// 初期座標
+	const Vector3 INIT_POS = VGet(6000.0f, -700.0f, 0.0f);
+
 	// コライダー座標・半径
 	const float COLL_START_POS = 30.0f;
 	const float COLL_END_POS = 60.0f;
