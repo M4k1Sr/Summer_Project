@@ -48,7 +48,7 @@ void PlayerWaterCollOperator::SubUpdate(void)
 {
 	if (!attackColl->GetJudgeFlg()) { return; }
 
-	waterVec.y -= 0.5f;
+	waterVec.y -= WATER_GRAVITY;
 
 	// ˆÚ“®ˆ—
 	trans.pos += waterVec;
@@ -70,15 +70,15 @@ void PlayerWaterCollOperator::On(void)
 	Vector3 baseFront = playerTrans.rotation.Rotate(Vector3(0.0f, 0.0f, 1.0f));
 
 	Vector3 launchDir = baseFront;
-	launchDir.y = 2.0f;
+	launchDir.y = LAUNCH_UP_POWER;
 
 	// •ú…—p‚ÌŠgŽU
-	float spreadX = ((float)rand() / RAND_MAX - 0.5f) * 0.15f;
-	float spreadY = ((float)rand() / RAND_MAX - 0.5f) * 0.10f;
+	float spreadX = ((float)rand() / RAND_MAX - RAND_CENTER_OFFSET) * SPREAD_X_RANGE;
+	float spreadY = ((float)rand() / RAND_MAX - RAND_CENTER_OFFSET) * SPREAD_Y_RANGE;
 
 	Vector3 dir = (launchDir + Vector3(spreadX, spreadY, 0.0f)).Normalized();
 
-	float speed = 12.0f + ((float)rand() / RAND_MAX) * 3.0f;
+	float speed = WATER_SPEED_MIN + ((float)rand() / RAND_MAX) * WATER_SPEED_RANGE;
 
 	waterVec = dir * speed;
 
@@ -98,7 +98,6 @@ void PlayerWaterCollOperator::SubOnGrounded(COLLIDER_TAG ownTag, const ColliderB
 
 void PlayerWaterCollOperator::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
-	//Off();
 	other.GetActor()->TakeDamage(1);
 }
 

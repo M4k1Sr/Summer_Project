@@ -121,8 +121,6 @@ private:
 
 #pragma endregion
 
-	void SubDraw(void)override;
-
 };
 
 

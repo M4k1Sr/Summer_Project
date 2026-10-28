@@ -349,16 +349,10 @@ void Player::SubUpdate(void) {
 	if (CheckHitKey(KEY_INPUT_V) != 0) { SetSpaceConstraint(SPACE_CONSTRAINT::None); }
 
 
-	//if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) { NextAbility(); }
+	if (Input::GetIns().GetInfo(KEY_TYPE::Enter).down) { NextAbility(); }
 
 
 }
-
-void Player::SubDraw(void)
-{
-	//DrawFormatString(0, 500, GetColor(255, 255, 255), "Pos: %f,%f,%f", trans.pos.x, trans.pos.y, trans.pos.z);
-}
-
 
 void Player::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {

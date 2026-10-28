@@ -36,8 +36,6 @@ void PlayerThunderCollOperator::Load(void)
 
 	attackColl->SetJudgeFlg(false);
 
-	//effect = LoadEffekseerEffect("Data/Effect/Thunder.efk");
-
 	// コライダーを追加
 	AddCollider(attackColl);
 }
@@ -61,8 +59,6 @@ void PlayerThunderCollOperator::On(const Vector3& offSet)
 	trans.pos = playerTrans.pos + playerTrans.rotation.Rotate(COLL_LOCAL_POS);
 
 	Vector3 baseFront = playerTrans.rotation.Rotate(Vector3(0.0f, 0.0f, 1.0f));
-
-	PlayEffekseer3DEffect(effect);
 
 	trans.pos += (baseFront * offSet.z) + Vector3(0.0f, offSet.y, 0.0f);
 

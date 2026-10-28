@@ -30,7 +30,9 @@ PlayerAbsorbState::PlayerAbsorbState(
 
 	changeStateIdle(changeStateIdle),
 
-	step()
+	step(),
+
+	spawnTimer(0.0f)
 {
 }
 

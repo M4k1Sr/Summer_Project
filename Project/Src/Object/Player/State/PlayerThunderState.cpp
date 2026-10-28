@@ -5,6 +5,7 @@
 #include "../Wepon/Thunder/PlayerThunderCollOperator.h"
 
 #include "../../Common/Transform/Transform.h"
+#include "../../../Utility/Utility.h"
 
 
 
@@ -34,7 +35,10 @@ PlayerThunderState::PlayerThunderState(
 
 	changeStateIdle(changeStateIdle),
 
-	step(STEP::Startup)
+	step(STEP::Startup),
+
+	spawnTimer(0.0f),
+	spawnedCount(0.0f)
 {
 }
 
@@ -56,10 +60,6 @@ void PlayerThunderState::Enter(void)
 
 	// 攻撃アニメーション再生
 	playAnimeAttack();
-
-	//初期化
-	spawnedCount = 0.0f;
-	spawnTimer = 0.0f;
 }
 
 void PlayerThunderState::Update(void)
@@ -78,13 +78,13 @@ void PlayerThunderState::Update(void)
 		}
 
 		// 1フレームごとにタイマーを進める
-		spawnTimer += 1.0f / 60.0f; // 毎フレーム加算
+		spawnTimer += DELTA_TIME;
 
-		// タイマーが間隔（SPAWN_INTERVAL）を超えたら1つ降らせる
+		// タイマーが間隔を超えたら1つ降らせる
 		if (spawnTimer >= SPAWN_INTERVAL && spawnedCount < PlayerThunderCollOperator::THUNDER_COLL_NUM) {
-			spawnTimer = 0.0f; // タイマーリセット
+			spawnTimer = 0.0f;
 
-			// 1つ分生成（何個目の雷かに応じて位置をずらす）
+			// 1つ分生成
 			EmitThunderParticle();
 			spawnedCount++;
 		}
@@ -130,19 +130,19 @@ void PlayerThunderState::Exit(void)
 
 void PlayerThunderState::EmitThunderParticle(void)
 {
-	// 何番目の雷かに応じたオフセット計算（例: 高さと前方距離）
+	// 何番目の雷かに応じたオフセット計算
 	float frontOffset = (spawnedCount + 1) * THUNDER_DISTANCE_INTERVAL;
 	Vector3 offset(0.0f, THUNDER_SPAWN_HEIGHT, frontOffset);
 
-	// 未使用のコライダーを「1つだけ」探してONにする
+	// 未使用のコライダーを1つだけ探してONにする
 	for (auto op : collOperators) {
 		if (!op->IsAlive()) {
-			op->On(offset); // オフセットを渡してON
-			return;         // 1つONにしたら関数を抜ける
+			op->On(offset);
+			return;
 		}
 	}
 
-	// 空きがない場合の上書き処理（必要であれば）
+	// 空きがない場合の上書き処理
 	if (!collOperators.empty()) {
 		size_t overrideIndex = 0;
 		for (size_t i = 1; i < collOperators.size(); i++) {

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../../../Common/ActorBase/ActorBase.h"
 
@@ -19,44 +19,66 @@ public:
 
 	void OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)override;
 
-	// ”»’è”­¶
+	// åˆ¤å®šç™ºç”Ÿ
 	void On(void);
-	// ”»’èÁ‹
+	// åˆ¤å®šæ¶ˆå»
 	void Off(void);
 
-	//ƒoƒEƒ“ƒh‚³‚¹‚é
+	//ãƒã‚¦ãƒ³ãƒ‰ã•ã›ã‚‹
 	void SubOnGrounded(COLLIDER_TAG ownTag, const ColliderBase& other)override;
 
-	// Œ»İ‘¶İ‚µ‚Ä‚¢‚é‚©
+	// ç¾åœ¨å­˜åœ¨ã—ã¦ã„ã‚‹ã‹
 	bool IsAlive(void)const { return lifeTimer > 0.0f; }
 
 	float GetLifeTimer(void)const { return lifeTimer; }
 
-	//•ú…ƒRƒ‰ƒCƒ_[‚Ì”
+	//æ”¾æ°´ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®æ•°
 	static constexpr int WATER_COLL_NUM = 20;
 
 private:
 
-	// UŒ‚‚Ì”»’è‚ğ”­¶‚³‚¹‚éÀ•WiƒvƒŒƒCƒ„[À•W‚©‚ç‚Ì‘Š‘ÎÀ•Wj
+	// æ”»æ’ƒã®åˆ¤å®šã‚’ç™ºç”Ÿã•ã›ã‚‹åº§æ¨™
 	const Vector3 COLL_LOCAL_POS;
 
-	// ”òãÄŠÔi•bj
+	// é£›ç¿”æ™‚é–“
 	static constexpr float WATER_LIFETIME_MAX = 0.8f;
-	// ¶‘¶ƒ^ƒCƒ}[
+
+	// æ°´ã®è½ä¸‹åŠ é€Ÿåº¦
+	static constexpr float WATER_GRAVITY = 0.5f;
+
+	// ç™ºå°„æ–¹å‘ã®ä¸Šå‘ãæˆåˆ†
+	static constexpr float LAUNCH_UP_POWER = 2.0f;
+
+	// æ‹¡æ•£ã®æ¨ªæ–¹å‘ã®å¹…
+	static constexpr float SPREAD_X_RANGE = 0.15f;
+
+	// æ‹¡æ•£ã®ç¸¦æ–¹å‘ã®å¹…
+	static constexpr float SPREAD_Y_RANGE = 0.10f;
+
+	// ä¹±æ•°ã‚’-0.5ã€œ0.5ã«ä¸­å¿ƒåŒ–ã™ã‚‹ãŸã‚ã®å€¤
+	static constexpr float RAND_CENTER_OFFSET = 0.5f;
+
+	// æ°´ã®æœ€ä½é€Ÿåº¦
+	static constexpr float WATER_SPEED_MIN = 12.0f;
+
+	// æ°´ã®é€Ÿåº¦ã«åŠ ãˆã‚‹ãƒ©ãƒ³ãƒ€ãƒ å¹…
+	static constexpr float WATER_SPEED_RANGE = 3.0f;
+
+	// ç”Ÿå­˜ã‚¿ã‚¤ãƒãƒ¼
 	float lifeTimer;
 
-	// ƒvƒŒƒCƒ„[‚Ìƒ‚ƒfƒ‹§Œäî•ñ‚ÌQÆ
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ¢ãƒ‡ãƒ«åˆ¶å¾¡æƒ…å ±ã®å‚ç…§
 	const Transform& playerTrans;
 
-	// ¶¬‚·‚éƒRƒ‰ƒCƒ_[
+	// ç”Ÿæˆã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	SphereCollider* attackColl;
 
-	//Å‰‚Éæ“¾‚µ‚½‘O•û
+	//æœ€åˆã«å–å¾—ã—ãŸå‰æ–¹
 	Vector3 front;
 
-	// …“H‚²‚Æ‚ÌˆÚ“®‘¬“xƒxƒNƒgƒ‹
+	// æ°´æ»´ã”ã¨ã®ç§»å‹•é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 waterVec;
 
-	// XVˆ—
+	// æ›´æ–°å‡¦ç†
 	void SubUpdate(void)override;
 };

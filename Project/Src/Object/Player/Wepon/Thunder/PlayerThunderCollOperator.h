@@ -54,9 +54,6 @@ private:
 	//最初に取得した前方
 	Vector3 front;
 
-	//エフェクトハンドル
-	int effect;
-
 	// 更新処理
 	void SubUpdate(void)override;
 };

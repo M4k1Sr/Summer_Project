@@ -5,6 +5,7 @@
 #include "../Wepon/Water/PlayerWaterCollOperator.h"
 
 #include "../../Common/Transform/Transform.h"
+#include "../../../Utility/Utility.h"
 
 
 
@@ -70,8 +71,7 @@ void PlayerWaterState::Update(void)
 	case PlayerWaterState::STEP::Startup: {
 		// 前隙
 
-	// デルタタイム（例: 1/60s）を加算して一定間隔で生成
-		spawnTimer += 1.0f / 60.0f;
+		spawnTimer += DELTA_TIME;
 
 		if (spawnTimer >= SPAWN_INTERVAL) {
 			spawnTimer = 0.0f;
