@@ -1,4 +1,5 @@
 #include "ColliderOperator.h"
+
 #include "../Common/ActorBase/ActorBase.h"
 
 ColliderOperator::ColliderOperator(std::function<void(ColliderBase* newClass)> ColliderCreate)

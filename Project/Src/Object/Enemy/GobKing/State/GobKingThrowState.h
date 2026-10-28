@@ -41,6 +41,7 @@ public:
 		std::function<void(void)> changeStateIdle
 	);
 
+	// デストラクタ
 	~GobKingThrowState()override = default;
 
 	// 自分の状態に遷移する条件関数
@@ -48,8 +49,10 @@ public:
 
 	// 状態遷移後1度行う初期化処理
 	void Enter(void)override;
+
 	// 更新処理
 	void Update(void)override;
+
 	// 状態遷移前1度行う終了処理
 	void Exit(void)override;
 
@@ -80,6 +83,11 @@ private:
 
 	// 攻撃範囲
 	const float ATTACK_RANGE;
+
+	// 確率
+	const int MAX = 99;
+	const int MIN = 0;
+	const int HALF = 50;
 
 #pragma endregion
 
@@ -113,7 +121,9 @@ private:
 	// 攻撃ステップ
 	STEP step;
 
-	bool IsInSwingRange(void) const;
+	// 岩投擲攻撃の範囲
+	bool IsInThrowRange(void) const;
 
+	// 威嚇行動の判定(二分の一の確率で威嚇行動をする)
 	bool IsTauntRoll(void) const;
 };

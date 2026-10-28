@@ -4,10 +4,6 @@
 
 #include "../../Common/Collider/BoxCollider.h"
 
-//#include "../Common/Shader/DefaultShader.h"
-//#include "../Common/Shader/RimLightShader.h"
-//#include "../Common/Shader/WaterShader.h"
-
 StageObject::StageObject()
 {
 }
@@ -26,7 +22,7 @@ void StageObject::Load(void)
 	SetPushFlg(true);
 
 	// 押し出しによる重さ
-	SetPushWeight(100);
+	SetPushWeight(PUSH_WEIGHT);
 
 #pragma endregion
 
@@ -37,26 +33,18 @@ void StageObject::Load(void)
 	trans.LoadModel("Stage/StageObject/ChangeBlock");
 
 	// モデルのスケール設定
-	trans.scale = 1.0f;
+	trans.scale = SCALE;
 
-	trans.pos = Vector3(7000.0f,-950.0f,0.0f);
-
-	//// モデルの中心点のズレの補正
-	//trans.centerDiff = Vector3(0.0f, -688.0f, 0.0f) * trans.scale;
-
-	//// モデルの角度のズレの補正
-	//trans.localAngle = Vector3(0.0f, Deg2Rad(180.0f), 0.0f);
+	// モデル座標
+	trans.pos = Vector3(POS);
 
 #pragma endregion
 
 #pragma region コライダーの生成
 
-	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, Vector3(100, 100, 100)));
+	// ステージオブジェクト(スイッチ)
+	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, COLL_SIZE));
 
 #pragma endregion
 
-}
-
-void StageObject::SubUpdate(void)
-{
 }

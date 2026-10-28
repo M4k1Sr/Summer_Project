@@ -33,7 +33,3 @@ void GobKingDieState::Update(void)
 {
 	if (isAnimeEnd()) { isFlyEnd = true; }
 }
-
-void GobKingDieState::Exit(void)
-{
-}

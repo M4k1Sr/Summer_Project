@@ -10,8 +10,9 @@ class GobKingMoveState : public CharacterStateBase
 {
 public:
 
+	// コンストラクタ
 	GobKingMoveState(
-		float ACCEL_MAX, 
+		float ACCEL_MAX,
 		float SEARCH_RANGE,
 		float ATTACK_RANGE,
 
@@ -24,15 +25,15 @@ public:
 		std::function<void(void)> playAnimeWalk
 	);
 
+	// デストラクタ
 	~GobKingMoveState()override = default;
 
 	// 自分の状態に遷移する条件関数
 	void OwnStateConditionUpdate(void);
 
-	// 状態遷移後1度行う初期化処理
-	void Enter(void)override;
 	// 更新処理
 	void Update(void)override;
+
 	// 状態遷移前1度行う終了処理
 	void Exit(void)override;
 
@@ -53,6 +54,9 @@ private:
 	const float SEARCH_RANGE;
 	// 攻撃可能範囲
 	const float ATTACK_RANGE;
+
+	// 重なる判定の値
+	static constexpr float MIN_DIR_LENGTH_SQ = 0.0001f;
 
 #pragma endregion
 

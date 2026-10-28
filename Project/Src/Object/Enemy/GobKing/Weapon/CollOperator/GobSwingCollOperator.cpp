@@ -31,6 +31,7 @@ void GobSwingCollOperator::Load(void)
 
 #pragma endregion
 
+	// 当たり判定
 	attackColl->SetJudgeFlg(false);
 
 	// コライダーを追加
@@ -48,6 +49,7 @@ void GobSwingCollOperator::SubUpdate(void)
 
 void GobSwingCollOperator::On(void)
 {
+	// 当たり判定発生
 	attackColl->SetJudgeFlg(true);
 
 	// ゴブリンキングの座標、ゴブリンキングの角度、攻撃判定の相対座標をつかい
@@ -57,5 +59,6 @@ void GobSwingCollOperator::On(void)
 
 void GobSwingCollOperator::Off(void)
 {
+	// 当たり判定しない
 	attackColl->SetJudgeFlg(false);
 }

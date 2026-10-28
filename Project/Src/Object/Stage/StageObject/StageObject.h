@@ -1,14 +1,16 @@
 #pragma once
 
-#include <map>
-
 #include "../../Common/ActorBase/ActorBase.h"
 
 class StageObject
 	: public ActorBase
 {
 public:
+
+	// コンストラクタ
 	StageObject();
+
+	// デストラクタ
 	~StageObject()override = default;
 
 	// 読み込み処理
@@ -16,7 +18,21 @@ public:
 
 private:
 
-	// 更新
-	void SubUpdate(void)override;
+#pragma region 定数
+
+	// 押し出しによる重み
+	const int PUSH_WEIGHT = 100;
+
+	// モデルスケール
+	const float SCALE = 1.0f;
+
+	// 初期座標
+	const Vector3 POS = VGet(7000.0f, -950.0f, 0.0f);
+
+	// コライダーサイズ
+	const Vector3 COLL_SIZE = VGet(100.0f, 100.0f, 100.0f);
+
+#pragma endregion
+
 };
 

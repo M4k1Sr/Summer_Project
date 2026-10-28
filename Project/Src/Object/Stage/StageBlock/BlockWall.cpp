@@ -15,5 +15,6 @@ void BlockWall::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/WallBlock");
 
-	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 200.0f)));
+	// コライダー追加
+	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, COLL_SIZE));
 }

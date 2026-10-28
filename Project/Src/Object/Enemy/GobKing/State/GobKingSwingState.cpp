@@ -135,7 +135,7 @@ void GobKingSwingState::Update(void)
 
 	case STEP::Taunt: {
 		// 威嚇
-		
+
 		// 威嚇が終わったら待機へ（一度だけ）
 		if (isAnimeEnd()) { changeStateIdle(); }
 		break;
@@ -164,6 +164,6 @@ bool GobKingSwingState::IsInSwingRange(void) const
 bool GobKingSwingState::IsTauntRoll(void) const
 {
 	// 二分の一の確率で威嚇行動
-	std::uniform_int_distribution<int> dist(0, 99);
-	return dist(Rng()) < 50;
+	std::uniform_int_distribution<int> dist(MIN, MAX);
+	return dist(Rng()) < HALF;
 }

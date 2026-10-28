@@ -7,7 +7,7 @@ BlockDirt::BlockDirt(const Vector3& pos,
 	bool isGravity,
 	bool isPushFlg
 ) :
-	StageBlockBase(STAGE_BLOCK_TAG::Dirt, pos,dynamicFlg,isGravity, isPushFlg)
+	StageBlockBase(STAGE_BLOCK_TAG::Dirt, pos, dynamicFlg, isGravity, isPushFlg)
 {
 	trans.pos = pos;
 }
@@ -16,5 +16,5 @@ void BlockDirt::Load(void)
 {
 	trans.LoadModel("Stage/StageMapChip/Dirt");
 
-	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, Vector3(200.0f, 150.0f, 200.0f)));
+	AddCollider(new BoxCollider(COLLIDER_TAG::Stage, COLL_SIZE));
 }

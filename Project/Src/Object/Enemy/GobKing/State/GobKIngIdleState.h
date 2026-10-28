@@ -8,6 +8,7 @@ class GobKingIdleState : public CharacterStateBase
 {
 public:
 
+	// コンストラクタ
 	GobKingIdleState(
 		float SEARCH_RANGE,
 		float ATTACK_RANGE,
@@ -16,6 +17,7 @@ public:
 		const Vector3*& playerPos,
 		std::function<void(void)> playAnimeIdle);
 
+	// デストラクタ
 	~GobKingIdleState()override = default;
 
 	// 自分の状態に遷移する条件関数

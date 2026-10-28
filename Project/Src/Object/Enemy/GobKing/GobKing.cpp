@@ -42,7 +42,7 @@ void GobKing::Load(void)
 	SetPushFlg(true);
 
 	// ‰Ÿ‚µo‚µ‚¾‚µ‚É‚æ‚éd‚Ý‚ðÝ’è
-	SetPushWeight(50);
+	SetPushWeight(PUSH_WEIGHT);
 
 #pragma endregion
 
@@ -53,13 +53,13 @@ void GobKing::Load(void)
 	trans.LoadModel("Enemy/Boss/GobKing");
 
 	// ƒ‚ƒfƒ‹‚ÌƒXƒP[ƒ‹Ý’è
-	trans.scale = 10.0;
+	trans.scale = SCALE;
 
 	// ƒ‚ƒfƒ‹‚Ì’†S“_‚ÌƒYƒŒ‚Ì•â³
-	trans.centerDiff = Vector3(0.0f,-90.0f, 0.0f) * trans.scale;
+	trans.centerDiff = Vector3(CENTER_DIFF) * trans.scale;
 
 	// ƒ‚ƒfƒ‹‚ÌŠp“x‚ÌƒYƒŒ‚Ì•â³
-	trans.SetLocalRotation(Quaternion::FromRotationY(Deg2Rad(180.0f)));
+	trans.SetLocalRotation(Quaternion::FromRotationY(Deg2Rad(ROT_DIFF)));
 
 	//‹óŠÔ§–ñ‚ÌÝ’è
 	SetSpaceConstraint(SPACE_CONSTRAINT::FixedPlane);
@@ -83,9 +83,9 @@ void GobKing::Load(void)
 	AddCollider(
 		new CapsuleCollider(
 			COLLIDER_TAG::Enemy,
-			Vector3::Yonly(-30.0f) * trans.scale,
-			Vector3::Yonly(-60.0f) * trans.scale,
-			30.0f * trans.scale.MaxElementF()
+			Vector3::Yonly(-COLL_START_POS) * trans.scale,
+			Vector3::Yonly(-COLL_END_POS) * trans.scale,
+			RADIUS * trans.scale.MaxElementF()
 		)
 	);
 
@@ -96,13 +96,13 @@ void GobKing::Load(void)
 
 	// UŒ‚“–‚½‚è”»’èŠÇ—ƒNƒ‰ƒX
 	GobSwingCollOperator* swingCollOperator =
-		new GobSwingCollOperator(100.0f, Vector3(0, -400, 300), trans);
+		new GobSwingCollOperator(GOB_ATTACK_RADIUS, Vector3(GOB_ATTACK_LOCAL_POS), trans);
 
 	AddChildActor(swingCollOperator);
 
-	// Šâ“Š±“–‚½‚è”»’èŠÇ—ƒNƒ‰ƒX
+	// Šâ“Š±“–‚½‚è”»’èŠÇ—ƒNƒ‰ƒX(Œ»Ý‚Í‚Ü‚¾–¢Š®¬)
 	GobThrowCollOperator* throwCollOperator =
-		new GobThrowCollOperator(100.0f, Vector3(0, -400, 300), trans);
+		new GobThrowCollOperator(GOB_ATTACK_RADIUS, Vector3(GOB_ATTACK_LOCAL_POS), trans);
 
 	AddChildActor(throwCollOperator);
 
@@ -131,7 +131,7 @@ void GobKing::Load(void)
 			playerPos,
 			[&]() { AnimePlay(ANIME_TYPE::Roar); },
 			std::bind(&GobKing::IsAnimeEnd, this),
-			[&]() { 
+			[&]() {
 
 				//Ä¶‚µ‚½ƒAƒjƒ‚ªI—¹‚µ‚½‚ç‘JˆÚ
 				if (IsAnimeEnd())
@@ -139,7 +139,7 @@ void GobKing::Load(void)
 					ChangeState(STATE::Idle);
 				}
 			},
-			[&]() { 
+			[&]() {
 				//Ä¶‚µ‚½ƒAƒjƒ‚ªI—¹‚µ‚½‚ç‘JˆÚ
 				if (IsAnimeEnd())
 				{
@@ -154,7 +154,7 @@ void GobKing::Load(void)
 	AddState(
 		STATE::Move,
 		new GobKingMoveState(
-			5.0f,SEARCH_RANGE,ATTACK_RANGE,
+			GOB_ACCEL_MAX, SEARCH_RANGE, ATTACK_RANGE,
 			std::bind(&GobKing::MoveAccel, this, std::placeholders::_1),
 			ACCEL_MAX,
 			trans.pos,
@@ -167,8 +167,8 @@ void GobKing::Load(void)
 	AddState(
 		STATE::Attack_Swing,
 		new GobKingSwingState(
-			0.5f,
-			0.6f,
+			GOB_COLL_START_TIME,
+			GOB_COLL_END_TIME,
 			ATTACK_RANGE,
 			swingCollOperator,
 			trans.pos,
@@ -185,8 +185,8 @@ void GobKing::Load(void)
 	AddState(
 		STATE::Throw_Rock,
 		new GobKingThrowState(
-			0.5f,
-			0.6f,
+			GOB_COLL_START_TIME,
+			GOB_COLL_END_TIME,
 			ATTACK_RANGE,
 			throwCollOperator,
 			trans.pos,
@@ -221,74 +221,68 @@ void GobKing::Load(void)
 		)
 	);
 
+#pragma region ‘Ò‹@ó‘Ô
+
 	// u‘Ò‹@ó‘Ôv->uˆÚ“®ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Idle, STATE::Move);
 	// uˆÚ“®ó‘Ôv->u‘Ò‹@ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Move, STATE::Idle);
-
 	// u‘Ò‹@ó‘Ôv->u‚¨‚½‚¯‚Ñó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Idle, STATE::Roar);
-
 	// u‘Ò‹@ó‘Ôv->uUŒ‚ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Idle, STATE::Attack_Swing);
-	// uˆÚ“®ó‘Ôv->uUŒ‚ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	RegisterStateTransition(STATE::Move, STATE::Attack_Swing);
-
 	// u‘Ò‹@ó‘Ôv->uŠâ“Š±UŒ‚ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Idle, STATE::Throw_Rock);
-	// uˆÚ“®ó‘Ôv->uŠâ“Š±UŒ‚ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	RegisterStateTransition(STATE::Move, STATE::Throw_Rock);
-
 	// u‘Ò‹@ó‘Ôv->uƒqƒbƒgƒŠƒAƒNƒVƒ‡ƒ“ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Idle, STATE::React);
+	// u‘Ò‹@ó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Idle, STATE::Flying);
+
+#pragma endregion
+
+#pragma region ˆÚ“®ó‘Ô
+
+	// uˆÚ“®ó‘Ôv->uUŒ‚ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Move, STATE::Attack_Swing);
+	// uˆÚ“®ó‘Ôv->uŠâ“Š±UŒ‚ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Move, STATE::Throw_Rock);
 	// uˆÚ“®ó‘Ôv->uƒqƒbƒgƒŠƒAƒNƒVƒ‡ƒ“ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Move, STATE::React);
+	// uˆÚ“®ó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Move, STATE::Flying);
+
+#pragma endregion
+
+#pragma region ‚¨‚½‚¯‚Ñó‘Ô
+
 	// u‚¨‚½‚¯‚Ñó‘Ôv->uƒqƒbƒgƒŠƒAƒNƒVƒ‡ƒ“ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Roar, STATE::React);
+	// u‚¨‚½‚¯‚Ñó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
+	RegisterStateTransition(STATE::Roar, STATE::Flying);
+
+#pragma endregion
+
+#pragma region UŒ‚ó‘Ô
+
 	// uUŒ‚ó‘Ôv->uƒqƒbƒgƒŠƒAƒNƒVƒ‡ƒ“ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Attack_Swing, STATE::React);
 	// uŠâ“Š±UŒ‚ó‘Ôv->uƒqƒbƒgƒŠƒAƒNƒVƒ‡ƒ“ó‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Throw_Rock, STATE::React);
-
-	// u‘Ò‹@ó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	RegisterStateTransition(STATE::Idle, STATE::Flying);
-	// uˆÚ“®ó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	RegisterStateTransition(STATE::Move, STATE::Flying);
-	// u‚¨‚½‚¯‚Ñó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
-	RegisterStateTransition(STATE::Roar, STATE::Flying);
 	// uUŒ‚ó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Attack_Swing, STATE::Flying);
 	// uŠâ“Š±UŒ‚ó‘Ôv->uŽ€–Só‘Ôv‚ÌŽ©“®‘JˆÚ“o˜^
 	RegisterStateTransition(STATE::Throw_Rock, STATE::Flying);
 
+#pragma endregion
+
+
 
 #pragma endregion
+
 }
 
 void GobKing::OnCollision(COLLIDER_TAG ownTag, const ColliderBase& other, const CollisionResult& result)
 {
-	//if (ownTag != COLLIDER_TAG::Enemy) { return; }
-
-	//// –³“G’†‚Í–³Ž‹
-	//if (invincibleFrame > 0) { return; }
-
-	//// ƒvƒŒƒCƒ„[‚ÌØ‚è•t‚¯UŒ‚
-	//if (other.GetTag() == COLLIDER_TAG::PlayerAttackSlash) { 
-	//	Damage(20);
-
-	//	// Ž€–S‚µ‚Ä‚¢‚½‚ç•s—v
-	//	if (!IsDead()) { hitReact = true; }
-	//}
-
-	//// ƒvƒŒƒCƒ„[‚Ì—­‚ßUŒ‚
-	//if (other.GetTag() == COLLIDER_TAG::PlayerRollingSlash) {
-	//	Damage(50);
-
-	//	// Ž€–S‚µ‚Ä‚¢‚½‚ç•s—v
-	//	if (!IsDead()) { hitReact = true; }
-	//}
-
-
 }
 
 void GobKing::SubUpdate(void)
@@ -297,28 +291,3 @@ void GobKing::SubUpdate(void)
 	if (invincibleFrame > 0 && TimeScale::Get() > 0.0f) { invincibleFrame--; }
 
 }
-
-void GobKing::SubDraw(void)
-{
-	DrawFormatString(0, 300, GetColor(255, 255, 255), "GobKingPos: %f,%f,%f", trans.pos.x, trans.pos.y, trans.pos.z);
-}
-
-#pragma region ƒ_ƒ[ƒWŠÖ”
-
-//void GobKing::Damage(int damage) {
-//	// Ž€–SŒãE–³“G’†‚ÍŽó‚¯•t‚¯‚È‚¢
-//	if (IsDead() || invincibleFrame > 0) { return; }
-//
-//	hp = (std::max)(0, hp - damage);
-//
-//	invincibleFrame = INVINCIBLE_FRAME_MAX;
-//
-//}
-//
-//#pragma endregion
-//void GobKing::OnDeath(void)
-//{
-//	if (isFlyEnd) {
-//		SceneManager::GetIns().ChangeSceneFade(SCENE_ID::GameClear);
-//	}
-//}

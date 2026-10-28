@@ -7,18 +7,24 @@ class SphereCollider;
 class GobThrowCollOperator : public ActorBase
 {
 public:
+
+	// コンストラクタ
 	GobThrowCollOperator(
 		float COLL_RADIUS,
 		const Vector3& COLL_LOCAL_POS,
 
 		const Transform& gobKingTrans
 	);
+
+	// デストラクタ
 	~GobThrowCollOperator()override = default;
 
+	// 読み込み
 	void Load(void)override;
 
 	// 判定発生
 	void On(void);
+
 	// 判定消去
 	void Off(void);
 

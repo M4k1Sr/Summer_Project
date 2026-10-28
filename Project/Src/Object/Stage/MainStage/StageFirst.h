@@ -50,7 +50,7 @@ private:
 	// マップデータ
 	using MapData = std::vector<std::vector<int>>;
 	MapData mapData;
-	
+
 	// 初期化
 	void SubInit(void)override;
 	// 描画

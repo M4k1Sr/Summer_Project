@@ -56,10 +56,6 @@ void GobKingMoveState::OwnStateConditionUpdate(void)
 	}
 }
 
-void GobKingMoveState::Enter(void)
-{
-}
-
 void GobKingMoveState::Update(void)
 {
 	// プレイヤーがいなければ何もしない
@@ -71,7 +67,7 @@ void GobKingMoveState::Update(void)
 
 	// ほぼ重なってるときは正規化で0割りになるので何もしない
 	float lenSq = dir.x * dir.x + dir.z * dir.z;
-	if (lenSq < 0.0001f) { return; }
+	if (lenSq < MIN_DIR_LENGTH_SQ) { return; }
 
 	// 正規化（単位ベクトルにする）
 	dir = dir.Normalized();   // 関数名は自分のVector3に合わせて

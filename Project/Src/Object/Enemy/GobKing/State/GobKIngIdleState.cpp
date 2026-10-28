@@ -11,7 +11,7 @@ GobKingIdleState::GobKingIdleState(
 	const Vector3& gobPos,
 	const Vector3*& playerPos,
 	std::function<void(void)> playAnimeIdle
-):
+) :
 	gobPos(gobPos),
 	playerPos(playerPos),
 
@@ -24,7 +24,8 @@ GobKingIdleState::GobKingIdleState(
 
 void GobKingIdleState::OwnStateConditionUpdate(void)
 {
-	if (playerPos == nullptr) { OwnChangeState(); }
+	// ÉvÉåÉCÉÑÅ[Ç™Ç¢Ç»Ç¢èÍçáÇ‡IdleèÛë‘
+	if (playerPos == nullptr) { OwnChangeState(); return; }
 
 	Vector3 diff = *playerPos - gobPos;
 	float distSq = diff.x * diff.x + diff.z * diff.z;

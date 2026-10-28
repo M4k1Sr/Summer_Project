@@ -21,12 +21,9 @@ public:
 	/// <returns></returns>
 	AttackCollider* CreateAttackCollider(
 		COLLIDER_TAG type, float radius, int count, float duration, int damage, const Vector3& pos);
-	
 
 private:
 
 	std::function<void(ColliderBase* newClass)> ColliderCreate;
 
 };
-
-

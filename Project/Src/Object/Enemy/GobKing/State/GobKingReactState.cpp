@@ -20,7 +20,8 @@ GobKingReactState::GobKingReactState(
 
 void GobKingReactState::OwnStateConditionUpdate(void)
 {
-	if (hitReact){
+	// 攻撃を受けたら遷移
+	if (hitReact) {
 		OwnChangeState();
 	}
 }
@@ -33,10 +34,12 @@ void GobKingReactState::Enter(void)
 
 void GobKingReactState::Update(void)
 {
+	// アニメーションが終わり次第初期状態
 	if (isAnimeEnd()) { changeStateIdle(); }
 }
 
 void GobKingReactState::Exit(void)
 {
+	// 状態を抜けるときに判定をfalse
 	hitReact = false;
 }

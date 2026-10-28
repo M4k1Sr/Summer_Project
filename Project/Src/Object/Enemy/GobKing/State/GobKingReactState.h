@@ -8,6 +8,7 @@ class GobKingReactState : public CharacterStateBase
 {
 public:
 
+	// コンストラクタ
 	GobKingReactState(
 		bool& hitReact,
 		std::function<void(void)> playAnimeReact,
@@ -17,6 +18,7 @@ public:
 		std::function<void(void)> changeStateIdle
 	);
 
+	// デストラクタ
 	~GobKingReactState()override = default;
 
 	// 自分の状態に遷移する条件関数
@@ -27,14 +29,11 @@ public:
 
 	// 更新処理
 	void Update(void)override;
-	
+
 	// 遷移終了後1度行う処理
 	void Exit(void)override;
 
 private:
-
-#pragma region 定数
-#pragma endregion
 
 	// リアクションアニメーションの再生関数のポインタ
 	const std::function<void(void)> playAnimeReact;

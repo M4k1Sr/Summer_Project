@@ -151,7 +151,7 @@ void GobKingThrowState::Exit(void)
 	collOperator->Off();
 }
 
-bool GobKingThrowState::IsInSwingRange(void) const
+bool GobKingThrowState::IsInThrowRange(void) const
 {
 	if (playerPos == nullptr) { return false; }
 
@@ -165,6 +165,6 @@ bool GobKingThrowState::IsInSwingRange(void) const
 bool GobKingThrowState::IsTauntRoll(void) const
 {
 	// “ñ•ª‚Ìˆê‚ÌŠm—¦‚ÅˆĞŠds“®
-	std::uniform_int_distribution<int> dist(0, 99);
-	return dist(Rng()) < 50;
+	std::uniform_int_distribution<int> dist(MIN, MAX);
+	return dist(Rng()) < HALF;
 }

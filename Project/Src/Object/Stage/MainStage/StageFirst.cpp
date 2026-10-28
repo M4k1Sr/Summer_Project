@@ -13,7 +13,7 @@
 #include "../../../Manager/Camera/CurrentCamera.h"
 
 StageFirst::StageFirst()
-	: 
+	:
 	stageBlockType(STAGE_BLOCK_TYPE::NONE)
 {
 }
@@ -52,7 +52,7 @@ void StageFirst::Load()
 
 			// 何もない場所(-1)
 			if (tileType == -1) continue;
-			
+
 			// マップ上の座標を計算
 			Vector3 tilePos = Vector3(
 				static_cast<float>(x) * TILE_SIZE_XZ,
@@ -63,15 +63,15 @@ void StageFirst::Load()
 			// CSV数値に応じてオブジェクトセットアップ
 			switch (static_cast<STAGE_BLOCK_TYPE>(tileType)) {
 			case STAGE_BLOCK_TYPE::GRASS:	// 通常の道ステージ(11)
-				{
-					stageBlocks[y][x] = new BlockGrass(tilePos,false,false,true);
-					break;
-				}
-				case STAGE_BLOCK_TYPE::DIRT:		// 土ステージ(0)
-				{
-					stageBlocks[y][x] = new BlockDirt(tilePos,false,false,true);
-					break;
-				}
+			{
+				stageBlocks[y][x] = new BlockGrass(tilePos, false, false, true);
+				break;
+			}
+			case STAGE_BLOCK_TYPE::DIRT:		// 土ステージ(0)
+			{
+				stageBlocks[y][x] = new BlockDirt(tilePos, false, false, true);
+				break;
+			}
 			}
 		}
 	}
@@ -126,8 +126,8 @@ void StageFirst::SubDraw(void)
 void StageFirst::SubRelease(void)
 {
 	// 生成したブロック全ての解放処理
-	for(auto& row : stageBlocks) {
-		for(auto& block : row.second) {
+	for (auto& row : stageBlocks) {
+		for (auto& block : row.second) {
 			block.second->Release();
 			delete block.second;
 			block.second = nullptr;
@@ -142,8 +142,8 @@ std::vector<ColliderBase*> StageFirst::GetColliders(void)const
 	std::vector<ColliderBase*> ret = {};
 
 	// 生成したブロック全てのコライダーを取得する仕様に
-	for(const auto& row : stageBlocks) {
-		for(const auto& block : row.second) {
+	for (const auto& row : stageBlocks) {
+		for (const auto& block : row.second) {
 			for (const auto& collider : block.second->GetColliders()) { ret.push_back(collider); }
 		}
 	}

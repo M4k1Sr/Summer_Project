@@ -14,7 +14,7 @@ public:
 		std::function<void(void)> playAnimeReact,
 
 		std::function<bool(void)> isAnimeEnd
-		);
+	);
 
 	~GobKingDieState()override = default;
 
@@ -27,13 +27,7 @@ public:
 	// 更新処理
 	void Update(void)override;
 
-	// 遷移終了後1度行う処理
-	void Exit(void)override;
-
 private:
-
-#pragma region 定数
-#pragma endregion
 
 	// 死亡アニメーションの再生関数のポインタ
 	const std::function<void(void)> playAnimeDie;

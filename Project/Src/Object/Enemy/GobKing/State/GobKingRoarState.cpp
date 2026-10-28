@@ -47,7 +47,7 @@ void GobKingRoarState::OwnStateConditionUpdate(void)
 void GobKingRoarState::Enter(void)
 {
 	hasRoared = true;
- 	playAnimeRoar();
+	playAnimeRoar();
 }
 
 void GobKingRoarState::Update(void)
@@ -55,23 +55,15 @@ void GobKingRoarState::Update(void)
 	// 雄たけびアニメが終わったら追跡へ
 	// 聴覚範囲外なら待機状態へ
 	if (isAnimeEnd()) {
-		if (IsInHearRange()) { 
+		if (IsInHearRange()) {
 			hasRoared = true;	// 一度きりならばここをtrueに変更
-			changeStateMove(); 
+			changeStateMove();
 		}
 		else {
 			hasRoared = true;	// 一度きりならばここをtrueに変更
 			changeStateIdle();
 		}
 	}
-}
-
-void GobKingRoarState::Exit(void)
-{
-}
-
-void GobKingRoarState::AlwaysUpdate(void)
-{
 }
 
 bool GobKingRoarState::IsInHearRange(void) const
