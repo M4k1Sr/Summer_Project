@@ -18,7 +18,9 @@ PlayerWaterCollOperator::PlayerWaterCollOperator(
 	playerTrans(playerTrans),
 
 	attackColl(new SphereCollider(COLLIDER_TAG::Water, COLL_RADIUS)),
-	lifeTimer(0.0f)
+	lifeTimer(0.0f),
+	front(),
+	waterVec()
 {
 }
 

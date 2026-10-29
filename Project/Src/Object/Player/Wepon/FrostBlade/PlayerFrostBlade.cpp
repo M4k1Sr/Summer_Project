@@ -13,7 +13,9 @@ PlayerFrostBlade::PlayerFrostBlade(
 
 	playerTrans(playerTrans),
 
-	attackColl(new CapsuleCollider(COLLIDER_TAG::FrostBlade, COLL_START_POS, COLL_END_POS, COLL_RADIUS))
+	attackColl(new CapsuleCollider(COLLIDER_TAG::FrostBlade, COLL_START_POS, COLL_END_POS, COLL_RADIUS)),
+
+	front()
 
 {
 }

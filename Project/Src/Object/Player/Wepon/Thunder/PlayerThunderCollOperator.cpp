@@ -15,7 +15,8 @@ PlayerThunderCollOperator::PlayerThunderCollOperator(
 	playerTrans(playerTrans),
 
 	attackColl(new SphereCollider(COLLIDER_TAG::Thunder, COLL_RADIUS)),
-	lifeTimer(0.0f)
+	lifeTimer(0.0f),
+	front()
 {
 }
 

@@ -14,7 +14,8 @@ PlayerFireBallCollOperator::PlayerFireBallCollOperator(
 	playerTrans(playerTrans),
 
 	attackColl(new SphereCollider(COLLIDER_TAG::FireBall, COLL_RADIUS)),
-	lifeTimer(0.0f)
+	lifeTimer(0.0f),
+	front()
 {
 }
 

@@ -26,9 +26,6 @@
 #include "Wepon/Thunder/PlayerThunderCollOperator.h"
 #include "Wepon/Absorb/PlayerAbsorbCollOperator.h"
 
-#include "UI/HP/HP.h"
-
-
 
 Player::Player()
 	: CharacterBase("Data/Parameter/Player/"),
@@ -161,12 +158,7 @@ void Player::Load(void)
 		thunderCollOperators.push_back(thunderCollOperator);
 	}
 
-	//UI
-//AddChildActor(new HP());
-
-
 #pragma endregion
-
 
 #pragma region 状態設定
 
@@ -204,21 +196,6 @@ void Player::Load(void)
 			[&]() { ChangeState(STATE::Idle); }
 		)
 	);
-
-
-	//// ジャンプ状態
-	//AddState(
-	//	STATE::Jump,
-	//	new PlayerJumpState(
-	//		20.0f, velocity.y, isGround,
-	//		std::bind(&Player::MoveAccel, this, std::placeholders::_1),
-	//		[&]() { AnimePlay(ANIME_TYPE::JumpStart); },
-	//		[&]() { AnimePlay(ANIME_TYPE::JumpLoop); },
-	//		[&]() { AnimePlay(ANIME_TYPE::Stamp); },
-	//		std::bind(&Player::IsAnimeEnd, this),
-	//		[&]() { ChangeState(STATE::Idle); }
-	//	)
-	//);
 
 	// 攻撃（パンチ）状態 (単発)
 	AddState(
@@ -285,11 +262,6 @@ void Player::Load(void)
 	RegisterStateTransition(STATE::Idle, STATE::Absorb);
 	// 「移動状態」->「吸収状態」の自動遷移登録
 	RegisterStateTransition(STATE::Move, STATE::Absorb);
-
-	//// 「待機状態」->「ジャンプ状態」の自動遷移登録
-	//RegisterStateTransition(STATE::Idle, STATE::Jump);
-	//// 「移動状態」->「ジャンプ状態」の自動遷移登録
-	//RegisterStateTransition(STATE::Move, STATE::Jump);
 
 	// 「待機状態」->「攻撃（パンチ）状態」の自動遷移登録
 	RegisterStateTransition(STATE::Idle, STATE::Punch);
